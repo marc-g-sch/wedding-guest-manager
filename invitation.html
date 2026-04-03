@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laura & Marc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #F5F1EB;
+  --bg-alt: #EDE8DF;
+  --text: #2C2C2C;
+  --text-light: #6B6B6B;
+  --accent: #3D5A47;
+  --accent-light: #4A6B55;
+  --border: #D4CFC6;
+  --white: #FAFAF8;
+  --sand: #E8DCC8;
+  --serif: 'Cormorant Garamond', 'Georgia', serif;
+  --sans: 'Inter', -apple-system, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(245, 241, 235, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: transform 0.3s ease;
+}
+
+nav.hidden { transform: translateY(-100%); }
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  padding: 1rem 2rem;
+}
+
+.nav-link {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  text-decoration: none;
+  padding: 0.5rem 0;
+  position: relative;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--text);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--text);
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+/* Mobile nav */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--text);
+  margin: 5px 0;
+  transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle { display: block; position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .nav-inner { flex-direction: column; gap: 0; padding: 1rem 2rem; }
+  .nav-links { display: none; flex-direction: column; gap: 0.5rem; padding: 1rem 0; text-align: center; width: 100%; }
+  .nav-links.open { display: flex; }
+  .nav-logo { font-family: var(--serif); font-size: 18px; font-weight: 400; letter-spacing: 1px; }
+}
+
+@media (min-width: 769px) {
+  .nav-logo { display: none; }
+  .nav-links { display: flex !important; gap: 3rem; align-items: center; }
+}
+
+/* ===== SECTIONS ===== */
+section {
+  display: none;
+  min-height: 100vh;
+  padding-top: 70px;
+}
+
+section.active { display: block; }
+
+/* ===== HERO / LANDING ===== */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding-top: 70px;
+}
+
+.hero-image-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 3rem auto 0;
+  padding: 0 2rem;
+}
+
+.hero-image {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  object-position: center 30%;
+  border-radius: 2px;
+  filter: grayscale(15%) contrast(1.02);
+}
+
+.hero-content {
+  text-align: center;
+  padding: 2.5rem 2rem 4rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero-names {
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 300;
+  letter-spacing: 1px;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.hero-names em {
+  font-style: italic;
+  font-weight: 300;
+}
+
+.hero-date {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+
+.hero-location {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  font-weight: 300;
+  margin-bottom: 2.5rem;
+}
+
+.hero-rsvp-note {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--text-light);
+  letter-spacing: 0.5px;
+}
+
+.hero-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--border);
+  margin: 1.5rem auto;
+}
+
+.scroll-cta {
+  display: inline-block;
+  margin-top: 2rem;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.scroll-cta:hover { opacity: 0.7; }
+
+/* ===== RSVP SECTION ===== */
+.rsvp-section {
+  background: var(--white);
+  padding: 5rem 2rem;
+}
+
+.rsvp-container {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-light);
+  letter-spacing: 1px;
+  margin-bottom: 3rem;
+}
+
+.form-group {
+  margin-bottom: 1.8rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 0.6rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.9rem 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-input:focus { border-color: var(--accent); }
+
+.form-input::placeholder { color: #B5B0A7; }
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 80px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+textarea.form-input:focus { border-color: var(--accent); }
+
+/* Radio groups */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.3rem;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: all 0.2s;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.radio-option:hover { border-color: var(--accent); }
+
+.radio-option input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.radio-option input[type="radio"]:checked {
+  border-color: var(--accent);
+}
+
+.radio-option input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.radio-option.selected {
+  border-color: var(--accent);
+  background: rgba(61, 90, 71, 0.04);
+}
+
+.conditional-group {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.conditional-group.visible { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  margin-top: 2.5rem;
+  background: var(--accent);
+  color: var(--white);
+  border: none;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s;
+  border-radius: 2px;
+}
+
+.submit-btn:hover { background: var(--accent-light); }
+
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.form-success h3 {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
+.form-success p {
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+/* ===== ITINERARY ===== */
+.itinerary-section {
+  padding: 5rem 2rem;
+  background: var(--bg);
+}
+
+.itinerary-container {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.day-block {
+  margin-bottom: 4rem;
+}
+
+.day-label {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 300;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.event-item {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(212, 207, 198, 0.4);
+}
+
+.event-item:last-child { border-bottom: none; }
+
+.event-time {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  color: var(--text-light);
+  min-width: 80px;
+  padding-top: 3px;
+  white-space: nowrap;
+}
+
+.event-details { flex: 1; }
+
+.event-name {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 0.4rem;
+}
+
+.event-location {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 0.3rem;
+}
+
+.event-location a {
+  color: var(--text-light);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--border);
+  transition: color 0.2s;
+}
+
+.event-location a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+.event-dresscode {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+}
+
+/* ===== LOGISTICS ===== */
+.logistics-section {
+  padding: 5rem 2rem;
+  background: var(--white);
+}
+
+.logistics-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.logistics-block {
+  margin-bottom: 4rem;
+}
+
+.logistics-heading {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.logistics-text {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.hotel-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .hotel-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+.hotel-card {
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: var(--bg);
+}
+
+.hotel-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+.hotel-card a { text-decoration: none; color: inherit; display: block; }
+
+.hotel-card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.hotel-card-body {
+  padding: 1.2rem;
+}
+
+.hotel-card-name {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+}
+
+.hotel-card-address {
+  font-size: 12px;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+.hotel-card-link {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ===== REGISTRY ===== */
+.registry-section {
+  padding: 5rem 2rem;
+  background: var(--bg);
+  text-align: center;
+}
+
+.registry-container {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.registry-text {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text);
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.registry-detail {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+}
+
+.registry-btn {
+  display: inline-block;
+  padding: 1rem 3rem;
+  background: var(--accent);
+  color: var(--white);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: background 0.3s;
+}
+
+.registry-btn:hover { background: var(--accent-light); }
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-light);
+  letter-spacing: 1px;
+}
+
+footer .footer-names {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .event-item { flex-direction: column; gap: 0.3rem; }
+  .event-time { min-width: unset; }
+  .hero-image-container { padding: 0 1rem; margin-top: 2rem; }
+  .hero-content { padding: 2rem 1.5rem 3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <span class="nav-logo">L & M</span>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a class="nav-link active" onclick="switchSection('rsvp')">RSVP</a>
+      <a class="nav-link" onclick="switchSection('itinerary')">Itinerary</a>
+      <a class="nav-link" onclick="switchSection('logistics')">Logistics</a>
+      <a class="nav-link" onclick="switchSection('registry')">Registry</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== SECTION 1: RSVP ==================== -->
+<section id="sec-rsvp" class="active">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-image-container">
+      <img src="Marc_Laura_Picture_1.jpeg" alt="Laura & Marc" class="hero-image">
+    </div>
+    <div class="hero-content">
+      <h1 class="hero-names">Laura <em>&</em> Marc</h1>
+      <p class="hero-date">17 July &mdash; 18 July 2026</p>
+      <p class="hero-location">St. Gilgen, Austria</p>
+      <div class="hero-divider"></div>
+      <p class="hero-rsvp-note">Please let us know if you can make it by June 1, 2026</p>
+      <a class="scroll-cta" onclick="document.querySelector('.rsvp-section').scrollIntoView({behavior:'smooth'})">RSVP below</a>
+    </div>
+  </div>
+
+  <!-- RSVP Form -->
+  <div class="rsvp-section" id="rsvpForm">
+    <div class="rsvp-container">
+      <h2 class="section-title">Respond</h2>
+      <p class="section-subtitle">We would love to celebrate with you</p>
+
+      <form id="rsvpFormEl" onsubmit="submitRSVP(event)">
+        <div class="form-group">
+          <label class="form-label">Name(s)</label>
+          <input type="text" class="form-input" id="rsvpNames" placeholder="First and last name(s)" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Will you be attending?</label>
+          <div class="radio-group" id="attendGroup">
+            <label class="radio-option" onclick="selectAttendance('both')">
+              <input type="radio" name="attendance" value="both">
+              Both days &mdash; July 17 & 18
+            </label>
+            <label class="radio-option" onclick="selectAttendance('saturday')">
+              <input type="radio" name="attendance" value="saturday">
+              Saturday, July 18 only
+            </label>
+            <label class="radio-option" onclick="selectAttendance('decline')">
+              <input type="radio" name="attendance" value="decline">
+              I / we will not be attending
+            </label>
+          </div>
+        </div>
+
+        <!-- Conditional: Food preferences -->
+        <div class="conditional-group" id="foodGroup">
+          <div class="form-group">
+            <label class="form-label">Food Preferences</label>
+            <div class="radio-group">
+              <label class="radio-option" onclick="selectFood(this, 'meat')">
+                <input type="radio" name="food" value="meat"> Meat
+              </label>
+              <label class="radio-option" onclick="selectFood(this, 'vegetarian')">
+                <input type="radio" name="food" value="vegetarian"> Vegetarian
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Comments / Message</label>
+          <textarea class="form-input" id="rsvpMessage" placeholder="Any dietary requirements, questions, or a message for us..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Send RSVP</button>
+      </form>
+
+      <div class="form-success" id="formSuccess">
+        <h3>Thank you</h3>
+        <p>We have received your RSVP and can't wait to celebrate with you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SECTION 2: ITINERARY ==================== -->
+<section id="sec-itinerary">
+  <div class="itinerary-section">
+    <div class="itinerary-container">
+      <h2 class="section-title">Itinerary & Dresscode</h2>
+      <p class="section-subtitle">A weekend of celebrations</p>
+
+      <!-- Friday -->
+      <div class="day-block">
+        <h3 class="day-label">Friday, July 17</h3>
+        <div class="event-item">
+          <div class="event-time">From 6:00 pm</div>
+          <div class="event-details">
+            <div class="event-name">Welcome Reception</div>
+            <div class="event-location">
+              <a href="https://billroth.at/" target="_blank" rel="noopener">Seehotel Billroth</a>, Billrothstra&szlig;e 2, 5340 St. Gilgen
+            </div>
+            <div class="event-dresscode">Tracht</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Saturday -->
+      <div class="day-block">
+        <h3 class="day-label">Saturday, July 18</h3>
+
+        <div class="event-item">
+          <div class="event-time">11:00 am</div>
+          <div class="event-details">
+            <div class="event-name">Wedding Ceremony</div>
+            <div class="event-location">
+              <a href="https://www.google.com/maps/search/?api=1&query=Pfarrkirche+St.+Gilgen" target="_blank" rel="noopener">Parish Church St. Gilgen</a>, Ischlerstra&szlig;e 1, 5340 St. Gilgen
+            </div>
+            <div class="event-dresscode">Cocktail Attire</div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-time">12:00 pm</div>
+          <div class="event-details">
+            <div class="event-name">Reception & Afternoon Celebration</div>
+            <div class="event-location">
+              <a href="https://billroth.at/" target="_blank" rel="noopener">Seehotel Billroth</a>, Billrothstra&szlig;e 2, 5340 St. Gilgen
+            </div>
+            <div class="event-dresscode">Cocktail Attire</div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-time">From 5:00 pm</div>
+          <div class="event-details">
+            <div class="event-name">Aperitivo, Dinner & Celebration</div>
+            <div class="event-location">
+              <a href="https://www.google.com/maps/search/?api=1&query=Ansitz+Wartenfels+Thalgau" target="_blank" rel="noopener">Ansitz Wartenfels</a>, Vordereggstra&szlig;e 30, 5303 Thalgau
+            </div>
+            <div class="event-dresscode">Black Tie</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SECTION 3: LOGISTICS ==================== -->
+<section id="sec-logistics">
+  <div class="logistics-section">
+    <div class="logistics-container">
+      <h2 class="section-title">Logistics & Accommodation</h2>
+      <p class="section-subtitle">Everything you need to know</p>
+
+      <!-- Accommodation -->
+      <div class="logistics-block">
+        <h3 class="logistics-heading">Accommodation</h3>
+        <p class="logistics-text">
+          We recommend the following hotels. St. Gilgen is a small lakeside village and most locations are within walking distance.
+        </p>
+
+        <div class="hotel-grid">
+          <!-- Seehotel Billroth -->
+          <div class="hotel-card">
+            <a href="https://billroth.at/" target="_blank" rel="noopener">
+              <img src="https://billroth.at/wp-content/uploads/2023/06/seehotel-billroth-aussen-wolfgangsee-1-2048x1365.jpg" alt="Seehotel Billroth" class="hotel-card-img" onerror="this.style.background='var(--sand)';this.style.height='120px';this.alt='Seehotel Billroth'">
+              <div class="hotel-card-body">
+                <div class="hotel-card-name">Seehotel Billroth</div>
+                <div class="hotel-card-address">Billrothstra&szlig;e 2, 5340 St. Gilgen</div>
+                <span class="hotel-card-link">Visit website &rarr;</span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Hotel Gasthof zur Post -->
+          <div class="hotel-card">
+            <a href="https://gasthofzurpost.at/" target="_blank" rel="noopener">
+              <img src="https://gasthofzurpost.at/wp-content/uploads/Hotel-Zur-Post-St-Gilgen-Aussen-Fassade-Hausansicht-Sommer-scaled.jpg" alt="Hotel Gasthof zur Post" class="hotel-card-img" onerror="this.style.background='var(--sand)';this.style.height='120px';this.alt='Gasthof zur Post'">
+              <div class="hotel-card-body">
+                <div class="hotel-card-name">Hotel Gasthof zur Post</div>
+                <div class="hotel-card-address">Mozartpl. 8, 5340 St. Gilgen</div>
+                <span class="hotel-card-link">Visit website &rarr;</span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Hotel Kendler -->
+          <div class="hotel-card">
+            <a href="https://www.hotelkendler.com/" target="_blank" rel="noopener">
+              <img src="https://www.hotelkendler.com/fileadmin/_processed_/5/a/csm_Hotel-Kendler-St-Gilgen-02_caf26b4d68.jpg" alt="Hotel Kendler St. Gilgen" class="hotel-card-img" onerror="this.style.background='var(--sand)';this.style.height='120px';this.alt='Hotel Kendler'">
+              <div class="hotel-card-body">
+                <div class="hotel-card-name">Hotel Kendler St. Gilgen</div>
+                <div class="hotel-card-address">Kirchenpl. 3, 5340 St. Gilgen</div>
+                <span class="hotel-card-link">Visit website &rarr;</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <p class="logistics-text" style="margin-top:1.5rem; font-style:italic; font-size:13px;">
+          There are many lovely places to stay in St. Gilgen. It's small, and most locations are within walking distance.
+        </p>
+      </div>
+
+      <!-- Travel -->
+      <div class="logistics-block">
+        <h3 class="logistics-heading">Travel</h3>
+        <p class="logistics-text">
+          St. Gilgen can be reached by train or car from Vienna and Munich.
+          There are also direct flights to Salzburg. From Salzburg, it is approximately 40 minutes by car.
+        </p>
+      </div>
+
+      <!-- Transport -->
+      <div class="logistics-block">
+        <h3 class="logistics-heading">Transport</h3>
+        <p class="logistics-text">
+          We will provide a shuttle service to and from the evening venue on Saturday, July 18.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SECTION 4: REGISTRY ==================== -->
+<section id="sec-registry">
+  <div class="registry-section">
+    <div class="registry-container">
+      <h2 class="section-title">Registry</h2>
+      <div class="hero-divider" style="margin-bottom:2.5rem;"></div>
+
+      <p class="registry-text">
+        Your presence at our wedding is the greatest gift of all.
+      </p>
+
+      <p class="registry-detail">
+        Should you wish to spoil us with something more, we would be very grateful for a contribution towards our honeymoon.
+      </p>
+
+      <a href="#" class="registry-btn" onclick="alert('Registry link coming soon!'); return false;">
+        Contribute via PayPal
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-names">Laura & Marc</div>
+  <p>July 17 &mdash; 18, 2026 &middot; St. Gilgen, Austria</p>
+</footer>
+
+<script>
+// ===== NAVIGATION =====
+let currentSection = 'rsvp';
+
+function switchSection(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelector(`.nav-link[onclick*="${id}"]`).classList.add('active');
+
+  document.querySelector('.nav-links').classList.remove('open');
+  window.scrollTo(0, 0);
+  currentSection = id;
+}
+
+// Hide nav on scroll down, show on scroll up
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  const st = window.scrollY;
+  if (st > lastScroll && st > 120) {
+    nav.classList.add('hidden');
+  } else {
+    nav.classList.remove('hidden');
+  }
+  lastScroll = st;
+});
+
+// ===== RSVP FORM =====
+let selectedAttendance = null;
+let selectedFood = null;
+
+function selectAttendance(value) {
+  selectedAttendance = value;
+  // Highlight selected
+  document.querySelectorAll('#attendGroup .radio-option').forEach(opt => opt.classList.remove('selected'));
+  const checked = document.querySelector(`#attendGroup input[value="${value}"]`);
+  if (checked) {
+    checked.checked = true;
+    checked.closest('.radio-option').classList.add('selected');
+  }
+
+  // Show/hide food group
+  const foodGroup = document.getElementById('foodGroup');
+  if (value === 'both' || value === 'saturday') {
+    foodGroup.classList.add('visible');
+  } else {
+    foodGroup.classList.remove('visible');
+    selectedFood = null;
+  }
+}
+
+function selectFood(el, value) {
+  selectedFood = value;
+  document.querySelectorAll('#foodGroup .radio-option').forEach(opt => opt.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+async function submitRSVP(e) {
+  e.preventDefault();
+
+  const names = document.getElementById('rsvpNames').value.trim();
+  if (!names) { alert('Please enter your name(s).'); return; }
+  if (!selectedAttendance) { alert('Please let us know if you can attend.'); return; }
+  if ((selectedAttendance === 'both' || selectedAttendance === 'saturday') && !selectedFood) {
+    alert('Please select your food preference.'); return;
+  }
+
+  const message = document.getElementById('rsvpMessage').value.trim();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  const attendanceText = selectedAttendance === 'both' ? 'Both days (July 17 & 18)'
+    : selectedAttendance === 'saturday' ? 'Saturday July 18 only'
+    : 'Will not be attending';
+
+  const body = [
+    `Name(s): ${names}`,
+    `Attendance: ${attendanceText}`,
+    selectedFood ? `Food preference: ${selectedFood}` : '',
+    message ? `Message: ${message}` : ''
+  ].filter(Boolean).join('\n');
+
+  // Try EmailJS first, fallback to mailto
+  try {
+    if (typeof emailjs !== 'undefined' && emailjs._userID) {
+      await emailjs.send('default_service', 'template_rsvp', {
+        to_email: 'weddinglauramarc@gmail.com',
+        from_name: names,
+        message: body
+      });
+    } else {
+      // Fallback: mailto
+      const subject = encodeURIComponent(`RSVP - ${names}`);
+      const mailBody = encodeURIComponent(body);
+      window.open(`mailto:weddinglauramarc@gmail.com?subject=${subject}&body=${mailBody}`, '_self');
+    }
+
+    document.getElementById('rsvpFormEl').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  } catch(err) {
+    console.error('Email error:', err);
+    // Fallback to mailto on error
+    const subject = encodeURIComponent(`RSVP - ${names}`);
+    const mailBody = encodeURIComponent(body);
+    window.open(`mailto:weddinglauramarc@gmail.com?subject=${subject}&body=${mailBody}`, '_self');
+    document.getElementById('rsvpFormEl').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>

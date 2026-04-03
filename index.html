@@ -3,1718 +3,957 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wedding Guest Manager</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<title>Laura & Marc — July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --slate-blue: #4A5568;
-  --stone-grey: #718096;
-  --warm-sand: #E8DCC8;
-  --off-white: #F7F4EF;
-  --forest-green: #2D4A3E;
-  --terracotta: #C4845A;
-  --danger: #C53030;
-  --shadow: 0 2px 8px rgba(0,0,0,0.08);
-  --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Bold.woff2') format('woff2'),
+       url('ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Bold.woff') format('woff');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Semibold.woff2') format('woff2'),
+       url('ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Semibold.woff') format('woff');
+  font-weight: 600;
+  font-display: swap;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #F0EBE0;
+  --orange: #E8451A;
+  --orange-hover: #D03A12;
+  --dark: #1A1A1A;
+  --muted: #999999;
+  --white: #FAF7F2;
+  --display: 'ClashDisplay', 'Nunito', sans-serif;
+  --body: 'DM Sans', sans-serif;
+}
+
+/* Heart cursor — outline only, slightly tilted */
+html, body, a, button, label, input, textarea, select {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='none' stroke='%231A1A1A' stroke-width='1.5' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
+}
+
+html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: var(--off-white);
-  color: var(--slate-blue);
-  min-height: 100vh;
+  font-family: var(--body);
+  background: var(--cream);
+  color: var(--dark);
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
-
-/* API Key Modal */
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(74,85,104,0.6);
-  backdrop-filter: blur(4px);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 9999;
-}
-.modal {
-  background: var(--off-white);
-  border-radius: 16px;
-  padding: 40px;
-  max-width: 480px; width: 90%;
-  box-shadow: var(--shadow-lg);
-  text-align: center;
-}
-.modal h2 { color: var(--forest-green); margin-bottom: 12px; }
-.modal p { color: var(--stone-grey); margin-bottom: 24px; font-size: 14px; line-height: 1.6; }
-.modal input {
-  width: 100%; padding: 12px 16px;
-  border: 2px solid var(--warm-sand);
-  border-radius: 8px; font-family: 'Inter', monospace;
-  font-size: 14px; background: white;
-  outline: none; transition: border-color 0.2s;
-}
-.modal input:focus { border-color: var(--forest-green); }
-
-/* Header */
-.header {
-  background: linear-gradient(135deg, var(--slate-blue), var(--forest-green));
-  padding: 24px 32px;
-  color: white;
-}
-.header-top {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 16px;
-}
-.header h1 { font-size: 24px; font-weight: 600; letter-spacing: 0.5px; }
-.header .venue {
-  font-size: 13px; opacity: 0.8; font-weight: 300;
-  margin-top: 4px;
-}
-.header .countdown {
-  font-size: 13px; background: rgba(255,255,255,0.15);
-  padding: 6px 14px; border-radius: 20px;
-  font-weight: 500;
-}
-.settings-btn {
-  background: rgba(255,255,255,0.15); border: none;
-  color: white; padding: 6px 12px; border-radius: 8px;
-  cursor: pointer; font-size: 13px; margin-left: 12px;
-}
-.settings-btn:hover { background: rgba(255,255,255,0.25); }
-
-/* Tabs */
-.tabs {
-  display: flex; background: var(--slate-blue);
-  padding: 0 32px;
-}
-.tab {
-  padding: 14px 24px;
-  color: rgba(255,255,255,0.6);
-  cursor: pointer;
-  font-size: 14px; font-weight: 500;
-  border-bottom: 3px solid transparent;
-  transition: all 0.2s;
-  user-select: none;
-}
-.tab:hover { color: rgba(255,255,255,0.85); }
-.tab.active {
-  color: white;
-  border-bottom-color: var(--terracotta);
+/* ===== NAV ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.4rem 2rem;
 }
 
-/* Main Content */
-.content { padding: 24px 32px; max-width: 1400px; margin: 0 auto; }
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-
-/* Buttons */
-.btn {
-  padding: 10px 20px;
-  border: none; border-radius: 8px;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px; font-weight: 500;
-  cursor: pointer; transition: all 0.2s;
-  display: inline-flex; align-items: center; gap: 8px;
-}
-.btn-primary { background: var(--forest-green); color: white; }
-.btn-primary:hover { background: #1e3a2f; }
-.btn-secondary { background: var(--warm-sand); color: var(--slate-blue); }
-.btn-secondary:hover { background: #ddd0b8; }
-.btn-terracotta { background: var(--terracotta); color: white; }
-.btn-terracotta:hover { background: #b3754d; }
-.btn-outline {
-  background: transparent; border: 2px solid var(--warm-sand);
-  color: var(--slate-blue);
-}
-.btn-outline:hover { background: var(--warm-sand); }
-.btn-sm { padding: 6px 14px; font-size: 13px; }
-.btn-danger { background: var(--danger); color: white; }
-.btn-danger:hover { background: #9B2C2C; }
-
-/* Cards */
-.card {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: var(--shadow);
-  margin-bottom: 16px;
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* Summary Bar */
-.summary-bar {
-  display: flex; gap: 16px; flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-.summary-item {
-  background: white;
-  border-radius: 10px;
-  padding: 14px 20px;
-  box-shadow: var(--shadow);
-  display: flex; align-items: center; gap: 10px;
-  min-width: 140px;
-}
-.summary-item .number {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px; font-weight: 700;
-  color: var(--forest-green);
-}
-.summary-item .label {
-  font-size: 12px; color: var(--stone-grey);
-  text-transform: uppercase; letter-spacing: 0.5px;
-}
-
-/* Guest List */
-.toolbar {
-  display: flex; gap: 12px; align-items: center;
-  flex-wrap: wrap; margin-bottom: 16px;
-}
-.search-input {
-  padding: 10px 16px;
-  border: 2px solid var(--warm-sand);
-  border-radius: 8px;
-  font-size: 14px; outline: none;
-  background: white; min-width: 240px;
-  font-family: 'Inter', sans-serif;
-}
-.search-input:focus { border-color: var(--forest-green); }
-.filter-select {
-  padding: 10px 16px;
-  border: 2px solid var(--warm-sand);
-  border-radius: 8px;
-  font-size: 14px; outline: none;
-  background: white; cursor: pointer;
-  font-family: 'Inter', sans-serif;
-}
-
-table {
-  width: 100%; border-collapse: collapse;
-  background: white; border-radius: 12px;
-  overflow: hidden; box-shadow: var(--shadow);
-}
-thead { background: var(--slate-blue); color: white; }
-th {
-  padding: 14px 16px; text-align: left;
-  font-size: 13px; font-weight: 500;
-  text-transform: uppercase; letter-spacing: 0.5px;
-}
-td {
-  padding: 12px 16px; border-bottom: 1px solid #f0ede7;
+.nav-brand {
+  font-family: var(--body);
   font-size: 14px;
-}
-tr:last-child td { border-bottom: none; }
-tr:hover { background: #faf8f4; }
-
-td select, td input[type="text"] {
-  padding: 6px 10px;
-  border: 1px solid var(--warm-sand);
-  border-radius: 6px; font-size: 13px;
-  background: white; outline: none;
-  font-family: 'Inter', sans-serif;
-}
-td select:focus, td input[type="text"]:focus {
-  border-color: var(--forest-green);
-}
-.delete-btn {
-  background: none; border: none;
-  color: var(--stone-grey); cursor: pointer;
-  font-size: 16px; padding: 4px 8px;
-  border-radius: 4px;
-}
-.delete-btn:hover { color: var(--danger); background: #fff5f5; }
-
-/* Preview Modal */
-.preview-overlay {
-  position: fixed; inset: 0;
-  background: rgba(74,85,104,0.6);
-  backdrop-filter: blur(4px);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 9998;
-}
-.preview-modal {
-  background: var(--off-white);
-  border-radius: 16px;
-  padding: 32px;
-  max-width: 800px; width: 95%;
-  max-height: 80vh; overflow-y: auto;
-  box-shadow: var(--shadow-lg);
-}
-.preview-modal h3 { margin-bottom: 16px; color: var(--forest-green); }
-.preview-modal table { font-size: 13px; }
-.preview-actions {
-  display: flex; gap: 12px; margin-top: 20px; justify-content: flex-end;
+  font-weight: 400;
+  color: var(--dark);
+  letter-spacing: 0.02em;
 }
 
-/* Seating Plan */
-.seating-layout { display: flex; height: calc(100vh - 220px); gap: 0; }
-.seating-sidebar {
-  width: 280px; background: white;
-  border-radius: 12px 0 0 12px;
-  box-shadow: var(--shadow);
-  display: flex; flex-direction: column;
-  overflow: hidden; flex-shrink: 0;
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
 }
-.sidebar-header {
-  padding: 16px;
-  border-bottom: 1px solid #f0ede7;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.sidebar-header h3 { font-size: 16px; }
-.sidebar-search {
-  padding: 8px 16px;
-  border-bottom: 1px solid #f0ede7;
-}
-.sidebar-search input {
-  width: 100%; padding: 8px 12px;
-  border: 1px solid var(--warm-sand);
-  border-radius: 6px; font-size: 13px;
-  outline: none; font-family: 'Inter', sans-serif;
-}
-.sidebar-guests {
-  flex: 1; overflow-y: auto; padding: 8px;
-}
-.sidebar-guest {
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  cursor: grab;
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 2px;
-  transition: background 0.15s;
-}
-.sidebar-guest:hover { background: #f0ede7; }
-.sidebar-guest.seated { opacity: 0.4; text-decoration: line-through; }
-.sidebar-guest .side-badge {
-  font-size: 10px; padding: 2px 6px;
-  border-radius: 4px; font-weight: 500;
-}
-.side-bride { background: #fed7e2; color: #97266d; }
-.side-groom { background: #bee3f8; color: #2b6cb0; }
-.side-both { background: #c6f6d5; color: #276749; }
 
-.canvas-container {
-  flex: 1; background: #f0ede7;
-  border-radius: 0 12px 12px 0;
-  overflow: hidden; position: relative;
-  background-image:
-    radial-gradient(circle, #d5cfc3 1px, transparent 1px);
-  background-size: 30px 30px;
-}
-.canvas {
-  position: absolute;
-  transform-origin: 0 0;
-  width: 4000px; height: 4000px;
-}
-.table-element {
-  position: absolute;
-  cursor: move;
-  user-select: none;
-}
-.table-shape {
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-}
-.table-round {
-  border-radius: 50%;
-  background: var(--warm-sand);
-  border: 3px solid var(--slate-blue);
-}
-.table-rect {
-  border-radius: 12px;
-  background: var(--warm-sand);
-  border: 3px solid var(--slate-blue);
-}
-.table-label {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Playfair Display', serif;
-  font-size: 13px; font-weight: 600;
-  color: var(--slate-blue);
-  text-align: center;
-  pointer-events: none;
-  white-space: nowrap;
-}
-.table-info {
-  position: absolute;
-  bottom: -22px; left: 50%;
-  transform: translateX(-50%);
-  font-size: 11px; color: var(--stone-grey);
-  white-space: nowrap;
-}
-.seat {
-  position: absolute;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: white;
-  border: 2px solid var(--stone-grey);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 9px;
+.nav-link {
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
   cursor: pointer;
-  transition: all 0.15s;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 2px;
+  background: var(--orange);
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after { width: 100%; }
+
+.nav-link.active::after { width: 100%; }
+
+/* Blob indicator for active nav (small, below text) */
+.nav-link.active .nav-blob-dot {
+  display: block;
+}
+
+.nav-blob-dot {
+  display: none;
+  position: absolute;
+  bottom: -10px; left: 50%; transform: translateX(-50%);
+  width: 8px; height: 8px;
+  background: var(--orange);
+  border-radius: 50%;
+}
+
+/* Mobile */
+.nav-toggle {
+  display: none;
+  background: none; border: none;
+  cursor: pointer; padding: 0.5rem;
+}
+.nav-toggle span {
+  display: block; width: 20px; height: 1.5px;
+  background: var(--dark); margin: 5px 0;
+}
+
+@media (max-width: 640px) {
+  .nav-toggle { display: block; }
+  .nav-links {
+    display: none; flex-direction: column;
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--cream); padding: 1.5rem 2rem;
+    gap: 1.2rem;
+  }
+  .nav-links.open { display: flex; }
+}
+
+/* ===== SECTIONS ===== */
+section { display: none; min-height: 100vh; padding-top: 70px; }
+section.active { display: block; }
+
+/* ===== HERO ===== */
+.hero {
+  max-width: 1100px;
+  margin: 2rem auto 0;
+  padding: 0 48px;
+}
+
+.hero-img-wrap {
+  width: 100%;
   overflow: hidden;
-  text-align: center;
+}
+
+.hero-img {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+.hero-text {
+  margin-top: 3rem;
+}
+
+.hero-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(80px, 16vw, 180px);
+  color: var(--orange);
+  line-height: 0.9;
+  letter-spacing: -3px;
+  /* Left-aligned per brief */
+}
+
+.hero-sub {
+  margin-top: 1.2rem;
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .hero { padding: 0 20px; margin-top: 1rem; }
+  .hero-img { height: 320px; }
+  .hero-title { letter-spacing: -1px; }
+}
+
+/* ===== CONTENT ===== */
+.content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 48px 6rem;
+}
+
+.narrow { max-width: 640px; }
+
+.section-header {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(48px, 8vw, 96px);
+  color: var(--dark);
+  line-height: 1;
+  letter-spacing: -2px;
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 640px) {
+  .content { padding: 3rem 20px 4rem; }
+}
+
+/* ===== SVG BLOB BUTTONS ===== */
+.blob-cta {
+  display: inline-block;
+  position: relative;
+  width: 160px; height: 160px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.blob-cta:hover { transform: scale(1.08) rotate(-3deg); }
+
+.blob-cta path {
+  fill: var(--orange);
+  transition: fill 0.2s;
+}
+
+.blob-cta:hover path { fill: var(--orange-hover); }
+
+.blob-cta text {
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  fill: white;
+}
+
+.blob-cta-lg { width: 180px; height: 180px; }
+
+.blob-btn-wrap { margin-top: 3rem; }
+
+/* Inline blob submit */
+.blob-submit {
+  background: none; border: none; padding: 0;
+  cursor: pointer; display: inline-block;
+}
+
+.blob-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+.blob-submit:disabled .blob-cta { transform: none; }
+
+/* ===== RSVP SCROLL CTA ===== */
+.rsvp-cta-area {
+  margin-top: 4rem;
+}
+
+/* ===== FORM ===== */
+.form-section { margin-top: 2rem; }
+.form-group { margin-bottom: 2.2rem; }
+
+.form-label {
+  display: block;
+  font-family: var(--body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.8rem 0;
+  border: none;
+  border-bottom: 1px solid var(--dark);
+  background: transparent;
+  font-family: var(--body);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--dark);
+  outline: none;
+  transition: border-color 0.25s;
+}
+
+.form-input:focus { border-color: var(--orange); }
+.form-input::placeholder { color: #C4BFAE; }
+
+textarea.form-input {
+  resize: vertical; min-height: 80px;
+  border: none; border-bottom: 1px solid var(--dark);
+  padding: 0.8rem 0;
+}
+
+/* Radio — clean, no boxes */
+.radio-group { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.4rem; }
+
+.radio-option {
+  display: flex; align-items: center; gap: 0.8rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  font-family: var(--body);
+  font-size: 16px; font-weight: 300;
+  transition: color 0.2s;
+}
+
+.radio-option:hover { color: var(--orange); }
+
+.radio-option input[type="radio"] {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--dark);
+  border-radius: 50%; cursor: pointer;
+  position: relative; flex-shrink: 0;
+  transition: border-color 0.2s;
+}
+
+.radio-option input[type="radio"]:checked { border-color: var(--orange); }
+.radio-option input[type="radio"]:checked::after {
+  content: ''; position: absolute;
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 9px; height: 9px;
+  background: var(--orange); border-radius: 50%;
+}
+
+.radio-option.selected { color: var(--orange); }
+
+.sub-options { display: none; padding-left: 2rem; animation: fadeUp 0.3s ease; }
+.sub-options.visible { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.conditional-group { display: none; animation: fadeUp 0.3s ease; }
+.conditional-group.visible { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.error-msg {
+  color: var(--orange);
+  font-size: 14px; font-weight: 400;
+  margin-top: 1rem;
+  display: none;
+}
+
+.success-msg {
+  display: none;
+  padding: 4rem 0;
+  animation: fadeUp 0.5s ease;
+}
+
+.success-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(40px, 7vw, 72px);
+  color: var(--orange);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.success-text {
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.back-link:hover { text-decoration-color: var(--orange); }
+
+/* ===== ITINERARY ===== */
+.day-block { margin-bottom: 4rem; }
+
+.day-label {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(36px, 6vw, 56px);
+  color: var(--orange);
+  margin-bottom: 2rem;
   line-height: 1.1;
 }
-.seat:hover { border-color: var(--forest-green); transform: scale(1.1); }
-.seat.occupied {
-  background: var(--forest-green);
-  border-color: var(--forest-green);
-  color: white;
-  font-weight: 500;
-}
-.seat.occupied:hover { background: #1e3a2f; }
 
-.canvas-controls {
-  position: absolute; bottom: 16px; right: 16px;
-  display: flex; gap: 8px;
+.event-item {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(26,26,26,0.1);
 }
-.canvas-controls button {
-  width: 36px; height: 36px;
-  border-radius: 8px;
-  border: none; background: white;
-  box-shadow: var(--shadow);
-  cursor: pointer; font-size: 18px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--slate-blue);
-}
-.canvas-controls button:hover { background: var(--warm-sand); }
 
-.seating-toolbar {
-  display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
+.event-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.event-time {
+  font-family: var(--body);
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+
+.event-name {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(20px, 3vw, 28px);
+  margin-bottom: 0.4rem;
+  color: var(--dark);
+}
+
+.event-loc {
+  font-family: var(--body);
+  font-size: 15px; font-weight: 300;
+  color: var(--muted);
+}
+
+.event-loc a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(26,26,26,0.2);
+  transition: all 0.2s;
+}
+
+.event-loc a:hover { color: var(--orange); text-decoration-color: var(--orange); }
+
+.dress-label {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-family: var(--body);
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+/* ===== LOGISTICS ===== */
+.log-block { margin-bottom: 4rem; }
+
+.log-heading {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(28px, 5vw, 44px);
+  margin-bottom: 1rem;
+  color: var(--dark);
+}
+
+.log-text {
+  font-family: var(--body);
+  font-size: 15px; font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  /* Left-aligned per brief */
+}
+
+/* Hotels — editorial, full/half width, no circles, no cards */
+.hotel-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin-top: 2.5rem;
+}
+
+.hotel-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
   align-items: center;
 }
 
-/* Seat Autocomplete */
-.seat-autocomplete {
-  position: fixed;
-  background: white;
-  border-radius: 8px;
-  box-shadow: var(--shadow-lg);
-  max-height: 200px; overflow-y: auto;
-  min-width: 200px;
-  z-index: 10000;
-}
-.seat-autocomplete input {
-  width: 100%; padding: 10px 14px;
-  border: none; border-bottom: 1px solid #f0ede7;
-  font-size: 14px; outline: none;
-  border-radius: 8px 8px 0 0;
-  font-family: 'Inter', sans-serif;
-}
-.ac-option {
-  padding: 8px 14px; cursor: pointer;
-  font-size: 13px;
-}
-.ac-option:hover { background: #f0ede7; }
-.ac-option.selected { background: var(--forest-green); color: white; }
+.hotel-item:nth-child(even) { direction: rtl; }
+.hotel-item:nth-child(even) > * { direction: ltr; }
 
-/* Add Table Modal */
-.add-table-modal {
-  position: fixed; inset: 0;
-  background: rgba(74,85,104,0.6);
-  backdrop-filter: blur(4px);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 9998;
+.hotel-photo {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
 }
-.add-table-form {
-  background: var(--off-white);
-  border-radius: 16px;
-  padding: 32px;
-  max-width: 480px; width: 90%;
-  box-shadow: var(--shadow-lg);
+
+.hotel-info {}
+
+.hotel-name {
+  font-family: var(--body);
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.8rem;
 }
-.add-table-form h3 { margin-bottom: 20px; color: var(--forest-green); }
-.form-group {
-  margin-bottom: 16px;
+
+.hotel-address {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 22px;
+  margin-bottom: 0.2rem;
 }
-.form-group label {
-  display: block; font-size: 13px;
-  font-weight: 500; margin-bottom: 6px;
-  color: var(--slate-blue);
+
+.hotel-city {
+  font-family: var(--body);
+  font-size: 15px; font-weight: 300;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
 }
-.form-group input, .form-group select, .form-group textarea {
-  width: 100%; padding: 10px 14px;
-  border: 2px solid var(--warm-sand);
-  border-radius: 8px; font-size: 14px;
-  outline: none; background: white;
-  font-family: 'Inter', sans-serif;
+
+.hotel-phone {
+  font-family: var(--body);
+  font-size: 15px; font-weight: 400;
+  margin-bottom: 1rem;
 }
-.form-group textarea { resize: vertical; min-height: 80px; }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-  border-color: var(--forest-green);
-}
-.shape-options {
-  display: flex; gap: 12px;
-}
-.shape-option {
-  flex: 1; padding: 16px;
-  border: 2px solid var(--warm-sand);
-  border-radius: 10px;
-  text-align: center; cursor: pointer;
+
+.hotel-link {
+  font-family: var(--body);
+  font-size: 12px; font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dark);
+  text-decoration: none;
+  border-bottom: 1px solid var(--dark);
+  padding-bottom: 2px;
   transition: all 0.2s;
 }
-.shape-option:hover { border-color: var(--stone-grey); }
-.shape-option.selected { border-color: var(--forest-green); background: #e8f5e9; }
-.shape-option .shape-icon { font-size: 32px; margin-bottom: 6px; }
-.shape-option .shape-name { font-size: 13px; font-weight: 500; }
 
-/* Table Name Edit */
-.table-name-edit {
-  position: fixed;
-  background: white;
-  border-radius: 8px;
-  box-shadow: var(--shadow-lg);
-  padding: 12px;
-  z-index: 10000;
-}
-.table-name-edit input {
-  padding: 8px 12px;
-  border: 2px solid var(--warm-sand);
-  border-radius: 6px;
-  font-size: 14px; outline: none;
-  font-family: 'Inter', sans-serif;
-}
-.table-name-edit input:focus { border-color: var(--forest-green); }
+.hotel-link:hover { color: var(--orange); border-color: var(--orange); }
 
-/* Summary Tab */
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-.summary-card {
-  background: white; border-radius: 12px;
-  padding: 24px; box-shadow: var(--shadow);
-}
-.summary-card h3 {
-  font-size: 18px; margin-bottom: 16px;
-  color: var(--forest-green);
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--warm-sand);
-}
-.stat-row {
-  display: flex; justify-content: space-between;
-  padding: 8px 0; font-size: 14px;
-  border-bottom: 1px solid #f8f5f0;
-}
-.stat-row:last-child { border-bottom: none; }
-.stat-value { font-weight: 600; color: var(--forest-green); }
-
-.table-status {
-  padding: 8px 12px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  font-size: 13px;
-  display: flex; justify-content: space-between;
-}
-.table-status.full { background: #c6f6d5; }
-.table-status.partial { background: #fefcbf; }
-.table-status.empty-table { background: #fed7d7; }
-
-.ai-summary {
-  background: linear-gradient(135deg, #f0ede7, #e8dcc8);
-  border-radius: 12px; padding: 24px;
-  margin-top: 20px;
-}
-.ai-summary h3 { color: var(--forest-green); margin-bottom: 12px; }
-.ai-summary-content {
-  font-size: 14px; line-height: 1.8;
-  color: var(--slate-blue);
-  white-space: pre-line;
+.hotel-note {
+  margin-top: 2.5rem;
+  font-family: var(--body);
+  font-size: 15px; font-weight: 300;
+  color: var(--muted);
+  font-style: italic;
 }
 
-/* Loading spinner */
-.spinner {
-  display: inline-block; width: 16px; height: 16px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-}
-.spinner-dark {
-  border-color: rgba(74,85,104,0.2);
-  border-top-color: var(--slate-blue);
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* Collapse sidebar */
-.sidebar-toggle {
-  position: absolute; top: 50%; left: 280px;
-  transform: translateY(-50%);
-  width: 24px; height: 48px;
-  background: white; border: none;
-  border-radius: 0 8px 8px 0;
-  box-shadow: var(--shadow);
-  cursor: pointer; z-index: 10;
-  font-size: 14px; color: var(--stone-grey);
-}
-.sidebar-toggle:hover { color: var(--slate-blue); }
-.seating-layout.collapsed .seating-sidebar { width: 0; overflow: hidden; }
-.seating-layout.collapsed .sidebar-toggle { left: 0; }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .header { padding: 16px; }
-  .content { padding: 16px; }
-  .tabs { padding: 0 16px; }
-  .tab { padding: 12px 16px; font-size: 13px; }
-  .summary-bar { gap: 8px; }
-  .summary-item { min-width: 100px; padding: 10px 14px; }
-  .seating-sidebar { width: 200px; }
+@media (max-width: 640px) {
+  .hotel-item { grid-template-columns: 1fr; gap: 1.5rem; }
+  .hotel-item:nth-child(even) { direction: ltr; }
+  .hotel-photo { height: 240px; }
 }
 
-/* AI thinking indicator */
-.ai-thinking {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 16px; background: var(--warm-sand);
-  border-radius: 8px; font-size: 13px; color: var(--slate-blue);
+/* ===== REGISTRY ===== */
+.registry-area {
+  max-width: 600px;
+  padding: 6rem 48px;
 }
 
-/* Toast */
-.toast {
-  position: fixed; bottom: 24px; right: 24px;
-  background: var(--slate-blue); color: white;
-  padding: 12px 20px; border-radius: 10px;
-  box-shadow: var(--shadow-lg);
-  font-size: 14px; z-index: 99999;
-  animation: slideUp 0.3s ease;
-}
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+.registry-quote {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(28px, 5vw, 40px);
+  line-height: 1.3;
+  color: var(--dark);
+  margin-bottom: 1.5rem;
 }
 
-.empty-state {
-  text-align: center; padding: 60px 20px;
-  color: var(--stone-grey);
+.registry-detail {
+  font-family: var(--body);
+  font-size: 15px; font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
 }
-.empty-state h3 {
-  font-size: 22px; margin-bottom: 12px;
-  color: var(--slate-blue);
+
+/* ===== FOOTER ===== */
+footer {
+  padding: 4rem 48px;
+  border-top: 1px solid rgba(26,26,26,0.1);
 }
-.empty-state p { font-size: 14px; line-height: 1.6; max-width: 400px; margin: 0 auto 24px; }
+
+.footer-names {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(32px, 5vw, 48px);
+  color: var(--orange);
+  margin-bottom: 0.3rem;
+}
+
+.footer-sub {
+  font-family: var(--body);
+  font-size: 12px; font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  footer { padding: 3rem 20px; }
+  .registry-area { padding: 4rem 20px; }
+}
 </style>
 </head>
 <body>
 
-<!-- API Key Modal -->
-<div id="apiKeyModal" class="modal-overlay" style="display:none;">
-  <div class="modal">
-    <h2>Welcome</h2>
-    <p>Enter your Anthropic API key to enable smart features like guest list parsing, seating suggestions, and summaries. Your key is stored locally and never sent anywhere except the Anthropic API.</p>
-    <input type="password" id="apiKeyInput" placeholder="sk-ant-..." />
-    <br><br>
-    <button class="btn btn-primary" onclick="saveApiKey()">Save & Continue</button>
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">Laura & Marc</span>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a class="nav-link active" onclick="go('invitation')">Invitation<span class="nav-blob-dot"></span></a></li>
+      <li><a class="nav-link" onclick="go('itinerary')">Itinerary<span class="nav-blob-dot"></span></a></li>
+      <li><a class="nav-link" onclick="go('logistics')">Logistics<span class="nav-blob-dot"></span></a></li>
+      <li><a class="nav-link" onclick="go('registry')">Registry<span class="nav-blob-dot"></span></a></li>
+    </ul>
   </div>
-</div>
+</nav>
 
-<!-- Header -->
-<div class="header">
-  <div class="header-top">
-    <div>
-      <h1>Wedding Guest Manager</h1>
-      <div class="venue">July 18, 2026 &middot; Ansitz Wartenfels</div>
+<!-- ============ PAGE 1: INVITATION ============ -->
+<section id="sec-invitation" class="active">
+  <div class="hero">
+    <div class="hero-img-wrap">
+      <img src="Marc_Laura_Picture_1.jpeg" alt="Laura & Marc" class="hero-img">
     </div>
-    <div style="display:flex;align-items:center;">
-      <div class="countdown" id="countdown"></div>
-      <button class="settings-btn" onclick="showApiKeyModal()">API Key</button>
-    </div>
-  </div>
-</div>
-
-<!-- Tabs -->
-<div class="tabs">
-  <div class="tab active" data-tab="guests">Guest List</div>
-  <div class="tab" data-tab="seating">Seating Plan</div>
-  <div class="tab" data-tab="summary">Summary</div>
-</div>
-
-<!-- Content -->
-<div class="content">
-
-  <!-- TAB 1: GUEST LIST -->
-  <div class="tab-content active" id="tab-guests">
-    <div class="summary-bar" id="guestSummary"></div>
-    <div class="toolbar">
-      <input type="text" class="search-input" id="guestSearch" placeholder="Search guests..." oninput="renderGuests()">
-      <select class="filter-select" id="filterSide" onchange="renderGuests()">
-        <option value="">All Sides</option>
-        <option value="bride">Bride</option>
-        <option value="groom">Groom</option>
-        <option value="both">Both</option>
-      </select>
-      <select class="filter-select" id="filterRsvp" onchange="renderGuests()">
-        <option value="">All RSVP</option>
-        <option value="confirmed">Confirmed</option>
-        <option value="pending">Pending</option>
-        <option value="declined">Declined</option>
-      </select>
-      <select class="filter-select" id="filterMenu" onchange="renderGuests()">
-        <option value="">All Menus</option>
-        <option value="meat">Meat</option>
-        <option value="vegetarian">Vegetarian</option>
-        <option value="not set">Not Set</option>
-      </select>
-      <div style="flex:1;"></div>
-      <label class="btn btn-secondary" style="cursor:pointer;">
-        Upload Guest List
-        <input type="file" accept=".xlsx,.xls" style="display:none;" onchange="handleFileUpload(event)">
-      </label>
-      <button class="btn btn-primary" onclick="addGuestManual()">+ Add Guest</button>
-    </div>
-    <div id="guestTableContainer"></div>
-  </div>
-
-  <!-- TAB 2: SEATING PLAN -->
-  <div class="tab-content" id="tab-seating">
-    <div class="seating-toolbar">
-      <button class="btn btn-primary" onclick="showAddTableModal()">+ Add Table</button>
-      <button class="btn btn-secondary" onclick="showAiTableModal()">AI: Build Tables</button>
-      <button class="btn btn-terracotta" onclick="aiSuggestSeating()">AI: Suggest Seating</button>
-    </div>
-    <div class="seating-layout" id="seatingLayout">
-      <div class="seating-sidebar" id="seatingSidebar">
-        <div class="sidebar-header">
-          <h3>Guests</h3>
-          <span id="unseatedCount" style="font-size:12px;color:var(--stone-grey);"></span>
-        </div>
-        <div class="sidebar-search">
-          <input type="text" placeholder="Filter guests..." id="sidebarSearch" oninput="renderSidebarGuests()">
-        </div>
-        <div class="sidebar-guests" id="sidebarGuests"></div>
-      </div>
-      <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">&#9664;</button>
-      <div class="canvas-container" id="canvasContainer">
-        <div class="canvas" id="seatingCanvas"></div>
-        <div class="canvas-controls">
-          <button onclick="zoomCanvas(1.2)" title="Zoom in">+</button>
-          <button onclick="zoomCanvas(0.8)" title="Zoom out">&minus;</button>
-          <button onclick="resetCanvasView()" title="Reset view">&#8634;</button>
-        </div>
-      </div>
+    <div class="hero-text">
+      <h1 class="hero-title">Laura<br>& Marc</h1>
+      <p class="hero-sub">17 July &mdash; 18 July 2026 &middot; St. Gilgen, Austria</p>
     </div>
   </div>
 
-  <!-- TAB 3: SUMMARY -->
-  <div class="tab-content" id="tab-summary">
-    <div id="summaryContent"></div>
-    <div style="margin-top:20px;">
-      <button class="btn btn-terracotta" onclick="generateAiSummary()">AI: Generate Summary</button>
+  <div class="content narrow">
+    <!-- RSVP CTA blob -->
+    <div class="rsvp-cta-area">
+      <a onclick="document.getElementById('rsvpFormArea').scrollIntoView({behavior:'smooth'})">
+        <svg viewBox="0 0 200 200" class="blob-cta" style="transform: rotate(3deg);">
+          <path d="M 100,18 C 145,8 180,35 188,78 C 196,121 172,162 132,178 C 92,194 48,178 28,146 C 8,114 12,62 38,38 C 56,22 72,26 100,18 Z"/>
+          <text x="100" y="105" text-anchor="middle" dominant-baseline="middle">RSVP</text>
+        </svg>
+      </a>
     </div>
-    <div class="ai-summary" id="aiSummaryBox" style="display:none;">
-      <h3>AI Summary</h3>
-      <div class="ai-summary-content" id="aiSummaryContent"></div>
-    </div>
-  </div>
-</div>
 
-<!-- Add Table Modal -->
-<div id="addTableModal" class="add-table-modal" style="display:none;">
-  <div class="add-table-form">
-    <h3>Add Table</h3>
-    <div class="form-group">
-      <label>Table Name</label>
-      <input type="text" id="tableName" placeholder="e.g. Family, Friends Munich">
-    </div>
-    <div class="form-group">
-      <label>Shape</label>
-      <div class="shape-options">
-        <div class="shape-option selected" data-shape="round" onclick="selectShape(this)">
-          <div class="shape-icon">&#9711;</div>
-          <div class="shape-name">Round</div>
+    <!-- RSVP Form -->
+    <div class="form-section" id="rsvpFormArea">
+      <h2 class="section-header" style="font-size:clamp(28px,5vw,44px); margin-bottom:2rem;">Please let us know if you can make it by June 1, 2026</h2>
+
+      <form id="rsvpForm" onsubmit="submitRSVP(event)">
+        <div class="form-group">
+          <label class="form-label">Name(s)</label>
+          <input type="text" class="form-input" id="rsvpNames" placeholder="First and last name(s)" required>
         </div>
-        <div class="shape-option" data-shape="rectangular" onclick="selectShape(this)">
-          <div class="shape-icon">&#9645;</div>
-          <div class="shape-name">Rectangular</div>
+
+        <div class="form-group">
+          <label class="form-label">Will you be attending?</label>
+          <div class="radio-group" id="attendGroup">
+            <label class="radio-option" onclick="pickAttend('attend')">
+              <input type="radio" name="attend" value="attend"> I will be attending
+            </label>
+            <div class="sub-options" id="dayOptions">
+              <label class="radio-option" onclick="pickDays('18only')">
+                <input type="radio" name="days" value="18only"> July 18 only
+              </label>
+              <label class="radio-option" onclick="pickDays('both')">
+                <input type="radio" name="days" value="both"> July 17 & 18
+              </label>
+            </div>
+            <label class="radio-option" onclick="pickAttend('decline')">
+              <input type="radio" name="attend" value="decline"> I / we will not be attending
+            </label>
+          </div>
         </div>
+
+        <div class="conditional-group" id="foodGroup">
+          <div class="form-group">
+            <label class="form-label">Food Preferences</label>
+            <div class="radio-group">
+              <label class="radio-option" onclick="pickFood(this,'meat')">
+                <input type="radio" name="food" value="meat"> Meat
+              </label>
+              <label class="radio-option" onclick="pickFood(this,'vegetarian')">
+                <input type="radio" name="food" value="vegetarian"> Vegetarian
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Comments / Message</label>
+          <textarea class="form-input" id="rsvpMsg" placeholder="Dietary requirements, questions, or a message for us..."></textarea>
+        </div>
+
+        <div class="blob-btn-wrap">
+          <button type="submit" class="blob-submit" id="submitBtn">
+            <svg viewBox="0 0 200 200" class="blob-cta" style="width:140px;height:140px;transform:rotate(-4deg);">
+              <path d="M 100,15 C 148,5 182,32 190,75 C 198,118 175,165 135,180 C 95,195 45,180 25,148 C 5,116 10,58 35,35 C 52,18 70,22 100,15 Z"/>
+              <text x="100" y="105" text-anchor="middle" dominant-baseline="middle">SEND</text>
+            </svg>
+          </button>
+        </div>
+        <div class="error-msg" id="errorMsg"></div>
+      </form>
+
+      <div class="success-msg" id="successMsg">
+        <div class="success-title">Thank you</div>
+        <p class="success-text">We can't wait to celebrate with you.</p>
+        <a class="back-link" onclick="backToInvitation()">Back to Invitation</a>
       </div>
     </div>
-    <div class="form-group">
-      <label>Number of Seats</label>
-      <input type="number" id="tableSeats" value="8" min="2" max="20">
+  </div>
+</section>
+
+<!-- ============ PAGE 2: ITINERARY ============ -->
+<section id="sec-itinerary">
+  <div class="content">
+    <h2 class="section-header">Itinerary &<br>Dress Code</h2>
+
+    <div class="day-block">
+      <h3 class="day-label">Friday, July 17</h3>
+      <div class="event-item">
+        <div class="event-time">From 6:00 pm</div>
+        <div class="event-name">Welcome Reception</div>
+        <div class="event-loc">
+          <a href="https://billroth.at/" target="_blank" rel="noopener">Seehotel Billroth</a>, Billrothstra&szlig;e 2, 5340 St. Gilgen
+        </div>
+        <div class="dress-label">Tracht</div>
+      </div>
     </div>
-    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px;">
-      <button class="btn btn-outline" onclick="closeAddTableModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="addTable()">Add Table</button>
+
+    <div class="day-block">
+      <h3 class="day-label">Saturday, July 18</h3>
+
+      <div class="event-item">
+        <div class="event-time">11:00 am</div>
+        <div class="event-name">Wedding Ceremony</div>
+        <div class="event-loc">
+          <a href="https://www.google.com/maps/search/?api=1&query=Pfarrkirche+St.+Gilgen" target="_blank" rel="noopener">Parish Church St. Gilgen</a>, Ischlerstra&szlig;e 1, 5340 St. Gilgen
+        </div>
+        <div class="dress-label">Cocktail Attire</div>
+      </div>
+
+      <div class="event-item">
+        <div class="event-time">12:00 pm</div>
+        <div class="event-name">Reception & Afternoon Celebration</div>
+        <div class="event-loc">
+          <a href="https://billroth.at/" target="_blank" rel="noopener">Seehotel Billroth</a>, Billrothstra&szlig;e 2, 5340 St. Gilgen
+        </div>
+        <div class="dress-label">Cocktail Attire</div>
+      </div>
+
+      <div class="event-item">
+        <div class="event-time">From 5:00 pm</div>
+        <div class="event-name">Aperitivo, Dinner & Celebration</div>
+        <div class="event-loc">
+          <a href="https://www.google.com/maps/search/?api=1&query=Ansitz+Wartenfels+Thalgau" target="_blank" rel="noopener">Ansitz Wartenfels</a>, Vordereggstra&szlig;e 30, 5303 Thalgau
+        </div>
+        <div class="dress-label">Black Tie</div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- AI Table Builder Modal -->
-<div id="aiTableModal" class="add-table-modal" style="display:none;">
-  <div class="add-table-form">
-    <h3>AI: Build Table Arrangement</h3>
-    <div class="form-group">
-      <label>Describe your table setup</label>
-      <textarea id="aiTableInstructions" placeholder="e.g. 5 tables with 8 seats each, one head table with 12 seats for the family"></textarea>
+<!-- ============ PAGE 3: LOGISTICS ============ -->
+<section id="sec-logistics">
+  <div class="content">
+    <h2 class="section-header">Logistics &<br>Accommodation</h2>
+
+    <div class="log-block">
+      <h3 class="log-heading">Where to stay</h3>
+      <p class="log-text">We recommend the following hotels in St. Gilgen.</p>
+
+      <div class="hotel-row">
+        <div class="hotel-item">
+          <img src="https://billroth.at/wp-content/uploads/2023/06/seehotel-billroth-aussen-wolfgangsee-1-2048x1365.jpg" alt="Seehotel Billroth" class="hotel-photo" onerror="this.style.background='var(--white)';this.style.minHeight='200px'">
+          <div class="hotel-info">
+            <div class="hotel-name">Seehotel Billroth am Wolfgangsee</div>
+            <div class="hotel-address">2 Billrothstra&szlig;e</div>
+            <div class="hotel-city">Sankt Gilgen, Salzburg 5340</div>
+            <div class="hotel-phone">+43 6227 2217</div>
+            <a href="https://billroth.at/" target="_blank" rel="noopener" class="hotel-link">billroth.at</a>
+          </div>
+        </div>
+
+        <div class="hotel-item">
+          <img src="https://gasthofzurpost.at/wp-content/uploads/Hotel-Zur-Post-St-Gilgen-Aussen-Fassade-Hausansicht-Sommer-scaled.jpg" alt="Hotel Gasthof zur Post" class="hotel-photo" onerror="this.style.background='var(--white)';this.style.minHeight='200px'">
+          <div class="hotel-info">
+            <div class="hotel-name">Hotel Gasthof zur Post</div>
+            <div class="hotel-address">8 Mozartpl.</div>
+            <div class="hotel-city">Sankt Gilgen, Salzburg 5340</div>
+            <div class="hotel-phone">+43 6227 2157</div>
+            <a href="https://gasthofzurpost.at/" target="_blank" rel="noopener" class="hotel-link">gasthofzurpost.at</a>
+          </div>
+        </div>
+
+        <div class="hotel-item">
+          <img src="https://www.hotelkendler.com/fileadmin/_processed_/5/a/csm_Hotel-Kendler-St-Gilgen-02_caf26b4d68.jpg" alt="Hotel Kendler" class="hotel-photo" onerror="this.style.background='var(--white)';this.style.minHeight='200px'">
+          <div class="hotel-info">
+            <div class="hotel-name">Hotel Kendler &mdash; St. Gilgen</div>
+            <div class="hotel-address">3 Kirchenpl.</div>
+            <div class="hotel-city">Sankt Gilgen, Salzburg 5340</div>
+            <div class="hotel-phone">+43 6227 2223</div>
+            <a href="https://www.hotelkendler.com/" target="_blank" rel="noopener" class="hotel-link">hotel-kendler.at</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="hotel-note">St. Gilgen is small &mdash; most locations are within walking distance.</p>
     </div>
-    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px;">
-      <button class="btn btn-outline" onclick="closeAiTableModal()">Cancel</button>
-      <button class="btn btn-primary" id="aiTableBuildBtn" onclick="aiBuildTables()">Build</button>
+
+    <div class="log-block">
+      <h3 class="log-heading">Getting there</h3>
+      <p class="log-text">
+        St. Gilgen can be reached by train or car from Vienna and Munich.
+        There are also direct flights to Salzburg. From Salzburg, it is approximately 40 minutes by car.
+      </p>
+    </div>
+
+    <div class="log-block">
+      <h3 class="log-heading">Transport</h3>
+      <p class="log-text">
+        We will provide a shuttle service to and from the evening venue on Saturday, July 18.
+      </p>
     </div>
   </div>
-</div>
+</section>
 
-<!-- Preview Modal -->
-<div id="previewModal" class="preview-overlay" style="display:none;">
-  <div class="preview-modal">
-    <h3>Preview Imported Guests</h3>
-    <p style="font-size:13px;color:var(--stone-grey);margin-bottom:16px;">Claude detected the following guests from your file. Review and confirm to import.</p>
-    <div id="previewTableContainer"></div>
-    <div class="preview-actions">
-      <button class="btn btn-outline" onclick="cancelPreview()">Cancel</button>
-      <button class="btn btn-primary" onclick="confirmImport()">Confirm Import</button>
-    </div>
+<!-- ============ PAGE 4: REGISTRY ============ -->
+<section id="sec-registry">
+  <div class="content registry-area">
+    <h2 class="section-header">Registry</h2>
+
+    <p class="registry-quote">Your presence at our wedding is the greatest gift of all.</p>
+
+    <p class="registry-detail">
+      Should you wish to spoil us with something more, we would be very grateful for a contribution towards our honeymoon.
+    </p>
+
+    <a href="https://paypal.com" target="_blank" rel="noopener" style="text-decoration:none;">
+      <svg viewBox="0 0 200 200" class="blob-cta" style="transform:rotate(5deg);">
+        <path d="M 100,20 C 142,8 178,38 186,76 C 194,114 174,158 136,176 C 98,194 52,180 30,150 C 8,120 14,68 36,42 C 50,26 74,28 100,20 Z"/>
+        <text x="100" y="105" text-anchor="middle" dominant-baseline="middle">CONTRIBUTE</text>
+      </svg>
+    </a>
   </div>
-</div>
+</section>
 
-<!-- Seat Autocomplete -->
-<div id="seatAutocomplete" class="seat-autocomplete" style="display:none;">
-  <input type="text" id="seatSearchInput" placeholder="Type guest name..." oninput="filterSeatOptions()" onkeydown="handleSeatKeydown(event)">
-  <div id="seatOptions"></div>
-</div>
-
-<!-- Table Name Edit -->
-<div id="tableNameEdit" class="table-name-edit" style="display:none;">
-  <input type="text" id="tableNameEditInput" onkeydown="if(event.key==='Enter')saveTableName()" placeholder="Table name">
-</div>
+<!-- Footer -->
+<footer>
+  <div class="footer-names">Laura & Marc</div>
+  <p class="footer-sub">July 17 &mdash; 18, 2026 &middot; St. Gilgen, Austria</p>
+</footer>
 
 <script>
-// ========== STATE ==========
-let state = {
-  guests: [],
-  tables: [],
-  apiKey: ''
-};
+// ===== SUPABASE =====
+const SB_URL = 'https://rmdwqdfuzwwaqlwampkf.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJtZHdxZGZ1end3YXFsd2FtcGtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMjU3MDEsImV4cCI6MjA5MDgwMTcwMX0.RmIYijO-RJ8QoQ6lGNO_S7lI-sGbY8Ao_OEexFMiZ24';
 
-let pendingImport = [];
-let canvasScale = 1;
-let canvasX = 0, canvasY = 0;
-let isDragging = false;
-let dragTarget = null;
-let dragOffsetX = 0, dragOffsetY = 0;
-let isPanning = false;
-let panStartX = 0, panStartY = 0;
-let activeSeat = null;
-let editingTableId = null;
-let selectedSeatOptionIdx = -1;
-
-// ========== INIT ==========
-function init() {
-  loadState();
-  updateCountdown();
-  setInterval(updateCountdown, 60000);
-  setupTabs();
-  renderGuests();
-  renderSeating();
-  renderSummary();
-
-  if (!state.apiKey) {
-    document.getElementById('apiKeyModal').style.display = 'flex';
-  }
-
-  // Canvas events
-  const container = document.getElementById('canvasContainer');
-  container.addEventListener('mousedown', onCanvasMouseDown);
-  container.addEventListener('mousemove', onCanvasMouseMove);
-  container.addEventListener('mouseup', onCanvasMouseUp);
-  container.addEventListener('mouseleave', onCanvasMouseUp);
-  container.addEventListener('wheel', onCanvasWheel, { passive: false });
-
-  // Close autocomplete on outside click
-  document.addEventListener('mousedown', (e) => {
-    const ac = document.getElementById('seatAutocomplete');
-    if (ac.style.display !== 'none' && !ac.contains(e.target)) {
-      ac.style.display = 'none';
-      activeSeat = null;
-    }
-    const tne = document.getElementById('tableNameEdit');
-    if (tne.style.display !== 'none' && !tne.contains(e.target)) {
-      tne.style.display = 'none';
-    }
-  });
+// ===== NAV =====
+function go(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.nav-link[onclick*="${id}"]`).classList.add('active');
+  document.querySelector('.nav-links').classList.remove('open');
+  window.scrollTo(0, 0);
 }
 
-function loadState() {
-  try {
-    const saved = localStorage.getItem('weddingState');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      state = { ...state, ...parsed };
-    }
-    const key = localStorage.getItem('anthropicApiKey');
-    if (key) state.apiKey = key;
-  } catch(e) {}
-}
+// ===== RSVP =====
+let attendance = null, days = null, food = null;
 
-function saveState() {
-  localStorage.setItem('weddingState', JSON.stringify({ guests: state.guests, tables: state.tables }));
-}
-
-function saveApiKey() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  if (!key) return;
-  state.apiKey = key;
-  localStorage.setItem('anthropicApiKey', key);
-  document.getElementById('apiKeyModal').style.display = 'none';
-  showToast('API key saved');
-}
-
-function showApiKeyModal() {
-  document.getElementById('apiKeyInput').value = state.apiKey;
-  document.getElementById('apiKeyModal').style.display = 'flex';
-}
-
-// ========== COUNTDOWN ==========
-function updateCountdown() {
-  const wedding = new Date('2026-07-18T14:00:00');
-  const now = new Date();
-  const diff = wedding - now;
-  if (diff <= 0) {
-    document.getElementById('countdown').textContent = 'Today is the day!';
-    return;
-  }
-  const days = Math.floor(diff / 86400000);
-  document.getElementById('countdown').textContent = `${days} days to go`;
-}
-
-// ========== TABS ==========
-function setupTabs() {
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-      if (tab.dataset.tab === 'seating') { renderSeating(); renderSidebarGuests(); }
-      if (tab.dataset.tab === 'summary') renderSummary();
-    });
-  });
-}
-
-// ========== ANTHROPIC API ==========
-async function callClaude(systemPrompt, userMessage) {
-  if (!state.apiKey) {
-    showToast('Please set your API key first');
-    showApiKeyModal();
-    throw new Error('No API key');
-  }
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': state.apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 4096,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: userMessage }]
-    })
-  });
-  if (!resp.ok) {
-    const err = await resp.text();
-    throw new Error(`API error: ${resp.status} - ${err}`);
-  }
-  const data = await resp.json();
-  return data.content[0].text;
-}
-
-// ========== GUEST LIST ==========
-function genId() { return 'g_' + Date.now() + '_' + Math.random().toString(36).substr(2,6); }
-
-function updateGuestSummary() {
-  const g = state.guests;
-  const total = g.length;
-  const confirmed = g.filter(x => x.rsvp === 'confirmed').length;
-  const pending = g.filter(x => x.rsvp === 'pending').length;
-  const declined = g.filter(x => x.rsvp === 'declined').length;
-  const meat = g.filter(x => x.menu === 'meat').length;
-  const veg = g.filter(x => x.menu === 'vegetarian').length;
-
-  document.getElementById('guestSummary').innerHTML = `
-    <div class="summary-item"><div><div class="number">${total}</div><div class="label">Total</div></div></div>
-    <div class="summary-item"><div><div class="number">${confirmed}</div><div class="label">Confirmed</div></div></div>
-    <div class="summary-item"><div><div class="number">${pending}</div><div class="label">Pending</div></div></div>
-    <div class="summary-item"><div><div class="number">${declined}</div><div class="label">Declined</div></div></div>
-    <div class="summary-item"><div><div class="number">${meat}</div><div class="label">&#129385; Meat</div></div></div>
-    <div class="summary-item"><div><div class="number">${veg}</div><div class="label">&#129367; Vegetarian</div></div></div>
-  `;
-}
-
-function getFilteredGuests() {
-  let g = [...state.guests];
-  const search = document.getElementById('guestSearch').value.toLowerCase();
-  const side = document.getElementById('filterSide').value;
-  const rsvp = document.getElementById('filterRsvp').value;
-  const menu = document.getElementById('filterMenu').value;
-  if (search) g = g.filter(x => x.name.toLowerCase().includes(search));
-  if (side) g = g.filter(x => x.side === side);
-  if (rsvp) g = g.filter(x => x.rsvp === rsvp);
-  if (menu) g = g.filter(x => x.menu === menu);
-  return g;
-}
-
-function renderGuests() {
-  updateGuestSummary();
-  const guests = getFilteredGuests();
-  const container = document.getElementById('guestTableContainer');
-
-  if (state.guests.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <h3>No guests yet</h3>
-        <p>Upload an Excel file with your guest list or add guests manually to get started.</p>
-      </div>`;
-    return;
-  }
-
-  let html = `<table>
-    <thead><tr>
-      <th>Name</th><th>Side</th><th>Priority</th><th>RSVP</th><th>Menu</th><th></th>
-    </tr></thead><tbody>`;
-
-  guests.forEach(g => {
-    html += `<tr data-id="${g.id}">
-      <td><input type="text" value="${escHtml(g.name)}" onchange="updateGuest('${g.id}','name',this.value)" style="width:100%;border:none;padding:4px;font-size:14px;background:transparent;"></td>
-      <td><select onchange="updateGuest('${g.id}','side',this.value)">
-        <option value="bride"${g.side==='bride'?' selected':''}>Bride</option>
-        <option value="groom"${g.side==='groom'?' selected':''}>Groom</option>
-        <option value="both"${g.side==='both'?' selected':''}>Both</option>
-      </select></td>
-      <td><select onchange="updateGuest('${g.id}','priority',this.value)">
-        <option value="high"${g.priority==='high'?' selected':''}>High</option>
-        <option value="medium"${g.priority==='medium'?' selected':''}>Medium</option>
-        <option value="low"${g.priority==='low'?' selected':''}>Low</option>
-      </select></td>
-      <td><select onchange="updateGuest('${g.id}','rsvp',this.value)">
-        <option value="confirmed"${g.rsvp==='confirmed'?' selected':''}>Confirmed</option>
-        <option value="pending"${g.rsvp==='pending'?' selected':''}>Pending</option>
-        <option value="declined"${g.rsvp==='declined'?' selected':''}>Declined</option>
-      </select></td>
-      <td><select onchange="updateGuest('${g.id}','menu',this.value)">
-        <option value="not set"${g.menu==='not set'?' selected':''}>Not Set</option>
-        <option value="meat"${g.menu==='meat'?' selected':''}>Meat</option>
-        <option value="vegetarian"${g.menu==='vegetarian'?' selected':''}>Vegetarian</option>
-      </select></td>
-      <td><button class="delete-btn" onclick="deleteGuest('${g.id}')" title="Delete">&times;</button></td>
-    </tr>`;
-  });
-
-  html += '</tbody></table>';
-  container.innerHTML = html;
-}
-
-function updateGuest(id, field, value) {
-  const g = state.guests.find(x => x.id === id);
-  if (g) { g[field] = value; saveState(); updateGuestSummary(); }
-}
-
-function deleteGuest(id) {
-  state.guests = state.guests.filter(x => x.id !== id);
-  // Remove from any seats
-  state.tables.forEach(t => {
-    t.seats.forEach(s => { if (s.guestId === id) { s.guestId = null; s.guestName = ''; } });
-  });
-  saveState(); renderGuests();
-}
-
-function addGuestManual() {
-  const name = prompt('Guest name:');
-  if (!name || !name.trim()) return;
-  state.guests.push({
-    id: genId(), name: name.trim(),
-    side: 'both', priority: 'medium', rsvp: 'pending', menu: 'not set'
-  });
-  saveState(); renderGuests();
-}
-
-// ========== FILE UPLOAD ==========
-async function handleFileUpload(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  event.target.value = '';
-
-  showToast('Reading file...');
-
-  const data = await file.arrayBuffer();
-  const workbook = XLSX.read(data);
-
-  // Convert all sheets to text
-  let sheetsText = '';
-  workbook.SheetNames.forEach(name => {
-    const sheet = workbook.Sheets[name];
-    const csv = XLSX.utils.sheet_to_csv(sheet);
-    sheetsText += `\n--- Sheet: ${name} ---\n${csv}\n`;
-  });
-
-  showToast('Asking Claude to parse your guest list...');
-
-  try {
-    const response = await callClaude(
-      `You are a wedding planning assistant. The user has uploaded an Excel file with guest data. Extract guest information from the data. The data could be in any language, any column order, any sheet structure. Detect: guest names, which side (bride/groom/both), priority (high/medium/low), RSVP status (confirmed/pending/declined), and menu preference (meat/vegetarian/not set). If a field cannot be determined, use sensible defaults: side="both", priority="medium", rsvp="pending", menu="not set". Return ONLY a valid JSON array of objects with fields: name, side, priority, rsvp, menu. No markdown, no explanation, just the JSON array.`,
-      `Here is the Excel file content:\n${sheetsText}`
-    );
-
-    let guests;
-    // Try to parse JSON from response, handling potential markdown wrapping
-    let jsonStr = response.trim();
-    if (jsonStr.startsWith('```')) {
-      jsonStr = jsonStr.replace(/```json?\n?/g, '').replace(/```$/g, '').trim();
-    }
-    guests = JSON.parse(jsonStr);
-
-    if (!Array.isArray(guests) || guests.length === 0) {
-      showToast('No guests detected in the file');
-      return;
-    }
-
-    pendingImport = guests.map(g => ({
-      id: genId(),
-      name: g.name || 'Unknown',
-      side: (['bride','groom','both'].includes(g.side)) ? g.side : 'both',
-      priority: (['high','medium','low'].includes(g.priority)) ? g.priority : 'medium',
-      rsvp: (['confirmed','pending','declined'].includes(g.rsvp)) ? g.rsvp : 'pending',
-      menu: (['meat','vegetarian','not set'].includes(g.menu)) ? g.menu : 'not set'
-    }));
-
-    showPreview();
-  } catch(e) {
-    showToast('Error parsing file: ' + e.message);
-    console.error(e);
+function pickAttend(val) {
+  attendance = val;
+  document.querySelectorAll('#attendGroup > .radio-option').forEach(o => o.classList.remove('selected'));
+  const r = document.querySelector(`#attendGroup > .radio-option input[value="${val}"]`);
+  if (r) { r.checked = true; r.closest('.radio-option').classList.add('selected'); }
+  const d = document.getElementById('dayOptions');
+  const f = document.getElementById('foodGroup');
+  if (val === 'attend') {
+    d.classList.add('visible');
+  } else {
+    d.classList.remove('visible'); f.classList.remove('visible');
+    days = null; food = null;
+    d.querySelectorAll('.radio-option').forEach(o => { o.classList.remove('selected'); o.querySelector('input').checked = false; });
+    f.querySelectorAll('.radio-option').forEach(o => { o.classList.remove('selected'); o.querySelector('input').checked = false; });
   }
 }
 
-function showPreview() {
-  let html = `<table style="font-size:13px;">
-    <thead><tr><th>Name</th><th>Side</th><th>Priority</th><th>RSVP</th><th>Menu</th></tr></thead><tbody>`;
-  pendingImport.forEach(g => {
-    html += `<tr>
-      <td>${escHtml(g.name)}</td>
-      <td>${g.side}</td><td>${g.priority}</td>
-      <td>${g.rsvp}</td><td>${g.menu}</td>
-    </tr>`;
-  });
-  html += '</tbody></table>';
-  document.getElementById('previewTableContainer').innerHTML = html;
-  document.getElementById('previewModal').style.display = 'flex';
+function pickDays(val) {
+  days = val;
+  document.querySelectorAll('#dayOptions .radio-option').forEach(o => o.classList.remove('selected'));
+  const r = document.querySelector(`#dayOptions input[value="${val}"]`);
+  if (r) { r.checked = true; r.closest('.radio-option').classList.add('selected'); }
+  document.getElementById('foodGroup').classList.add('visible');
 }
 
-function cancelPreview() {
-  document.getElementById('previewModal').style.display = 'none';
-  pendingImport = [];
-}
-
-function confirmImport() {
-  state.guests = state.guests.concat(pendingImport);
-  pendingImport = [];
-  document.getElementById('previewModal').style.display = 'none';
-  saveState();
-  renderGuests();
-  showToast('Guests imported successfully');
-}
-
-// ========== SEATING PLAN ==========
-function showAddTableModal() {
-  document.getElementById('tableName').value = '';
-  document.getElementById('tableSeats').value = '8';
-  document.querySelectorAll('.shape-option').forEach(o => o.classList.remove('selected'));
-  document.querySelector('.shape-option[data-shape="round"]').classList.add('selected');
-  document.getElementById('addTableModal').style.display = 'flex';
-}
-
-function closeAddTableModal() {
-  document.getElementById('addTableModal').style.display = 'none';
-}
-
-function selectShape(el) {
-  document.querySelectorAll('.shape-option').forEach(o => o.classList.remove('selected'));
+function pickFood(el, val) {
+  food = val;
+  document.querySelectorAll('#foodGroup .radio-option').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
 }
 
-function addTable() {
-  const name = document.getElementById('tableName').value.trim() || `Table ${state.tables.length + 1}`;
-  const shape = document.querySelector('.shape-option.selected').dataset.shape;
-  const seatCount = parseInt(document.getElementById('tableSeats').value) || 8;
+async function submitRSVP(e) {
+  e.preventDefault();
+  document.getElementById('errorMsg').style.display = 'none';
+  const names = document.getElementById('rsvpNames').value.trim();
+  if (!names) return showErr('Please enter your name(s).');
+  if (!attendance) return showErr('Please let us know if you can attend.');
+  if (attendance === 'attend' && !days) return showErr('Please select which days.');
+  if (attendance === 'attend' && !food) return showErr('Please select your food preference.');
 
-  const seats = [];
-  for (let i = 0; i < seatCount; i++) {
-    seats.push({ id: 's_' + Date.now() + '_' + i, guestId: null, guestName: '' });
-  }
-
-  // Position new tables in a grid pattern
-  const idx = state.tables.length;
-  const col = idx % 4;
-  const row = Math.floor(idx / 4);
-
-  state.tables.push({
-    id: 't_' + Date.now(),
-    name, shape, seats,
-    x: 100 + col * 250,
-    y: 100 + row * 250
-  });
-
-  saveState();
-  closeAddTableModal();
-  renderSeating();
-  showToast(`${name} added`);
-}
-
-function showAiTableModal() {
-  document.getElementById('aiTableInstructions').value = '';
-  document.getElementById('aiTableModal').style.display = 'flex';
-}
-
-function closeAiTableModal() {
-  document.getElementById('aiTableModal').style.display = 'none';
-}
-
-async function aiBuildTables() {
-  const instructions = document.getElementById('aiTableInstructions').value.trim();
-  if (!instructions) return;
-
-  const btn = document.getElementById('aiTableBuildBtn');
-  btn.innerHTML = '<span class="spinner"></span> Building...';
+  const btn = document.getElementById('submitBtn');
   btn.disabled = true;
 
   try {
-    const response = await callClaude(
-      `You are a wedding planner assistant. The user wants to create tables for a seating plan. Based on their instructions, return a JSON array of table objects. Each object should have: name (string), shape ("round" or "rectangular"), seats (number 2-20). Position them nicely: x and y coordinates (start at 100,100, space them ~250px apart in a grid). Return ONLY valid JSON array, no markdown, no explanation.`,
-      instructions
-    );
-
-    let tables;
-    let jsonStr = response.trim();
-    if (jsonStr.startsWith('```')) {
-      jsonStr = jsonStr.replace(/```json?\n?/g, '').replace(/```$/g, '').trim();
-    }
-    tables = JSON.parse(jsonStr);
-
-    tables.forEach(t => {
-      const seats = [];
-      const seatCount = Math.min(Math.max(t.seats || 8, 2), 20);
-      for (let i = 0; i < seatCount; i++) {
-        seats.push({ id: 's_' + Date.now() + '_' + Math.random().toString(36).substr(2,4), guestId: null, guestName: '' });
-      }
-      state.tables.push({
-        id: 't_' + Date.now() + '_' + Math.random().toString(36).substr(2,4),
-        name: t.name || `Table ${state.tables.length + 1}`,
-        shape: t.shape === 'rectangular' ? 'rectangular' : 'round',
-        seats,
-        x: t.x || 100,
-        y: t.y || 100
-      });
+    const resp = await fetch(SB_URL + '/rest/v1/rsvps', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ names, attendance, days: days||null, food: food||null, message: document.getElementById('rsvpMsg').value.trim()||null })
     });
-
-    saveState();
-    closeAiTableModal();
-    renderSeating();
-    showToast(`${tables.length} tables created`);
-  } catch(e) {
-    showToast('Error: ' + e.message);
-  } finally {
-    btn.innerHTML = 'Build';
-    btn.disabled = false;
+    if (!resp.ok) throw new Error(await resp.text());
+    document.getElementById('rsvpForm').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  } catch (er) {
+    console.error('RSVP error:', er);
+    const subj = encodeURIComponent('RSVP - ' + names);
+    const body = encodeURIComponent(['Name(s): '+names, 'Attendance: '+(attendance==='attend'?'Yes':'No'), days?'Days: '+(days==='both'?'July 17 & 18':'July 18 only'):'', food?'Food: '+food:'', document.getElementById('rsvpMsg').value.trim()||''].filter(Boolean).join('\n'));
+    window.open('mailto:weddinglauramarc@gmail.com?subject='+subj+'&body='+body, '_self');
+    document.getElementById('rsvpForm').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
   }
 }
 
-async function aiSuggestSeating() {
-  const unseated = state.guests.filter(g => g.rsvp !== 'declined' && !isGuestSeated(g.id));
-  if (unseated.length === 0) {
-    showToast('All guests are already seated or declined');
-    return;
-  }
-  if (state.tables.length === 0) {
-    showToast('Add tables first');
-    return;
-  }
+function showErr(msg) { const el = document.getElementById('errorMsg'); el.textContent = msg; el.style.display = 'block'; }
 
-  showToast('Asking Claude for seating suggestions...');
-
-  const guestData = unseated.map(g => ({ id: g.id, name: g.name, side: g.side, priority: g.priority, menu: g.menu }));
-  const tableData = state.tables.map(t => ({
-    id: t.id, name: t.name,
-    totalSeats: t.seats.length,
-    emptySeats: t.seats.filter(s => !s.guestId).length,
-    currentGuests: t.seats.filter(s => s.guestId).map(s => s.guestName)
-  }));
-
-  try {
-    const response = await callClaude(
-      `You are a wedding seating planner. Assign unseated guests to tables intelligently: keep families together (same last name), balance bride/groom sides, consider priority. Only assign guests to tables that have empty seats. Return ONLY a JSON array of objects: { guestId: string, tableId: string }. No markdown, no explanation. If there aren't enough seats, assign what you can.`,
-      `Unseated guests:\n${JSON.stringify(guestData, null, 2)}\n\nTables:\n${JSON.stringify(tableData, null, 2)}`
-    );
-
-    let assignments;
-    let jsonStr = response.trim();
-    if (jsonStr.startsWith('```')) {
-      jsonStr = jsonStr.replace(/```json?\n?/g, '').replace(/```$/g, '').trim();
-    }
-    assignments = JSON.parse(jsonStr);
-
-    let count = 0;
-    assignments.forEach(a => {
-      const table = state.tables.find(t => t.id === a.tableId);
-      const guest = state.guests.find(g => g.id === a.guestId);
-      if (table && guest) {
-        const emptySeat = table.seats.find(s => !s.guestId);
-        if (emptySeat) {
-          emptySeat.guestId = guest.id;
-          emptySeat.guestName = guest.name;
-          count++;
-        }
-      }
-    });
-
-    saveState();
-    renderSeating();
-    renderSidebarGuests();
-    showToast(`${count} guests seated by AI`);
-  } catch(e) {
-    showToast('Error: ' + e.message);
-  }
+function backToInvitation() {
+  document.getElementById('rsvpForm').style.display = 'block';
+  document.getElementById('successMsg').style.display = 'none';
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('rsvpNames').value = '';
+  document.getElementById('rsvpMsg').value = '';
+  attendance = null; days = null; food = null;
+  document.querySelectorAll('.radio-option').forEach(o => { o.classList.remove('selected'); const r = o.querySelector('input'); if(r) r.checked = false; });
+  document.getElementById('dayOptions').classList.remove('visible');
+  document.getElementById('foodGroup').classList.remove('visible');
+  document.getElementById('errorMsg').style.display = 'none';
+  go('invitation');
 }
-
-function isGuestSeated(guestId) {
-  return state.tables.some(t => t.seats.some(s => s.guestId === guestId));
-}
-
-function renderSeating() {
-  const canvas = document.getElementById('seatingCanvas');
-  canvas.innerHTML = '';
-
-  state.tables.forEach(table => {
-    const el = document.createElement('div');
-    el.className = 'table-element';
-    el.dataset.tableId = table.id;
-    el.style.left = table.x + 'px';
-    el.style.top = table.y + 'px';
-
-    const filled = table.seats.filter(s => s.guestId).length;
-    const total = table.seats.length;
-    const vegCount = table.seats.filter(s => {
-      if (!s.guestId) return false;
-      const g = state.guests.find(x => x.id === s.guestId);
-      return g && g.menu === 'vegetarian';
-    }).length;
-
-    const size = table.shape === 'round'
-      ? Math.max(100, total * 14)
-      : Math.max(120, total * 12);
-    const height = table.shape === 'round' ? size : Math.max(80, size * 0.5);
-
-    let shapeHtml = `<div class="table-shape table-${table.shape === 'rectangular' ? 'rect' : 'round'}" style="width:${size}px;height:${height}px;">
-      <div class="table-label">${escHtml(table.name)}</div>
-    </div>`;
-
-    // Seats around the table
-    const seatElements = table.seats.map((seat, i) => {
-      const angle = (2 * Math.PI * i) / total - Math.PI / 2;
-      let sx, sy;
-
-      if (table.shape === 'round') {
-        const radius = size / 2 + 22;
-        sx = size / 2 + radius * Math.cos(angle) - 16;
-        sy = height / 2 + radius * Math.sin(angle) - 16;
-      } else {
-        // Distribute around rectangle perimeter
-        const perimeter = 2 * (size + height);
-        const pos = (i / total) * perimeter;
-        if (pos < size) {
-          sx = pos - 16; sy = -22;
-        } else if (pos < size + height) {
-          sx = size + 6; sy = pos - size - 16;
-        } else if (pos < 2 * size + height) {
-          sx = 2 * size + height - pos - 16; sy = height + 6;
-        } else {
-          sx = -22; sy = perimeter - pos - 16;
-        }
-      }
-
-      const occupied = seat.guestId ? 'occupied' : '';
-      const label = seat.guestName ? seat.guestName.split(' ').map(w => w[0]).join('') : '';
-      return `<div class="seat ${occupied}" style="left:${sx}px;top:${sy}px;" data-seat-id="${seat.id}" data-table-id="${table.id}" title="${escHtml(seat.guestName || 'Empty')}" onclick="onSeatClick(event, '${table.id}', '${seat.id}')">${label}</div>`;
-    }).join('');
-
-    const infoText = `${filled}/${total}${vegCount ? ' 🥗' + vegCount : ''}`;
-
-    el.innerHTML = `
-      <div style="position:relative;">
-        ${shapeHtml}
-        ${seatElements}
-        <div class="table-info">${infoText}</div>
-      </div>
-      <div style="position:absolute;top:-8px;right:-8px;display:flex;gap:4px;">
-        <button class="delete-btn" style="font-size:12px;background:white;border-radius:50%;width:22px;height:22px;box-shadow:0 1px 3px rgba(0,0,0,0.15);" onclick="deleteTable('${table.id}')" title="Delete table">&times;</button>
-      </div>
-    `;
-
-    // Double-click on label to rename
-    el.querySelector('.table-label').style.pointerEvents = 'auto';
-    el.querySelector('.table-label').style.cursor = 'pointer';
-    el.querySelector('.table-label').addEventListener('dblclick', (e) => {
-      e.stopPropagation();
-      showTableNameEdit(table.id, e);
-    });
-
-    // Dragging
-    el.querySelector('.table-shape').addEventListener('mousedown', (e) => {
-      if (e.target.classList.contains('seat')) return;
-      e.stopPropagation();
-      dragTarget = table.id;
-      const rect = el.getBoundingClientRect();
-      dragOffsetX = e.clientX - rect.left;
-      dragOffsetY = e.clientY - rect.top;
-    });
-
-    canvas.appendChild(el);
-  });
-
-  applyCanvasTransform();
-  renderSidebarGuests();
-}
-
-function showTableNameEdit(tableId, event) {
-  editingTableId = tableId;
-  const table = state.tables.find(t => t.id === tableId);
-  const edit = document.getElementById('tableNameEdit');
-  const input = document.getElementById('tableNameEditInput');
-  input.value = table.name;
-  edit.style.left = event.clientX + 'px';
-  edit.style.top = event.clientY + 'px';
-  edit.style.display = 'block';
-  input.focus();
-  input.select();
-}
-
-function saveTableName() {
-  const table = state.tables.find(t => t.id === editingTableId);
-  if (table) {
-    table.name = document.getElementById('tableNameEditInput').value.trim() || table.name;
-    saveState();
-    renderSeating();
-  }
-  document.getElementById('tableNameEdit').style.display = 'none';
-}
-
-function deleteTable(id) {
-  if (!confirm('Delete this table? Guests will be unseated.')) return;
-  state.tables = state.tables.filter(t => t.id !== id);
-  saveState();
-  renderSeating();
-}
-
-function onSeatClick(event, tableId, seatId) {
-  event.stopPropagation();
-  const table = state.tables.find(t => t.id === tableId);
-  const seat = table.seats.find(s => s.id === seatId);
-
-  if (seat.guestId) {
-    // Unseat the guest
-    if (confirm(`Remove ${seat.guestName} from this seat?`)) {
-      seat.guestId = null;
-      seat.guestName = '';
-      saveState();
-      renderSeating();
-    }
-    return;
-  }
-
-  // Show autocomplete
-  activeSeat = { tableId, seatId };
-  selectedSeatOptionIdx = -1;
-  const ac = document.getElementById('seatAutocomplete');
-  const rect = event.target.getBoundingClientRect();
-  ac.style.left = rect.right + 8 + 'px';
-  ac.style.top = rect.top + 'px';
-  ac.style.display = 'block';
-  const input = document.getElementById('seatSearchInput');
-  input.value = '';
-  input.focus();
-  filterSeatOptions();
-}
-
-function filterSeatOptions() {
-  const search = document.getElementById('seatSearchInput').value.toLowerCase();
-  const unseated = state.guests.filter(g => !isGuestSeated(g.id) && g.rsvp !== 'declined');
-  const filtered = search ? unseated.filter(g => g.name.toLowerCase().includes(search)) : unseated;
-
-  selectedSeatOptionIdx = -1;
-  const container = document.getElementById('seatOptions');
-  container.innerHTML = filtered.map((g, i) =>
-    `<div class="ac-option" data-idx="${i}" onmousedown="assignSeat('${g.id}')">${escHtml(g.name)} <span style="font-size:11px;color:var(--stone-grey);">${g.side}</span></div>`
-  ).join('') || '<div style="padding:10px;color:var(--stone-grey);font-size:13px;">No matches</div>';
-}
-
-function handleSeatKeydown(e) {
-  const options = document.querySelectorAll('#seatOptions .ac-option');
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    selectedSeatOptionIdx = Math.min(selectedSeatOptionIdx + 1, options.length - 1);
-    options.forEach((o, i) => o.classList.toggle('selected', i === selectedSeatOptionIdx));
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    selectedSeatOptionIdx = Math.max(selectedSeatOptionIdx - 1, 0);
-    options.forEach((o, i) => o.classList.toggle('selected', i === selectedSeatOptionIdx));
-  } else if (e.key === 'Enter') {
-    e.preventDefault();
-    if (selectedSeatOptionIdx >= 0 && options[selectedSeatOptionIdx]) {
-      options[selectedSeatOptionIdx].dispatchEvent(new Event('mousedown'));
-    }
-  } else if (e.key === 'Escape') {
-    document.getElementById('seatAutocomplete').style.display = 'none';
-    activeSeat = null;
-  }
-}
-
-function assignSeat(guestId) {
-  if (!activeSeat) return;
-  const table = state.tables.find(t => t.id === activeSeat.tableId);
-  const seat = table.seats.find(s => s.id === activeSeat.seatId);
-  const guest = state.guests.find(g => g.id === guestId);
-  if (seat && guest) {
-    seat.guestId = guest.id;
-    seat.guestName = guest.name;
-    saveState();
-  }
-  document.getElementById('seatAutocomplete').style.display = 'none';
-  activeSeat = null;
-  renderSeating();
-}
-
-// Sidebar guests
-function renderSidebarGuests() {
-  const search = (document.getElementById('sidebarSearch')?.value || '').toLowerCase();
-  const confirmedGuests = state.guests.filter(g => g.rsvp !== 'declined');
-  let guests = search ? confirmedGuests.filter(g => g.name.toLowerCase().includes(search)) : confirmedGuests;
-  const unseated = confirmedGuests.filter(g => !isGuestSeated(g.id));
-
-  document.getElementById('unseatedCount').textContent = `${unseated.length} unseated`;
-
-  const container = document.getElementById('sidebarGuests');
-  container.innerHTML = guests.map(g => {
-    const seated = isGuestSeated(g.id);
-    const badgeClass = g.side === 'bride' ? 'side-bride' : g.side === 'groom' ? 'side-groom' : 'side-both';
-    return `<div class="sidebar-guest ${seated ? 'seated' : ''}" draggable="${!seated}" ondragstart="onGuestDragStart(event, '${g.id}')">
-      <span>${escHtml(g.name)}</span>
-      <span class="side-badge ${badgeClass}">${g.side}</span>
-    </div>`;
-  }).join('');
-}
-
-function toggleSidebar() {
-  const layout = document.getElementById('seatingLayout');
-  layout.classList.toggle('collapsed');
-  document.getElementById('sidebarToggle').innerHTML = layout.classList.contains('collapsed') ? '&#9654;' : '&#9664;';
-}
-
-// Drag & Drop from sidebar
-function onGuestDragStart(event, guestId) {
-  event.dataTransfer.setData('guestId', guestId);
-}
-
-// Canvas pan & zoom
-function onCanvasMouseDown(e) {
-  if (dragTarget) return;
-  if (e.target.closest('.seat') || e.target.closest('button')) return;
-  if (e.target.closest('.table-shape')) return;
-  isPanning = true;
-  panStartX = e.clientX - canvasX;
-  panStartY = e.clientY - canvasY;
-}
-
-function onCanvasMouseMove(e) {
-  if (dragTarget) {
-    const table = state.tables.find(t => t.id === dragTarget);
-    if (table) {
-      const container = document.getElementById('canvasContainer').getBoundingClientRect();
-      table.x = (e.clientX - container.left - dragOffsetX - canvasX) / canvasScale;
-      table.y = (e.clientY - container.top - dragOffsetY - canvasY) / canvasScale;
-      const el = document.querySelector(`[data-table-id="${table.id}"].table-element`);
-      if (el) {
-        el.style.left = table.x + 'px';
-        el.style.top = table.y + 'px';
-      }
-    }
-    return;
-  }
-  if (isPanning) {
-    canvasX = e.clientX - panStartX;
-    canvasY = e.clientY - panStartY;
-    applyCanvasTransform();
-  }
-}
-
-function onCanvasMouseUp() {
-  if (dragTarget) {
-    saveState();
-    dragTarget = null;
-  }
-  isPanning = false;
-}
-
-function onCanvasWheel(e) {
-  e.preventDefault();
-  const delta = e.deltaY > 0 ? 0.9 : 1.1;
-  const container = document.getElementById('canvasContainer').getBoundingClientRect();
-  const mouseX = e.clientX - container.left;
-  const mouseY = e.clientY - container.top;
-
-  const newScale = Math.max(0.2, Math.min(3, canvasScale * delta));
-  canvasX = mouseX - (mouseX - canvasX) * (newScale / canvasScale);
-  canvasY = mouseY - (mouseY - canvasY) * (newScale / canvasScale);
-  canvasScale = newScale;
-  applyCanvasTransform();
-}
-
-function zoomCanvas(factor) {
-  canvasScale = Math.max(0.2, Math.min(3, canvasScale * factor));
-  applyCanvasTransform();
-}
-
-function resetCanvasView() {
-  canvasScale = 1; canvasX = 0; canvasY = 0;
-  applyCanvasTransform();
-}
-
-function applyCanvasTransform() {
-  const canvas = document.getElementById('seatingCanvas');
-  canvas.style.transform = `translate(${canvasX}px, ${canvasY}px) scale(${canvasScale})`;
-}
-
-// Drop on canvas
-document.addEventListener('DOMContentLoaded', () => {
-  const container = document.getElementById('canvasContainer');
-  container.addEventListener('dragover', e => e.preventDefault());
-  container.addEventListener('drop', e => {
-    e.preventDefault();
-    const guestId = e.dataTransfer.getData('guestId');
-    if (!guestId) return;
-
-    // Find closest empty seat
-    const seatEls = document.querySelectorAll('.seat:not(.occupied)');
-    let closest = null, minDist = Infinity;
-    seatEls.forEach(sel => {
-      const rect = sel.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
-      if (dist < minDist) { minDist = dist; closest = sel; }
-    });
-
-    if (closest && minDist < 80) {
-      const tableId = closest.dataset.tableId;
-      const seatId = closest.dataset.seatId;
-      activeSeat = { tableId, seatId };
-      assignSeat(guestId);
-    }
-  });
-});
-
-// ========== SUMMARY ==========
-function renderSummary() {
-  const g = state.guests;
-  const confirmed = g.filter(x => x.rsvp === 'confirmed').length;
-  const pending = g.filter(x => x.rsvp === 'pending').length;
-  const declined = g.filter(x => x.rsvp === 'declined').length;
-  const meat = g.filter(x => x.menu === 'meat').length;
-  const veg = g.filter(x => x.menu === 'vegetarian').length;
-  const notSet = g.filter(x => x.menu === 'not set').length;
-  const seated = g.filter(x => isGuestSeated(x.id)).length;
-  const total = g.length;
-
-  let tableOverview = '';
-  state.tables.forEach(t => {
-    const filled = t.seats.filter(s => s.guestId).length;
-    const total = t.seats.length;
-    const statusClass = filled === total ? 'full' : filled === 0 ? 'empty-table' : 'partial';
-    const vegCount = t.seats.filter(s => {
-      if (!s.guestId) return false;
-      const guest = state.guests.find(x => x.id === s.guestId);
-      return guest && guest.menu === 'vegetarian';
-    }).length;
-    tableOverview += `<div class="table-status ${statusClass}">
-      <span>${escHtml(t.name)}</span>
-      <span>${filled}/${total} seats${vegCount ? ' · 🥗' + vegCount : ''}</span>
-    </div>`;
-  });
-
-  document.getElementById('summaryContent').innerHTML = `
-    <div class="summary-grid">
-      <div class="summary-card">
-        <h3>Guest Overview</h3>
-        <div class="stat-row"><span>Total Guests</span><span class="stat-value">${total}</span></div>
-        <div class="stat-row"><span>Confirmed</span><span class="stat-value">${confirmed}</span></div>
-        <div class="stat-row"><span>Pending</span><span class="stat-value">${pending}</span></div>
-        <div class="stat-row"><span>Declined</span><span class="stat-value">${declined}</span></div>
-        <div class="stat-row"><span>Seated</span><span class="stat-value">${seated}</span></div>
-        <div class="stat-row"><span>Unseated</span><span class="stat-value">${total - seated - declined}</span></div>
-      </div>
-      <div class="summary-card">
-        <h3>Menu Breakdown</h3>
-        <div class="stat-row"><span>&#129385; Meat</span><span class="stat-value">${meat}</span></div>
-        <div class="stat-row"><span>&#129367; Vegetarian</span><span class="stat-value">${veg}</span></div>
-        <div class="stat-row"><span>Not Set</span><span class="stat-value">${notSet}</span></div>
-      </div>
-      <div class="summary-card">
-        <h3>Tables (${state.tables.length})</h3>
-        ${tableOverview || '<p style="color:var(--stone-grey);font-size:14px;">No tables created yet</p>'}
-      </div>
-    </div>
-  `;
-}
-
-async function generateAiSummary() {
-  showToast('Generating AI summary...');
-  const box = document.getElementById('aiSummaryBox');
-  box.style.display = 'block';
-  document.getElementById('aiSummaryContent').innerHTML = '<div class="ai-thinking"><span class="spinner spinner-dark"></span> Analyzing your wedding plan...</div>';
-
-  const guestData = state.guests.map(g => ({ name: g.name, side: g.side, rsvp: g.rsvp, menu: g.menu, seated: isGuestSeated(g.id) }));
-  const tableData = state.tables.map(t => ({
-    name: t.name,
-    totalSeats: t.seats.length,
-    filledSeats: t.seats.filter(s => s.guestId).length,
-    guests: t.seats.filter(s => s.guestId).map(s => {
-      const g = state.guests.find(x => x.id === s.guestId);
-      return g ? { name: g.name, side: g.side, menu: g.menu } : null;
-    }).filter(Boolean)
-  }));
-
-  try {
-    const response = await callClaude(
-      `You are a wedding planning assistant. Analyze the wedding data and provide a clear, helpful summary. Point out any issues or suggestions. Be concise but thorough. Mention specific table names and guest names when relevant. Format with clear sections. The wedding is at Ansitz Wartenfels on July 18, 2026.`,
-      `Guest list:\n${JSON.stringify(guestData, null, 2)}\n\nTables:\n${JSON.stringify(tableData, null, 2)}`
-    );
-    document.getElementById('aiSummaryContent').textContent = response;
-  } catch(e) {
-    document.getElementById('aiSummaryContent').textContent = 'Error generating summary: ' + e.message;
-  }
-}
-
-// ========== UTILS ==========
-function escHtml(s) {
-  const div = document.createElement('div');
-  div.textContent = s || '';
-  return div.innerHTML;
-}
-
-function showToast(msg) {
-  const existing = document.querySelector('.toast');
-  if (existing) existing.remove();
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.textContent = msg;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
-}
-
-// Start
-init();
 </script>
 </body>
 </html>
