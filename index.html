@@ -26,18 +26,18 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --cream: #F0EBE0;
-  --orange: #E8451A;
-  --orange-hover: #D03A12;
-  --navy: #2B4B8C;
-  --white: #FAF7F2;
+  --cream: #9f623c;
+  --orange: #d5d153;
+  --orange-hover: #c2be3e;
+  --navy: #FAF0E0;
+  --white: #b87a50;
   --display: 'ClashDisplay', sans-serif;
   --body: 'DM Sans', sans-serif;
 }
 
 /* Navy heart cursor */
 html, body, a, button, label, input, textarea, select {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='none' stroke='%232B4B8C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='none' stroke='%23FAF0E0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
 }
 
 html { scroll-behavior: smooth; }
@@ -63,7 +63,7 @@ nav {
 }
 
 nav.scrolled {
-  background: rgba(240, 235, 224, 0.95);
+  background: rgba(159, 98, 60, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -118,7 +118,7 @@ nav.scrolled {
   .nav-links {
     display: none; flex-direction: column;
     position: absolute; top: 100%; left: 0; right: 0;
-    background: var(--cream); padding: 1.5rem 2rem; gap: 1rem;
+    background: #9f623c; padding: 1.5rem 2rem; gap: 1rem;
   }
   .nav-links.open { display: flex; }
 }
@@ -139,7 +139,7 @@ section.active { display: block; }
   font-weight: 700;
   font-size: clamp(60px, 14vw, 140px);
   color: var(--orange);
-  font-style: italic;
+  font-style: normal;
   line-height: 0.95;
   letter-spacing: -2px;
 }
@@ -150,6 +150,20 @@ section.active { display: block; }
   font-size: clamp(18px, 3vw, 24px);
   font-weight: 700;
   color: var(--navy);
+}
+
+.hero-photo {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-photo img {
+  width: clamp(260px, 40vw, 420px);
+  height: auto;
+  border-radius: 180px 180px 40px 40px;
+  object-fit: cover;
+  filter: drop-shadow(0 8px 30px rgba(0,0,0,0.15));
 }
 
 /* ===== CONTENT PAGES ===== */
@@ -238,7 +252,7 @@ button.flower-blob:disabled { opacity: 0.4; cursor: not-allowed; transform: none
 }
 
 .form-input:focus { border-color: var(--orange); }
-.form-input::placeholder { color: rgba(43,75,140,0.35); }
+.form-input::placeholder { color: rgba(250,240,224,0.35); }
 
 textarea.form-input {
   resize: vertical; min-height: 80px;
@@ -273,9 +287,6 @@ textarea.form-input {
 }
 
 .radio-option.selected { color: var(--orange); }
-
-.sub-options { display: none; padding-left: 1.8rem; animation: fadeUp 0.3s ease; }
-.sub-options.visible { display: flex; flex-direction: column; gap: 0.4rem; }
 
 .conditional-group { display: none; animation: fadeUp 0.3s ease; }
 .conditional-group.visible { display: block; }
@@ -337,11 +348,11 @@ textarea.form-input {
 .itin-day-label:first-child { margin-top: 0; }
 
 .itin-accordion {
-  border-bottom: 1px solid rgba(43,75,140,0.15);
+  border-bottom: 1px solid rgba(250,240,224,0.2);
 }
 
 .itin-accordion:first-of-type {
-  border-top: 1px solid rgba(43,75,140,0.15);
+  border-top: 1px solid rgba(250,240,224,0.2);
 }
 
 .itin-trigger {
@@ -442,11 +453,11 @@ textarea.form-input {
 .log-section { margin-bottom: 0; }
 
 .log-accordion {
-  border-bottom: 1px solid rgba(43,75,140,0.15);
+  border-bottom: 1px solid rgba(250,240,224,0.2);
 }
 
 .log-accordion:first-of-type {
-  border-top: 1px solid rgba(43,75,140,0.15);
+  border-top: 1px solid rgba(250,240,224,0.2);
 }
 
 .log-trigger {
@@ -571,7 +582,7 @@ textarea.form-input {
 /* ===== FOOTER ===== */
 footer {
   padding: 3rem 48px;
-  border-top: 1px solid rgba(43,75,140,0.12);
+  border-top: 1px solid rgba(250,240,224,0.15);
 }
 
 .footer-names {
@@ -613,6 +624,9 @@ footer {
   <div class="hero">
     <h1 class="hero-title">Laura & Marc</h1>
     <p class="hero-sub">17 July &mdash; 18 July 2026 &middot; St. Gilgen, Austria</p>
+    <div class="hero-photo">
+      <img src="Marc_Laura_Bild.jpeg" alt="Laura & Marc">
+    </div>
   </div>
 
   <!-- RSVP Form — directly below hero -->
@@ -626,26 +640,33 @@ footer {
           <input type="text" class="form-input" id="rsvpNames" placeholder="First and last name(s)" required>
         </div>
 
+        <!-- Friday event -->
         <div class="form-group">
-          <label class="form-label">Will you be attending?</label>
-          <div class="radio-group" id="attendGroup">
-            <label class="radio-option" onclick="pickAttend('attend')">
-              <input type="radio" name="attend" value="attend"> I will be attending
+          <label class="form-label">Friday, 17.07.2026 &mdash; Get Together</label>
+          <div class="radio-group">
+            <label class="radio-option" onclick="pickEvent('friday','attending')">
+              <input type="radio" name="friday" value="attending"> Attending
             </label>
-            <div class="sub-options" id="dayOptions">
-              <label class="radio-option" onclick="pickDays('18only')">
-                <input type="radio" name="days" value="18only"> July 18 only
-              </label>
-              <label class="radio-option" onclick="pickDays('both')">
-                <input type="radio" name="days" value="both"> July 17 & 18
-              </label>
-            </div>
-            <label class="radio-option" onclick="pickAttend('decline')">
-              <input type="radio" name="attend" value="decline"> I / we will not be attending
+            <label class="radio-option" onclick="pickEvent('friday','not_attending')">
+              <input type="radio" name="friday" value="not_attending"> Not attending
             </label>
           </div>
         </div>
 
+        <!-- Saturday event -->
+        <div class="form-group">
+          <label class="form-label">Saturday, 18.07.2026 &mdash; Wedding</label>
+          <div class="radio-group">
+            <label class="radio-option" onclick="pickEvent('saturday','attending')">
+              <input type="radio" name="saturday" value="attending"> Attending
+            </label>
+            <label class="radio-option" onclick="pickEvent('saturday','not_attending')">
+              <input type="radio" name="saturday" value="not_attending"> Not attending
+            </label>
+          </div>
+        </div>
+
+        <!-- Food preference — shown when attending any event -->
         <div class="conditional-group" id="foodGroup">
           <div class="form-group">
             <label class="form-label">Food Preference</label>
@@ -963,32 +984,30 @@ function toggleAccordion(trigger) {
 }
 
 // ===== RSVP =====
-let attendance = null, days = null, food = null;
+let friday = null, saturday = null, food = null;
 
-function pickAttend(val) {
-  attendance = val;
-  document.querySelectorAll('#attendGroup > .radio-option').forEach(o => o.classList.remove('selected'));
-  const r = document.querySelector(`#attendGroup > .radio-option input[value="${val}"]`);
-  if (r) { r.checked = true; r.closest('.radio-option').classList.add('selected'); }
-  const d = document.getElementById('dayOptions');
-  const f = document.getElementById('foodGroup');
-  if (val === 'attend') {
-    d.classList.add('visible');
+function pickEvent(day, val) {
+  if (day === 'friday') friday = val;
+  if (day === 'saturday') saturday = val;
+
+  // Highlight selected option
+  const group = document.querySelectorAll(`input[name="${day}"]`);
+  group.forEach(r => r.closest('.radio-option').classList.remove('selected'));
+  const sel = document.querySelector(`input[name="${day}"][value="${val}"]`);
+  if (sel) { sel.checked = true; sel.closest('.radio-option').classList.add('selected'); }
+
+  // Show food preference if attending either event
+  const anyAttending = (friday === 'attending' || saturday === 'attending');
+  const fg = document.getElementById('foodGroup');
+  if (anyAttending) {
+    fg.classList.add('visible');
   } else {
-    d.classList.remove('visible'); f.classList.remove('visible');
-    days = null; food = null;
-    d.querySelectorAll('.radio-option').forEach(o => { o.classList.remove('selected'); o.querySelector('input').checked = false; });
-    f.querySelectorAll('.radio-option').forEach(o => { o.classList.remove('selected'); o.querySelector('input').checked = false; });
+    fg.classList.remove('visible');
+    food = null;
+    fg.querySelectorAll('.radio-option').forEach(o => { o.classList.remove('selected'); o.querySelector('input').checked = false; });
     document.getElementById('dietaryInput').classList.remove('visible');
+    document.getElementById('dietaryText').value = '';
   }
-}
-
-function pickDays(val) {
-  days = val;
-  document.querySelectorAll('#dayOptions .radio-option').forEach(o => o.classList.remove('selected'));
-  const r = document.querySelector(`#dayOptions input[value="${val}"]`);
-  if (r) { r.checked = true; r.closest('.radio-option').classList.add('selected'); }
-  document.getElementById('foodGroup').classList.add('visible');
 }
 
 function pickFood(el, val) {
@@ -1009,20 +1028,25 @@ async function submitRSVP(e) {
   document.getElementById('errorMsg').style.display = 'none';
   const names = document.getElementById('rsvpNames').value.trim();
   if (!names) return showErr('Please enter your name(s).');
-  if (!attendance) return showErr('Please let us know if you can attend.');
-  if (attendance === 'attend' && !days) return showErr('Please select which days.');
-  if (attendance === 'attend' && !food) return showErr('Please select your food preference.');
+  if (!friday) return showErr('Please let us know about Friday.');
+  if (!saturday) return showErr('Please let us know about Saturday.');
+  const anyAttending = (friday === 'attending' || saturday === 'attending');
+  if (anyAttending && !food) return showErr('Please select your food preference.');
   if (food === 'dietary' && !document.getElementById('dietaryText').value.trim()) return showErr('Please specify your dietary restrictions.');
 
   document.getElementById('submitBtn').disabled = true;
 
   const dietaryNote = food === 'dietary' ? document.getElementById('dietaryText').value.trim() : null;
+  const attendance = anyAttending ? 'attending' : 'not_attending';
+  const days = [];
+  if (friday === 'attending') days.push('friday');
+  if (saturday === 'attending') days.push('saturday');
 
   try {
     const resp = await fetch(SB_URL + '/rest/v1/rsvps', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ names, attendance, days: days||null, food: food||null, dietary_restrictions: dietaryNote, message: document.getElementById('rsvpMsg').value.trim()||null })
+      body: JSON.stringify({ names, attendance, days: days.join(', ')||null, food: food||null, dietary_restrictions: dietaryNote, message: document.getElementById('rsvpMsg').value.trim()||null })
     });
     if (!resp.ok) throw new Error(await resp.text());
     document.getElementById('rsvpForm').style.display = 'none';
@@ -1030,7 +1054,7 @@ async function submitRSVP(e) {
   } catch (er) {
     console.error('RSVP error:', er);
     const subj = encodeURIComponent('RSVP - ' + names);
-    const body = encodeURIComponent(['Name(s): '+names, 'Attendance: '+(attendance==='attend'?'Yes':'No'), days?'Days: '+(days==='both'?'July 17 & 18':'July 18 only'):'', food?'Food: '+food:'', dietaryNote?'Dietary: '+dietaryNote:'', document.getElementById('rsvpMsg').value.trim()||''].filter(Boolean).join('\n'));
+    const body = encodeURIComponent(['Name(s): '+names, 'Friday Get Together: '+friday, 'Saturday Wedding: '+saturday, food?'Food: '+food:'', dietaryNote?'Dietary: '+dietaryNote:'', document.getElementById('rsvpMsg').value.trim()||''].filter(Boolean).join('\n'));
     window.open('mailto:weddinglauramarc@gmail.com?subject='+subj+'&body='+body, '_self');
     document.getElementById('rsvpForm').style.display = 'none';
     document.getElementById('successMsg').style.display = 'block';
@@ -1046,9 +1070,8 @@ function backToInvitation() {
   document.getElementById('rsvpNames').value = '';
   document.getElementById('rsvpMsg').value = '';
   document.getElementById('dietaryText').value = '';
-  attendance = null; days = null; food = null;
+  friday = null; saturday = null; food = null;
   document.querySelectorAll('.radio-option').forEach(o => { o.classList.remove('selected'); const r = o.querySelector('input'); if(r) r.checked = false; });
-  document.getElementById('dayOptions').classList.remove('visible');
   document.getElementById('foodGroup').classList.remove('visible');
   document.getElementById('dietaryInput').classList.remove('visible');
   document.getElementById('errorMsg').style.display = 'none';
