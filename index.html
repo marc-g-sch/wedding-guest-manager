@@ -163,7 +163,8 @@ section.active { display: block; }
   height: auto;
   border-radius: 180px 180px 40px 40px;
   object-fit: cover;
-  filter: drop-shadow(0 8px 30px rgba(0,0,0,0.15));
+  filter: grayscale(100%) drop-shadow(0 8px 30px rgba(0,0,0,0.15));
+  mix-blend-mode: multiply;
 }
 
 /* ===== CONTENT PAGES ===== */
@@ -1037,16 +1038,19 @@ async function submitRSVP(e) {
   document.getElementById('submitBtn').disabled = true;
 
   const dietaryNote = food === 'dietary' ? document.getElementById('dietaryText').value.trim() : null;
-  const attendance = anyAttending ? 'attending' : 'not_attending';
-  const days = [];
-  if (friday === 'attending') days.push('friday');
-  if (saturday === 'attending') days.push('saturday');
+  const attendance = anyAttending ? 'attending' : 'not attending';
+  let daysVal = null;
+  if (anyAttending) {
+    if (friday === 'attending' && saturday === 'attending') daysVal = 'july 17 and 18';
+    else if (saturday === 'attending') daysVal = 'july 18 only';
+    else if (friday === 'attending') daysVal = 'july 17 only';
+  }
 
   try {
     const resp = await fetch(SB_URL + '/rest/v1/rsvps', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ names, attendance, days: days.join(', ')||null, food: food||null, dietary_restrictions: dietaryNote, message: document.getElementById('rsvpMsg').value.trim()||null })
+      body: JSON.stringify({ names, attendance, days: daysVal, food: anyAttending ? (food||null) : null, dietary_notes: dietaryNote, message: document.getElementById('rsvpMsg').value.trim()||null })
     });
     if (!resp.ok) throw new Error(await resp.text());
     document.getElementById('rsvpForm').style.display = 'none';
