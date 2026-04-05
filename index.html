@@ -26,26 +26,37 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --cream: #f28f78;
-  --orange: #2947a3;
-  --orange-hover: #1e3680;
-  --navy: #f7ece8;
-  --white: #f5a08b;
+  --coral: #E8715A;
+  --navy: #1A2C6B;
+  --navy-hover: #0F1D4A;
+  --body-text: #FFFFFF;
   --display: 'ClashDisplay', sans-serif;
   --body: 'DM Sans', sans-serif;
 }
 
+/* Alternating section colors */
+section:nth-child(odd) {
+  background: var(--coral);
+  --sec-bg: var(--coral);
+  --sec-title: var(--navy);
+}
+section:nth-child(even) {
+  background: var(--navy);
+  --sec-bg: var(--navy);
+  --sec-title: var(--coral);
+}
+
 /* Navy heart cursor */
 html, body, a, button, label, input, textarea, select {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='none' stroke='%231E4BD2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='none' stroke='%231A2C6B' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 70px; }
 
 body {
   font-family: var(--body);
-  background: var(--cream);
-  color: var(--navy);
+  background: var(--coral);
+  color: var(--body-text);
   font-size: 16px;
   line-height: 1.7;
   font-weight: 400;
@@ -63,7 +74,7 @@ nav {
 }
 
 nav.scrolled {
-  background: rgba(242, 143, 120, 0.95);
+  background: rgba(232, 113, 90, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -73,7 +84,7 @@ nav.scrolled {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 2rem;
 }
 
@@ -113,8 +124,8 @@ nav.scrolled {
   position: fixed;
   top: 70px; right: 20px;
   z-index: 101;
-  background: var(--orange);
-  color: #f28f78;
+  background: var(--navy);
+  color: var(--coral);
   border: none;
   width: 36px; height: 36px;
   border-radius: 50%;
@@ -133,7 +144,7 @@ nav.scrolled {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   z-index: 9999;
-  background: var(--cream);
+  background: var(--coral);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -154,14 +165,14 @@ nav.scrolled {
   font-family: var(--display);
   font-weight: 700;
   font-size: clamp(28px, 5vw, 42px);
-  color: var(--orange);
+  color: var(--navy);
   margin-bottom: 0.5rem;
 }
 
 .pw-sub {
   font-family: var(--body);
   font-size: 15px;
-  color: var(--navy);
+  color: var(--body-text);
   margin-bottom: 2rem;
   opacity: 0.8;
 }
@@ -171,21 +182,21 @@ nav.scrolled {
   max-width: 90vw;
   padding: 0.8rem 1rem;
   border: none;
-  border-bottom: 2px solid var(--navy);
+  border-bottom: 2px solid var(--body-text);
   background: transparent;
   font-family: var(--body);
   font-size: 18px;
-  color: var(--navy);
+  color: var(--body-text);
   text-align: center;
   outline: none;
   letter-spacing: 0.1em;
 }
 
-.pw-input:focus { border-color: var(--orange); }
+.pw-input:focus { border-color: var(--navy); }
 .pw-input::placeholder { color: rgba(255,255,255,0.4); }
 
 .pw-error {
-  color: var(--orange);
+  color: var(--navy);
   font-size: 14px;
   margin-top: 1rem;
   visibility: hidden;
@@ -201,21 +212,21 @@ nav.scrolled {
   font-size: 18px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--orange);
+  color: var(--navy);
   cursor: pointer;
   text-decoration: none;
   position: relative;
   padding-bottom: 6px;
 }
 
-.nav-link:hover { color: var(--orange-hover); }
+.nav-link:hover { color: var(--navy-hover); }
 
 .nav-link.active::after {
   content: '';
   position: absolute;
   bottom: 0; left: 50%; transform: translateX(-50%);
   width: 6px; height: 6px;
-  background: var(--orange);
+  background: var(--navy);
   border-radius: 50%;
 }
 
@@ -235,7 +246,7 @@ nav.scrolled {
   .nav-links {
     display: none; flex-direction: column;
     position: absolute; top: 100%; left: 0; right: 0;
-    background: #f28f78; padding: 1.5rem 2rem; gap: 1rem;
+    background: #E8715A; padding: 1.5rem 2rem; gap: 1rem;
   }
   .nav-links.open { display: flex; }
 }
@@ -246,7 +257,6 @@ section { display: block; }
 /* ===== HERO — side by side ===== */
 .hero {
   padding: 7rem 48px 2rem;
-  background: var(--cream);
 }
 
 .hero-inner {
@@ -264,7 +274,7 @@ section { display: block; }
   font-family: var(--display);
   font-weight: 700;
   font-size: clamp(52px, 12vw, 140px);
-  color: var(--orange);
+  color: var(--sec-title);
   font-style: normal;
   line-height: 0.95;
   letter-spacing: -2px;
@@ -275,7 +285,7 @@ section { display: block; }
   font-family: var(--display);
   font-size: clamp(16px, 2.5vw, 24px);
   font-weight: 700;
-  color: var(--navy);
+  color: var(--body-text);
 }
 
 .hero-photo { flex-shrink: 0; }
@@ -294,13 +304,13 @@ section { display: block; }
 }
 
 /* ===== CONTENT PAGES ===== */
-.page { padding: 2rem 48px 4rem; max-width: 1100px; margin: 0 auto; }
+.page { padding: 5rem 48px 4rem; max-width: 1100px; margin: 0 auto; }
 
 .page-title {
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(48px, 9vw, 96px);
-  color: var(--orange);
+  font-size: clamp(42px, 8vw, 80px);
+  color: var(--sec-title);
   line-height: 1;
   letter-spacing: -2px;
   margin-bottom: 2rem;
@@ -321,10 +331,10 @@ section { display: block; }
 }
 .flower-blob:hover { transform: scale(1.08) rotate(-4deg); }
 .flower-blob svg { width: 100%; height: 100%; }
-.flower-blob svg path { fill: var(--orange); }
+.flower-blob svg path { fill: var(--sec-title); }
 .flower-blob svg text {
   font-family: var(--body); font-size: 18px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase; fill: #f28f78;
+  letter-spacing: 0.1em; text-transform: uppercase; fill: var(--sec-bg);
 }
 
 /* RSVP form + blob side by side */
@@ -361,10 +371,10 @@ button.flower-blob:disabled { opacity: 0.4; cursor: not-allowed; transform: none
 .rsvp-heading {
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(36px, 6vw, 56px);
-  color: var(--orange);
+  font-size: clamp(42px, 8vw, 80px);
+  color: var(--sec-title);
   line-height: 1;
-  letter-spacing: -1px;
+  letter-spacing: -2px;
   margin-bottom: 2rem;
 }
 
@@ -377,7 +387,7 @@ button.flower-blob:disabled { opacity: 0.4; cursor: not-allowed; transform: none
   font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--navy);
+  color: var(--body-text);
   opacity: 0.6;
   margin-bottom: 0.5rem;
 }
@@ -386,22 +396,22 @@ button.flower-blob:disabled { opacity: 0.4; cursor: not-allowed; transform: none
   width: 100%;
   padding: 0.8rem 0;
   border: none;
-  border-bottom: 1px solid var(--navy);
+  border-bottom: 1px solid var(--body-text);
   background: transparent;
   font-family: var(--body);
   font-size: 16px;
   font-weight: 400;
-  color: var(--navy);
+  color: var(--body-text);
   outline: none;
   transition: border-color 0.25s;
 }
 
-.form-input:focus { border-color: var(--orange); }
+.form-input:focus { border-color: var(--sec-title); }
 .form-input::placeholder { color: rgba(255,255,255,0.35); }
 
 textarea.form-input {
   resize: vertical; min-height: 80px;
-  border: none; border-bottom: 1px solid var(--navy);
+  border: none; border-bottom: 1px solid var(--body-text);
 }
 
 .radio-group { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.3rem; }
@@ -410,28 +420,28 @@ textarea.form-input {
   display: flex; align-items: center; gap: 0.8rem;
   cursor: pointer; padding: 0.3rem 0;
   font-family: var(--body); font-size: 16px; font-weight: 400;
-  color: var(--navy); transition: color 0.2s;
+  color: var(--body-text); transition: color 0.2s;
 }
 
-.radio-option:hover { color: var(--orange); }
+.radio-option:hover { color: var(--sec-title); }
 
 .radio-option input[type="radio"] {
   -webkit-appearance: none; appearance: none;
   width: 18px; height: 18px;
-  border: 1.5px solid var(--navy);
+  border: 1.5px solid var(--body-text);
   border-radius: 50%; cursor: pointer;
   position: relative; flex-shrink: 0;
 }
 
-.radio-option input[type="radio"]:checked { border-color: var(--orange); }
+.radio-option input[type="radio"]:checked { border-color: var(--sec-title); }
 .radio-option input[type="radio"]:checked::after {
   content: ''; position: absolute;
   top: 50%; left: 50%; transform: translate(-50%,-50%);
   width: 9px; height: 9px;
-  background: var(--orange); border-radius: 50%;
+  background: var(--sec-title); border-radius: 50%;
 }
 
-.radio-option.selected { color: var(--orange); }
+.radio-option.selected { color: var(--sec-title); }
 
 .conditional-group { display: none; animation: fadeUp 0.3s ease; }
 .conditional-group.visible { display: block; }
@@ -450,7 +460,7 @@ textarea.form-input {
 }
 
 .error-msg {
-  color: var(--orange); font-size: 14px; font-weight: 400;
+  color: var(--sec-title); font-size: 14px; font-weight: 400;
   margin-top: 1rem; display: none;
 }
 
@@ -462,22 +472,22 @@ textarea.form-input {
 .success-title {
   font-family: var(--display); font-weight: 700;
   font-size: clamp(36px, 6vw, 60px);
-  color: var(--navy); line-height: 1.15; margin-bottom: 1.5rem;
+  color: var(--sec-title); line-height: 1.15; margin-bottom: 1.5rem;
 }
 
 .success-text {
-  font-size: 16px; color: var(--navy); font-weight: 400;
+  font-size: 16px; color: var(--body-text); font-weight: 400;
   margin-bottom: 2rem;
 }
 
 .back-link {
   font-family: var(--body); font-size: 14px; font-weight: 400;
-  color: var(--navy);
+  color: var(--body-text);
   text-decoration: underline; text-underline-offset: 4px;
   text-decoration-thickness: 1px;
   cursor: pointer;
 }
-.back-link:hover { color: var(--orange); }
+.back-link:hover { color: var(--sec-title); }
 
 /* ===== ITINERARY — accordion events ===== */
 .itin-section { margin-bottom: 0; }
@@ -486,7 +496,7 @@ textarea.form-input {
   font-family: var(--display);
   font-weight: 700;
   font-size: clamp(28px, 4vw, 40px);
-  color: var(--navy);
+  color: var(--body-text);
   margin: 2.5rem 0 0.5rem;
 }
 
@@ -522,20 +532,20 @@ textarea.form-input {
   font-family: var(--display);
   font-weight: 700;
   font-size: clamp(18px, 3vw, 24px);
-  color: var(--orange);
+  color: var(--sec-title);
 }
 
 .itin-trigger-time {
   font-family: var(--body);
   font-size: 14px;
   font-weight: 400;
-  color: var(--navy);
+  color: var(--body-text);
 }
 
 .itin-arrow {
   width: 20px; height: 20px;
   flex-shrink: 0;
-  color: var(--orange);
+  color: var(--sec-title);
   transition: transform 0.3s;
   transform: rotate(0deg);
 }
@@ -559,7 +569,7 @@ textarea.form-input {
 .itin-icon {
   width: 80px; height: 80px;
   flex-shrink: 0;
-  color: var(--navy);
+  color: var(--body-text);
 }
 
 .itin-icon svg, .itin-icon img { width: 100%; height: 100%; }
@@ -572,25 +582,25 @@ textarea.form-input {
   font-family: var(--body);
   font-size: 15px;
   font-weight: 400;
-  color: var(--navy);
+  color: var(--body-text);
   line-height: 1.6;
 }
 
 .itin-detail-text a {
-  color: var(--navy);
+  color: var(--body-text);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
 }
 
-.itin-detail-text a:hover { color: var(--orange); }
+.itin-detail-text a:hover { color: var(--sec-title); }
 
 .itin-dress {
   font-family: var(--body);
   font-size: 13px;
   font-weight: 400;
   font-style: italic;
-  color: var(--navy);
+  color: var(--body-text);
   margin-top: 0.4rem;
 }
 
@@ -617,7 +627,7 @@ textarea.form-input {
   font-family: var(--display);
   font-weight: 700;
   font-size: clamp(18px, 3vw, 24px);
-  color: var(--navy);
+  color: var(--body-text);
   text-align: left;
 }
 
@@ -630,13 +640,13 @@ textarea.form-input {
 .log-trigger-left svg {
   width: 28px; height: 28px;
   flex-shrink: 0;
-  color: var(--navy);
+  color: var(--body-text);
 }
 
 .log-arrow {
   width: 20px; height: 20px;
   flex-shrink: 0;
-  color: var(--orange);
+  color: var(--sec-title);
   transition: transform 0.3s;
   transform: rotate(0deg);
 }
@@ -655,13 +665,13 @@ textarea.form-input {
   font-family: var(--body);
   font-size: 15px;
   font-weight: 400;
-  color: var(--navy);
+  color: var(--body-text);
   line-height: 1.8;
   margin-bottom: 0.8rem;
 }
 
 .log-link {
-  color: var(--navy);
+  color: var(--body-text);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
@@ -669,7 +679,7 @@ textarea.form-input {
   transition: color 0.2s;
 }
 
-.log-link:hover { color: var(--orange); }
+.log-link:hover { color: var(--sec-title); }
 
 .hotel-list { margin-top: 0.5rem; }
 
@@ -679,19 +689,19 @@ textarea.form-input {
   font-family: var(--body);
   font-size: 15px;
   font-weight: 400;
-  color: var(--navy);
+  color: var(--body-text);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
   transition: color 0.2s;
 }
 
-.hotel-entry a:hover { color: var(--orange); }
+.hotel-entry a:hover { color: var(--sec-title); }
 
 .hotel-entry .hotel-addr {
   font-size: 13px;
   font-weight: 400;
-  color: var(--navy);
+  color: var(--body-text);
   opacity: 0.7;
   margin-top: 0.1rem;
 }
@@ -704,7 +714,7 @@ textarea.form-input {
   font-size: 18px;
   font-weight: 400;
   font-style: italic;
-  color: var(--navy);
+  color: var(--body-text);
   line-height: 1.7;
   margin-bottom: 0.5rem;
 }
@@ -715,30 +725,31 @@ textarea.form-input {
   font-family: var(--body);
   font-size: 16px;
   font-weight: 400;
-  color: var(--navy);
+  color: var(--body-text);
   text-decoration: underline;
   text-underline-offset: 4px;
   text-decoration-thickness: 1px;
   transition: color 0.2s;
 }
 
-.registry-link:hover { color: var(--orange); }
+.registry-link:hover { color: var(--sec-title); }
 
 /* ===== FOOTER ===== */
 footer {
   padding: 3rem 48px;
   border-top: 1px solid rgba(255,255,255,0.15);
+  background: var(--coral);
 }
 
 .footer-names {
   font-family: var(--display); font-weight: 700;
-  font-size: 24px; color: var(--orange); margin-bottom: 0.2rem;
+  font-size: 24px; color: var(--navy); margin-bottom: 0.2rem;
 }
 
 .footer-sub {
   font-family: var(--body); font-size: 12px; font-weight: 400;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--navy); opacity: 0.5;
+  color: var(--body-text); opacity: 0.5;
 }
 
 @media (max-width: 640px) {
@@ -753,42 +764,42 @@ footer {
   <!-- Beefeater guard SVG -->
   <svg class="pw-beefeater" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- Hat -->
-    <rect x="30" y="8" width="60" height="50" rx="4" fill="#2947a3"/>
-    <rect x="38" y="0" width="44" height="12" rx="3" fill="#2947a3"/>
-    <line x1="50" y1="12" x2="50" y2="58" stroke="#f28f78" stroke-width="2"/>
-    <line x1="70" y1="12" x2="70" y2="58" stroke="#f28f78" stroke-width="2"/>
-    <circle cx="60" cy="6" r="4" fill="#f28f78"/>
+    <rect x="30" y="8" width="60" height="50" rx="4" fill="#1A2C6B"/>
+    <rect x="38" y="0" width="44" height="12" rx="3" fill="#1A2C6B"/>
+    <line x1="50" y1="12" x2="50" y2="58" stroke="#E8715A" stroke-width="2"/>
+    <line x1="70" y1="12" x2="70" y2="58" stroke="#E8715A" stroke-width="2"/>
+    <circle cx="60" cy="6" r="4" fill="#E8715A"/>
     <!-- Face -->
     <rect x="38" y="58" width="44" height="36" rx="8" fill="#ffffff"/>
-    <circle cx="50" cy="72" r="2.5" fill="#f28f78"/>
-    <circle cx="70" cy="72" r="2.5" fill="#f28f78"/>
-    <path d="M55 80 Q60 84 65 80" stroke="#f28f78" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="50" cy="72" r="2.5" fill="#E8715A"/>
+    <circle cx="70" cy="72" r="2.5" fill="#E8715A"/>
+    <path d="M55 80 Q60 84 65 80" stroke="#E8715A" stroke-width="2" fill="none" stroke-linecap="round"/>
     <!-- Beard -->
-    <path d="M38 82 Q38 100 60 102 Q82 100 82 82" fill="#ffffff" stroke="#f28f78" stroke-width="1.5"/>
+    <path d="M38 82 Q38 100 60 102 Q82 100 82 82" fill="#ffffff" stroke="#E8715A" stroke-width="1.5"/>
     <!-- Body / tunic -->
-    <rect x="28" y="94" width="64" height="60" rx="4" fill="#2947a3"/>
-    <line x1="60" y1="94" x2="60" y2="154" stroke="#f28f78" stroke-width="2"/>
-    <rect x="44" y="100" width="8" height="8" rx="2" fill="#f28f78"/>
-    <rect x="68" y="100" width="8" height="8" rx="2" fill="#f28f78"/>
-    <rect x="44" y="114" width="8" height="8" rx="2" fill="#f28f78"/>
-    <rect x="68" y="114" width="8" height="8" rx="2" fill="#f28f78"/>
-    <rect x="44" y="128" width="8" height="8" rx="2" fill="#f28f78"/>
-    <rect x="68" y="128" width="8" height="8" rx="2" fill="#f28f78"/>
+    <rect x="28" y="94" width="64" height="60" rx="4" fill="#1A2C6B"/>
+    <line x1="60" y1="94" x2="60" y2="154" stroke="#E8715A" stroke-width="2"/>
+    <rect x="44" y="100" width="8" height="8" rx="2" fill="#E8715A"/>
+    <rect x="68" y="100" width="8" height="8" rx="2" fill="#E8715A"/>
+    <rect x="44" y="114" width="8" height="8" rx="2" fill="#E8715A"/>
+    <rect x="68" y="114" width="8" height="8" rx="2" fill="#E8715A"/>
+    <rect x="44" y="128" width="8" height="8" rx="2" fill="#E8715A"/>
+    <rect x="68" y="128" width="8" height="8" rx="2" fill="#E8715A"/>
     <!-- Belt -->
-    <rect x="28" y="140" width="64" height="8" fill="#f28f78"/>
-    <rect x="54" y="138" width="12" height="12" rx="2" fill="#2947a3" stroke="#f28f78" stroke-width="1.5"/>
+    <rect x="28" y="140" width="64" height="8" fill="#E8715A"/>
+    <rect x="54" y="138" width="12" height="12" rx="2" fill="#1A2C6B" stroke="#E8715A" stroke-width="1.5"/>
     <!-- Legs -->
-    <rect x="34" y="154" width="20" height="36" rx="3" fill="#f28f78"/>
-    <rect x="66" y="154" width="20" height="36" rx="3" fill="#f28f78"/>
+    <rect x="34" y="154" width="20" height="36" rx="3" fill="#E8715A"/>
+    <rect x="66" y="154" width="20" height="36" rx="3" fill="#E8715A"/>
     <!-- Feet -->
     <rect x="32" y="186" width="24" height="10" rx="5" fill="#333"/>
     <rect x="64" y="186" width="24" height="10" rx="5" fill="#333"/>
     <!-- Arms -->
-    <rect x="10" y="96" width="18" height="10" rx="4" fill="#2947a3"/>
-    <rect x="92" y="96" width="18" height="10" rx="4" fill="#2947a3"/>
+    <rect x="10" y="96" width="18" height="10" rx="4" fill="#1A2C6B"/>
+    <rect x="92" y="96" width="18" height="10" rx="4" fill="#1A2C6B"/>
     <!-- Spear -->
-    <line x1="108" y1="20" x2="108" y2="180" stroke="#f28f78" stroke-width="3"/>
-    <path d="M102 20 L108 4 L114 20 Z" fill="#2947a3"/>
+    <line x1="108" y1="20" x2="108" y2="180" stroke="#E8715A" stroke-width="3"/>
+    <path d="M102 20 L108 4 L114 20 Z" fill="#1A2C6B"/>
   </svg>
   <div class="pw-title">Private Event</div>
   <div class="pw-sub">Please enter the password to continue</div>
@@ -925,7 +936,7 @@ footer {
 
 <!-- ============ PAGE 2: ITINERARY ============ -->
 <section id="sec-itinerary">
-  <div class="page" style="padding-top:100px;">
+  <div class="page">
     <h2 class="page-title">Itinerary</h2>
 
     <div class="itin-section">
@@ -1036,7 +1047,7 @@ footer {
 
 <!-- ============ PAGE 3: LOGISTICS ============ -->
 <section id="sec-logistics">
-  <div class="page" style="padding-top:100px;">
+  <div class="page">
     <h2 class="page-title">Logistics & Accommodation</h2>
 
     <div class="log-section">
@@ -1112,7 +1123,7 @@ footer {
 
 <!-- ============ PAGE 4: REGISTRY ============ -->
 <section id="sec-registry">
-  <div class="page" style="padding-top:100px;">
+  <div class="page">
     <h2 class="page-title">Registry</h2>
 
     <div class="registry-area">
