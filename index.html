@@ -26,21 +26,21 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --cream: #bb6e3e;
-  --orange: #fff957;
-  --orange-hover: #e6e04e;
-  --navy: #ffffff;
-  --white: #c9834f;
+  --cream: #f28f78;
+  --orange: #2947a3;
+  --orange-hover: #1e3680;
+  --navy: #f7ece8;
+  --white: #f5a08b;
   --display: 'ClashDisplay', sans-serif;
   --body: 'DM Sans', sans-serif;
 }
 
 /* Navy heart cursor */
 html, body, a, button, label, input, textarea, select {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='none' stroke='%231E4BD2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
 
 body {
   font-family: var(--body);
@@ -48,7 +48,7 @@ body {
   color: var(--navy);
   font-size: 16px;
   line-height: 1.7;
-  font-weight: 300;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -63,7 +63,7 @@ nav {
 }
 
 nav.scrolled {
-  background: rgba(187, 110, 62, 0.95);
+  background: rgba(242, 143, 120, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -77,13 +77,121 @@ nav.scrolled {
   gap: 2rem;
 }
 
-.nav-game {
-  display: flex;
+.nav-game-link {
+  display: flex !important;
   align-items: center;
-  margin-left: auto;
-  transition: transform 0.2s;
+  padding-bottom: 0 !important;
 }
-.nav-game:hover { transform: scale(1.15); }
+.nav-game-link:hover { transform: scale(1.15); }
+.nav-game-link { transition: transform 0.2s; }
+
+/* Game overlay */
+.game-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 99;
+  background: rgba(0,0,0,0.5);
+}
+.game-overlay.active { display: block; }
+
+.game-container {
+  position: fixed;
+  top: 60px; left: 0; right: 0; bottom: 0;
+  z-index: 99;
+  display: none;
+}
+.game-container.active { display: block; }
+
+.game-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.game-close {
+  position: fixed;
+  top: 70px; right: 20px;
+  z-index: 101;
+  background: var(--orange);
+  color: #f28f78;
+  border: none;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--body);
+}
+.game-close.active { display: flex; }
+
+/* ===== PASSWORD SCREEN ===== */
+.pw-screen {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.pw-screen.hidden { display: none; }
+
+.pw-beefeater {
+  width: 120px;
+  height: auto;
+  margin-bottom: 2rem;
+}
+
+.pw-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(28px, 5vw, 42px);
+  color: var(--orange);
+  margin-bottom: 0.5rem;
+}
+
+.pw-sub {
+  font-family: var(--body);
+  font-size: 15px;
+  color: var(--navy);
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+.pw-input {
+  width: 280px;
+  max-width: 90vw;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-bottom: 2px solid var(--navy);
+  background: transparent;
+  font-family: var(--body);
+  font-size: 18px;
+  color: var(--navy);
+  text-align: center;
+  outline: none;
+  letter-spacing: 0.1em;
+}
+
+.pw-input:focus { border-color: var(--orange); }
+.pw-input::placeholder { color: rgba(255,255,255,0.4); }
+
+.pw-error {
+  color: var(--orange);
+  font-size: 14px;
+  margin-top: 1rem;
+  visibility: hidden;
+}
+
+.pw-error.show { visibility: visible; }
 
 .nav-links { display: flex; gap: 2.5rem; list-style: none; }
 
@@ -127,14 +235,13 @@ nav.scrolled {
   .nav-links {
     display: none; flex-direction: column;
     position: absolute; top: 100%; left: 0; right: 0;
-    background: #bb6e3e; padding: 1.5rem 2rem; gap: 1rem;
+    background: #f28f78; padding: 1.5rem 2rem; gap: 1rem;
   }
   .nav-links.open { display: flex; }
 }
 
 /* ===== SECTIONS ===== */
-section { display: none; min-height: 100vh; }
-section.active { display: block; }
+section { display: block; }
 
 /* ===== HERO — side by side ===== */
 .hero {
@@ -174,7 +281,7 @@ section.active { display: block; }
 .hero-photo { flex-shrink: 0; }
 
 .hero-photo img {
-  width: clamp(220px, 30vw, 380px);
+  width: clamp(280px, 40vw, 500px);
   height: auto;
   border-radius: 180px 180px 40px 40px;
   object-fit: cover;
@@ -183,7 +290,7 @@ section.active { display: block; }
 
 @media (max-width: 700px) {
   .hero-inner { flex-direction: column; text-align: center; }
-  .hero-photo img { width: clamp(200px, 60vw, 320px); }
+  .hero-photo img { width: clamp(260px, 75vw, 400px); }
 }
 
 /* ===== CONTENT PAGES ===== */
@@ -207,7 +314,7 @@ section.active { display: block; }
 /* ===== FLOWER BLOB (sticker CTA) ===== */
 .flower-blob {
   position: relative;
-  width: 160px; height: 160px;
+  width: 200px; height: 200px;
   display: inline-block;
   cursor: pointer;
   transition: transform 0.3s;
@@ -216,8 +323,27 @@ section.active { display: block; }
 .flower-blob svg { width: 100%; height: 100%; }
 .flower-blob svg path { fill: var(--orange); }
 .flower-blob svg text {
-  font-family: var(--body); font-size: 20px; font-weight: 400;
-  letter-spacing: 0.1em; text-transform: uppercase; fill: white;
+  font-family: var(--body); font-size: 18px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; fill: #f28f78;
+}
+
+/* RSVP form + blob side by side */
+.rsvp-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 3rem;
+}
+.rsvp-form-col { flex: 1; }
+.rsvp-blob-col {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+@media (max-width: 700px) {
+  .rsvp-row { flex-direction: column; gap: 1rem; }
+  .rsvp-blob-col { padding-top: 0; }
 }
 
 button.flower-blob {
@@ -227,8 +353,7 @@ button.flower-blob:disabled { opacity: 0.4; cursor: not-allowed; transform: none
 
 /* ===== RSVP FORM ===== */
 .rsvp-section {
-  max-width: 520px;
-  margin: 0 auto;
+  max-width: 100%;
   text-align: left;
   padding-top: 1rem;
 }
@@ -265,7 +390,7 @@ button.flower-blob:disabled { opacity: 0.4; cursor: not-allowed; transform: none
   background: transparent;
   font-family: var(--body);
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--navy);
   outline: none;
   transition: border-color 0.25s;
@@ -284,7 +409,7 @@ textarea.form-input {
 .radio-option {
   display: flex; align-items: center; gap: 0.8rem;
   cursor: pointer; padding: 0.3rem 0;
-  font-family: var(--body); font-size: 16px; font-weight: 300;
+  font-family: var(--body); font-size: 16px; font-weight: 400;
   color: var(--navy); transition: color 0.2s;
 }
 
@@ -341,7 +466,7 @@ textarea.form-input {
 }
 
 .success-text {
-  font-size: 16px; color: var(--navy); font-weight: 300;
+  font-size: 16px; color: var(--navy); font-weight: 400;
   margin-bottom: 2rem;
 }
 
@@ -403,7 +528,7 @@ textarea.form-input {
 .itin-trigger-time {
   font-family: var(--body);
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--navy);
 }
 
@@ -446,7 +571,7 @@ textarea.form-input {
 .itin-detail-text {
   font-family: var(--body);
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--navy);
   line-height: 1.6;
 }
@@ -463,7 +588,7 @@ textarea.form-input {
 .itin-dress {
   font-family: var(--body);
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
   font-style: italic;
   color: var(--navy);
   margin-top: 0.4rem;
@@ -529,7 +654,7 @@ textarea.form-input {
 .log-text {
   font-family: var(--body);
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--navy);
   line-height: 1.8;
   margin-bottom: 0.8rem;
@@ -565,7 +690,7 @@ textarea.form-input {
 
 .hotel-entry .hotel-addr {
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--navy);
   opacity: 0.7;
   margin-top: 0.1rem;
@@ -577,7 +702,7 @@ textarea.form-input {
 .registry-text {
   font-family: var(--body);
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 400;
   font-style: italic;
   color: var(--navy);
   line-height: 1.7;
@@ -611,7 +736,7 @@ footer {
 }
 
 .footer-sub {
-  font-family: var(--body); font-size: 12px; font-weight: 300;
+  font-family: var(--body); font-size: 12px; font-weight: 400;
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--navy); opacity: 0.5;
 }
@@ -623,6 +748,54 @@ footer {
 </head>
 <body>
 
+<!-- Password Screen -->
+<div class="pw-screen" id="pwScreen">
+  <!-- Beefeater guard SVG -->
+  <svg class="pw-beefeater" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Hat -->
+    <rect x="30" y="8" width="60" height="50" rx="4" fill="#2947a3"/>
+    <rect x="38" y="0" width="44" height="12" rx="3" fill="#2947a3"/>
+    <line x1="50" y1="12" x2="50" y2="58" stroke="#f28f78" stroke-width="2"/>
+    <line x1="70" y1="12" x2="70" y2="58" stroke="#f28f78" stroke-width="2"/>
+    <circle cx="60" cy="6" r="4" fill="#f28f78"/>
+    <!-- Face -->
+    <rect x="38" y="58" width="44" height="36" rx="8" fill="#ffffff"/>
+    <circle cx="50" cy="72" r="2.5" fill="#f28f78"/>
+    <circle cx="70" cy="72" r="2.5" fill="#f28f78"/>
+    <path d="M55 80 Q60 84 65 80" stroke="#f28f78" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Beard -->
+    <path d="M38 82 Q38 100 60 102 Q82 100 82 82" fill="#ffffff" stroke="#f28f78" stroke-width="1.5"/>
+    <!-- Body / tunic -->
+    <rect x="28" y="94" width="64" height="60" rx="4" fill="#2947a3"/>
+    <line x1="60" y1="94" x2="60" y2="154" stroke="#f28f78" stroke-width="2"/>
+    <rect x="44" y="100" width="8" height="8" rx="2" fill="#f28f78"/>
+    <rect x="68" y="100" width="8" height="8" rx="2" fill="#f28f78"/>
+    <rect x="44" y="114" width="8" height="8" rx="2" fill="#f28f78"/>
+    <rect x="68" y="114" width="8" height="8" rx="2" fill="#f28f78"/>
+    <rect x="44" y="128" width="8" height="8" rx="2" fill="#f28f78"/>
+    <rect x="68" y="128" width="8" height="8" rx="2" fill="#f28f78"/>
+    <!-- Belt -->
+    <rect x="28" y="140" width="64" height="8" fill="#f28f78"/>
+    <rect x="54" y="138" width="12" height="12" rx="2" fill="#2947a3" stroke="#f28f78" stroke-width="1.5"/>
+    <!-- Legs -->
+    <rect x="34" y="154" width="20" height="36" rx="3" fill="#f28f78"/>
+    <rect x="66" y="154" width="20" height="36" rx="3" fill="#f28f78"/>
+    <!-- Feet -->
+    <rect x="32" y="186" width="24" height="10" rx="5" fill="#333"/>
+    <rect x="64" y="186" width="24" height="10" rx="5" fill="#333"/>
+    <!-- Arms -->
+    <rect x="10" y="96" width="18" height="10" rx="4" fill="#2947a3"/>
+    <rect x="92" y="96" width="18" height="10" rx="4" fill="#2947a3"/>
+    <!-- Spear -->
+    <line x1="108" y1="20" x2="108" y2="180" stroke="#f28f78" stroke-width="3"/>
+    <path d="M102 20 L108 4 L114 20 Z" fill="#2947a3"/>
+  </svg>
+  <div class="pw-title">Private Event</div>
+  <div class="pw-sub">Please enter the password to continue</div>
+  <input type="password" class="pw-input" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()" autofocus>
+  <div class="pw-error" id="pwError">Incorrect password. Try again.</div>
+</div>
+
 <!-- Nav -->
 <nav id="mainNav">
   <div class="nav-inner">
@@ -630,21 +803,12 @@ footer {
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links">
-      <li><a class="nav-link active" onclick="go('invitation')">Invitation</a></li>
-      <li><a class="nav-link" onclick="go('itinerary')">Itinerary</a></li>
-      <li><a class="nav-link" onclick="go('logistics')">Logistics & Accommodation</a></li>
-      <li><a class="nav-link" onclick="go('registry')">Registry</a></li>
+      <li><a class="nav-link active" href="#sec-invitation" data-section="sec-invitation">Invitation</a></li>
+      <li><a class="nav-link" href="#sec-itinerary" data-section="sec-itinerary">Itinerary</a></li>
+      <li><a class="nav-link" href="#sec-logistics" data-section="sec-logistics">Logistics & Accommodation</a></li>
+      <li><a class="nav-link" href="#sec-registry" data-section="sec-registry">Registry</a></li>
+      <li><a class="nav-link nav-game-link" onclick="toggleGame(); return false;" href="#" title="Play the game!" style="font-size:24px; line-height:1;">🎮</a></li>
     </ul>
-    <a href="game.html" class="nav-game" title="Play the game!">
-      <svg viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="7" width="24" height="14" rx="4"/>
-        <circle cx="9" cy="14" r="1.5" fill="var(--orange)"/>
-        <line x1="7" y1="11" x2="7" y2="17"/>
-        <line x1="4" y1="14" x2="10" y2="14"/>
-        <circle cx="19" cy="12" r="1.5" fill="var(--orange)"/>
-        <circle cx="22" cy="15" r="1.5" fill="var(--orange)"/>
-      </svg>
-    </a>
   </div>
 </nav>
 
@@ -658,7 +822,7 @@ footer {
         <p class="hero-sub">17 July &mdash; 18 July 2026 &middot; St. Gilgen, Austria</p>
       </div>
       <div class="hero-photo">
-        <img src="marc_wedding_laura_cropped.png" alt="Laura & Marc">
+        <img src="marc_larua_wedding_hero_new-Photoroom.png" alt="Laura & Marc">
       </div>
     </div>
   </div>
@@ -669,79 +833,86 @@ footer {
       <h2 class="rsvp-heading">RSVP</h2>
 
       <form id="rsvpForm" onsubmit="submitRSVP(event)">
-        <div class="form-group">
-          <label class="form-label">Name(s)</label>
-          <input type="text" class="form-input" id="rsvpNames" placeholder="First and last name(s)" required>
-        </div>
-
-        <!-- Friday event -->
-        <div class="form-group">
-          <label class="form-label">Friday, 17.07.2026 &mdash; Get Together</label>
-          <div class="radio-group">
-            <label class="radio-option" onclick="pickEvent('friday','attending')">
-              <input type="radio" name="friday" value="attending"> Attending
-            </label>
-            <label class="radio-option" onclick="pickEvent('friday','not_attending')">
-              <input type="radio" name="friday" value="not_attending"> Not attending
-            </label>
-          </div>
-        </div>
-
-        <!-- Saturday event -->
-        <div class="form-group">
-          <label class="form-label">Saturday, 18.07.2026 &mdash; Wedding</label>
-          <div class="radio-group">
-            <label class="radio-option" onclick="pickEvent('saturday','attending')">
-              <input type="radio" name="saturday" value="attending"> Attending
-            </label>
-            <label class="radio-option" onclick="pickEvent('saturday','not_attending')">
-              <input type="radio" name="saturday" value="not_attending"> Not attending
-            </label>
-          </div>
-        </div>
-
-        <!-- Email — shown when attending -->
-        <div class="conditional-group" id="emailGroup">
-          <div class="form-group">
-            <label class="form-label">Email Address</label>
-            <input type="email" class="form-input" id="rsvpEmail" placeholder="your@email.com">
-          </div>
-        </div>
-
-        <!-- Food preference — shown when attending any event -->
-        <div class="conditional-group" id="foodGroup">
-          <div class="form-group">
-            <label class="form-label">Food Preference</label>
-            <div class="radio-group">
-              <label class="radio-option" onclick="pickFood(this,'meat')">
-                <input type="radio" name="food" value="meat"> Meat
-              </label>
-              <label class="radio-option" onclick="pickFood(this,'vegetarian')">
-                <input type="radio" name="food" value="vegetarian"> Vegetarian
-              </label>
-              <label class="radio-option" onclick="pickFood(this,'dietary')">
-                <input type="radio" name="food" value="dietary"> Dietary restrictions
-              </label>
+        <div class="rsvp-row">
+          <div class="rsvp-form-col">
+            <div class="form-group">
+              <label class="form-label">Name(s)</label>
+              <input type="text" class="form-input" id="rsvpNames" placeholder="First and last name(s)" required>
             </div>
-            <div class="dietary-input" id="dietaryInput">
-              <input type="text" class="form-input" id="dietaryText" placeholder="Please specify your dietary restrictions">
+
+            <!-- Friday event -->
+            <div class="form-group">
+              <label class="form-label">Friday, 17.07.2026 &mdash; Get Together</label>
+              <div class="radio-group">
+                <label class="radio-option" onclick="pickEvent('friday','attending')">
+                  <input type="radio" name="friday" value="attending"> Attending
+                </label>
+                <label class="radio-option" onclick="pickEvent('friday','not_attending')">
+                  <input type="radio" name="friday" value="not_attending"> Not attending
+                </label>
+              </div>
             </div>
+
+            <!-- Saturday event -->
+            <div class="form-group">
+              <label class="form-label">Saturday, 18.07.2026 &mdash; Wedding</label>
+              <div class="radio-group">
+                <label class="radio-option" onclick="pickEvent('saturday','attending')">
+                  <input type="radio" name="saturday" value="attending"> Attending
+                </label>
+                <label class="radio-option" onclick="pickEvent('saturday','not_attending')">
+                  <input type="radio" name="saturday" value="not_attending"> Not attending
+                </label>
+              </div>
+            </div>
+
+            <!-- Email — shown when attending -->
+            <div class="conditional-group" id="emailGroup">
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" id="rsvpEmail" placeholder="your@email.com">
+              </div>
+            </div>
+
+            <!-- Food preference — shown when attending any event -->
+            <div class="conditional-group" id="foodGroup">
+              <div class="form-group">
+                <label class="form-label">Food Preference</label>
+                <div class="radio-group">
+                  <label class="radio-option" onclick="pickFood(this,'meat')">
+                    <input type="radio" name="food" value="meat"> Meat
+                  </label>
+                  <label class="radio-option" onclick="pickFood(this,'vegetarian')">
+                    <input type="radio" name="food" value="vegetarian"> Vegetarian
+                  </label>
+                  <label class="radio-option" onclick="pickFood(this,'dietary')">
+                    <input type="radio" name="food" value="dietary"> Dietary restrictions
+                  </label>
+                </div>
+                <div class="dietary-input" id="dietaryInput">
+                  <input type="text" class="form-input" id="dietaryText" placeholder="Please specify your dietary restrictions">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Comments / Message</label>
+              <textarea class="form-input" id="rsvpMsg" placeholder="Questions or a message for us..."></textarea>
+            </div>
+
+            <div class="error-msg" id="errorMsg"></div>
+          </div>
+
+          <!-- Flower blob on the right -->
+          <div class="rsvp-blob-col">
+            <button type="submit" class="flower-blob" id="submitBtn" style="transform:rotate(3deg)">
+              <svg viewBox="0 0 200 200">
+                <path d="M100,8 C108,8 115,22 118,30 C122,22 132,12 140,14 C148,16 152,28 148,38 C156,34 168,30 174,36 C180,42 178,56 172,64 C180,66 192,72 192,82 C192,92 180,98 172,98 C178,104 184,116 180,124 C176,132 164,134 156,128 C158,138 156,150 148,154 C140,158 130,150 124,142 C122,150 116,162 108,164 C100,166 92,158 88,148 C84,156 74,164 66,162 C58,160 52,148 54,138 C46,144 34,148 28,142 C22,136 24,124 30,116 C22,114 12,106 10,98 C8,90 16,80 24,76 C18,70 12,58 16,50 C20,42 32,38 40,42 C38,34 40,22 48,18 C56,14 66,22 72,30 C76,22 84,10 92,8 C96,7 100,8 100,8 Z"/>
+                <text x="100" y="108" text-anchor="middle" dominant-baseline="middle">SEND</text>
+              </svg>
+            </button>
           </div>
         </div>
-
-        <div class="form-group">
-          <label class="form-label">Comments / Message</label>
-          <textarea class="form-input" id="rsvpMsg" placeholder="Questions or a message for us..."></textarea>
-        </div>
-
-        <!-- Flower blob submit -->
-        <button type="submit" class="flower-blob" id="submitBtn" style="transform:rotate(3deg)">
-          <svg viewBox="0 0 200 200">
-            <path d="M100,8 C108,8 115,22 118,30 C122,22 132,12 140,14 C148,16 152,28 148,38 C156,34 168,30 174,36 C180,42 178,56 172,64 C180,66 192,72 192,82 C192,92 180,98 172,98 C178,104 184,116 180,124 C176,132 164,134 156,128 C158,138 156,150 148,154 C140,158 130,150 124,142 C122,150 116,162 108,164 C100,166 92,158 88,148 C84,156 74,164 66,162 C58,160 52,148 54,138 C46,144 34,148 28,142 C22,136 24,124 30,116 C22,114 12,106 10,98 C8,90 16,80 24,76 C18,70 12,58 16,50 C20,42 32,38 40,42 C38,34 40,22 48,18 C56,14 66,22 72,30 C76,22 84,10 92,8 C96,7 100,8 100,8 Z"/>
-            <text x="100" y="108" text-anchor="middle" dominant-baseline="middle">SEND</text>
-          </svg>
-        </button>
-        <div class="error-msg" id="errorMsg"></div>
       </form>
 
       <div class="success-msg" id="successMsg">
@@ -815,7 +986,7 @@ footer {
       <div class="itin-accordion">
         <button class="itin-trigger" onclick="toggleItin(this)">
           <div class="itin-trigger-left">
-            <span class="itin-trigger-title">Reception & Celebration</span>
+            <span class="itin-trigger-title">Reception & Soir&eacute;e</span>
             <span class="itin-trigger-time">12:00 pm</span>
           </div>
           <svg class="itin-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -895,7 +1066,7 @@ footer {
             </div>
           </div>
           <p class="log-text" style="margin-top:1rem; font-style:italic; opacity:0.7;">
-            St. Gilgen is small &mdash; most locations are within walking distance.
+            St. Gilgen is a small, beautiful and charming village by the lake. There are many more hotels and B&amp;Bs, and most of them are within walking distance to the recommended hotels here.
           </p>
         </div>
       </div>
@@ -947,10 +1118,24 @@ footer {
     <div class="registry-area">
       <p class="registry-text">Your presence at our wedding is the greatest gift of all.</p>
       <p class="registry-text">Should you wish to spoil us with something more, we would be very grateful for a contribution towards our honeymoon.</p>
-      <a href="https://paypal.com" target="_blank" rel="noopener" class="registry-link">Contribute to our honeymoon &rarr;</a>
+      <div style="margin-top:2rem;">
+        <p class="form-label">Bank Transfer</p>
+        <p class="registry-text" style="font-style:normal; font-size:15px;">IBAN: <strong>PLACEHOLDER</strong></p>
+      </div>
+      <div style="margin-top:1.5rem;">
+        <p class="form-label">PayPal</p>
+        <p class="registry-text" style="font-style:normal; font-size:15px;">PayPal: <strong>PLACEHOLDER</strong></p>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- Game overlay -->
+<div class="game-overlay" id="gameOverlay" onclick="toggleGame()"></div>
+<div class="game-container" id="gameContainer">
+  <iframe id="gameFrame" src="" title="Wedding Game"></iframe>
+</div>
+<button class="game-close" id="gameClose" onclick="toggleGame()">&times;</button>
 
 <!-- Footer -->
 <footer>
@@ -959,32 +1144,92 @@ footer {
 </footer>
 
 <script>
+// ===== PASSWORD =====
+function checkPw() {
+  const input = document.getElementById('pwInput').value;
+  if (input === 'lauramarc2026') {
+    document.getElementById('pwScreen').classList.add('hidden');
+    sessionStorage.setItem('pw_ok', '1');
+  } else {
+    document.getElementById('pwError').classList.add('show');
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+// Auto-unlock if already authenticated this session
+if (sessionStorage.getItem('pw_ok') === '1') {
+  document.getElementById('pwScreen').classList.add('hidden');
+}
+
 // ===== SUPABASE =====
 const SB_URL = 'https://rmdwqdfuzwwaqlwampkf.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJtZHdxZGZ1end3YXFsd2FtcGtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMjU3MDEsImV4cCI6MjA5MDgwMTcwMX0.RmIYijO-RJ8QoQ6lGNO_S7lI-sGbY8Ao_OEexFMiZ24';
 
 // ===== NAV =====
-function go(id) {
-  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-  document.getElementById('sec-' + id).classList.add('active');
-  document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.nav-link[onclick*="${id}"]`).classList.add('active');
-  document.querySelector('.nav-links').classList.remove('open');
-  window.scrollTo(0, 0);
-  updateNav();
-}
+// Smooth scroll nav links
+document.querySelectorAll('.nav-link[data-section]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.getElementById(this.dataset.section);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+      document.querySelector('.nav-links').classList.remove('open');
+    }
+  });
+});
 
-function updateNav() {
+// Scroll spy — auto-update active nav dot
+const spySections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link[data-section]');
+
+function updateActiveNav() {
   const nav = document.getElementById('mainNav');
   if (window.scrollY > 40) {
     nav.classList.add('scrolled');
   } else {
     nav.classList.remove('scrolled');
   }
+
+  let current = '';
+  spySections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= 150) {
+      current = section.id;
+    }
+  });
+
+  if (current) {
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.dataset.section === current) {
+        link.classList.add('active');
+      }
+    });
+  }
 }
 
-window.addEventListener('scroll', updateNav);
-updateNav();
+window.addEventListener('scroll', updateActiveNav);
+updateActiveNav();
+
+// ===== GAME OVERLAY =====
+function toggleGame() {
+  const overlay = document.getElementById('gameOverlay');
+  const container = document.getElementById('gameContainer');
+  const close = document.getElementById('gameClose');
+  const frame = document.getElementById('gameFrame');
+  const isOpen = container.classList.contains('active');
+  if (isOpen) {
+    overlay.classList.remove('active');
+    container.classList.remove('active');
+    close.classList.remove('active');
+    frame.src = '';
+  } else {
+    frame.src = 'game.html';
+    overlay.classList.add('active');
+    container.classList.add('active');
+    close.classList.add('active');
+  }
+}
 
 // ===== ITINERARY ACCORDION =====
 function toggleItin(trigger) {
@@ -1100,7 +1345,7 @@ function backToInvitation() {
   document.getElementById('foodGroup').classList.remove('visible');
   document.getElementById('dietaryInput').classList.remove('visible');
   document.getElementById('errorMsg').style.display = 'none';
-  go('invitation');
+  document.getElementById('sec-invitation').scrollIntoView({ behavior: 'smooth' });
 }
 </script>
 </body>

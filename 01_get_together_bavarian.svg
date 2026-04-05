@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <g fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Lederhosen -->
+    <path d="M48 74 L92 60 L128 74 L120 116 L88 116 L80 182 L60 182 L68 116 L36 116 Z"/>
+    <path d="M84 78 L92 108"/>
+    <path d="M64 94 L112 94"/>
+    <circle cx="63" cy="80" r="3"/>
+    <circle cx="102" cy="80" r="3"/>
+    <circle cx="72" cy="104" r="3"/>
+    <circle cx="95" cy="104" r="3"/>
+    <path d="M66 182 L58 210"/>
+    <path d="M82 182 L90 210"/>
+    <path d="M58 210 L50 222"/>
+    <path d="M90 210 L98 222"/>
+    <!-- Beer keg -->
+    <path d="M154 62 Q196 48 218 62 L224 80 L224 176 L218 194 Q196 208 154 194 L148 176 L148 80 Z"/>
+    <path d="M156 82 Q196 70 216 82"/>
+    <path d="M156 174 Q196 186 216 174"/>
+    <path d="M168 62 L168 194"/>
+    <path d="M204 62 L204 194"/>
+    <path d="M148 102 H224"/>
+    <path d="M148 154 H224"/>
+    <path d="M226 108 h10 q8 0 8 8 v24 q0 8-8 8 h-10"/>
+  </g>
+</svg>
