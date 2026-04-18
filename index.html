@@ -10,14 +10,14 @@
 <style>
 @font-face {
   font-family: 'Larken';
-  src: url('Larken_Font/Larken Serif Trial/LarkenDEMO-Bold.otf') format('opentype');
-  font-weight: 700;
+  src: url('Larken_Font/Larken Serif Trial/LarkenDEMO-ExtraBold.otf') format('opentype');
+  font-weight: 800;
   font-display: swap;
 }
 @font-face {
   font-family: 'Larken';
-  src: url('Larken_Font/Larken Serif Trial/LarkenDEMO-Medium.otf') format('opentype');
-  font-weight: 500;
+  src: url('Larken_Font/Larken Serif Trial/LarkenDEMO-Bold.otf') format('opentype');
+  font-weight: 700;
   font-display: swap;
 }
 @font-face {
@@ -30,10 +30,10 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --coral: #74a0cf;
-  --navy: #fec8ac;
-  --navy-hover: #f0b89a;
-  --body-text: #4A2020;
+  --coral: #a7c7e4;
+  --navy: #e4568b;
+  --navy-hover: #d04478;
+  --body-text: #315aaa;
   --display: 'Larken', Georgia, serif;
   --body: 'DM Sans', sans-serif;
 }
@@ -52,7 +52,7 @@ section:nth-child(even) {
 
 /* Navy heart cursor */
 html, body, a, button, label, input, textarea, select {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='none' stroke='%234A2020' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='%23e4568b' stroke='%23c0304a' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 70px; }
@@ -78,7 +78,7 @@ nav {
 }
 
 nav.scrolled {
-  background: rgba(116, 160, 207, 0.95);
+  background: rgba(167, 199, 228, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -248,7 +248,7 @@ nav.scrolled {
   .nav-links {
     display: none; flex-direction: column;
     position: absolute; top: 100%; left: 0; right: 0;
-    background: #74a0cf; padding: 1.5rem 2rem; gap: 1rem;
+    background: #a7c7e4; padding: 1.5rem 2rem; gap: 1rem;
   }
   .nav-links.open { display: flex; }
 }
@@ -274,7 +274,7 @@ section { display: block; }
 
 .hero-title {
   font-family: var(--display);
-  font-weight: 700;
+  font-weight: 800;
   font-size: clamp(52px, 12vw, 140px);
   color: var(--sec-title);
   font-style: normal;
@@ -286,7 +286,7 @@ section { display: block; }
   margin-top: 1rem;
   font-family: var(--display);
   font-size: clamp(16px, 2.5vw, 24px);
-  font-weight: 700;
+  font-weight: 400;
   color: var(--body-text);
 }
 
@@ -310,7 +310,7 @@ section { display: block; }
 
 .page-title {
   font-family: var(--display);
-  font-weight: 700;
+  font-weight: 800;
   font-size: clamp(42px, 8vw, 80px);
   color: var(--sec-title);
   line-height: 1;
@@ -372,7 +372,7 @@ button.flower-blob:disabled { opacity: 0.4; cursor: not-allowed; transform: none
 
 .rsvp-heading {
   font-family: var(--display);
-  font-weight: 700;
+  font-weight: 800;
   font-size: clamp(42px, 8vw, 80px);
   color: var(--sec-title);
   line-height: 1;
@@ -385,7 +385,7 @@ button.flower-blob:disabled { opacity: 0.4; cursor: not-allowed; transform: none
 .form-label {
   display: block;
   font-family: var(--body);
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -766,42 +766,42 @@ footer {
   <!-- Beefeater guard SVG -->
   <svg class="pw-beefeater" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- Hat -->
-    <rect x="30" y="8" width="60" height="50" rx="4" fill="#fec8ac"/>
-    <rect x="38" y="0" width="44" height="12" rx="3" fill="#fec8ac"/>
-    <line x1="50" y1="12" x2="50" y2="58" stroke="#74a0cf" stroke-width="2"/>
-    <line x1="70" y1="12" x2="70" y2="58" stroke="#74a0cf" stroke-width="2"/>
-    <circle cx="60" cy="6" r="4" fill="#74a0cf"/>
+    <rect x="30" y="8" width="60" height="50" rx="4" fill="#e4568b"/>
+    <rect x="38" y="0" width="44" height="12" rx="3" fill="#e4568b"/>
+    <line x1="50" y1="12" x2="50" y2="58" stroke="#a7c7e4" stroke-width="2"/>
+    <line x1="70" y1="12" x2="70" y2="58" stroke="#a7c7e4" stroke-width="2"/>
+    <circle cx="60" cy="6" r="4" fill="#a7c7e4"/>
     <!-- Face -->
     <rect x="38" y="58" width="44" height="36" rx="8" fill="#ffffff"/>
-    <circle cx="50" cy="72" r="2.5" fill="#74a0cf"/>
-    <circle cx="70" cy="72" r="2.5" fill="#74a0cf"/>
-    <path d="M55 80 Q60 84 65 80" stroke="#74a0cf" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="50" cy="72" r="2.5" fill="#a7c7e4"/>
+    <circle cx="70" cy="72" r="2.5" fill="#a7c7e4"/>
+    <path d="M55 80 Q60 84 65 80" stroke="#a7c7e4" stroke-width="2" fill="none" stroke-linecap="round"/>
     <!-- Beard -->
-    <path d="M38 82 Q38 100 60 102 Q82 100 82 82" fill="#ffffff" stroke="#74a0cf" stroke-width="1.5"/>
+    <path d="M38 82 Q38 100 60 102 Q82 100 82 82" fill="#ffffff" stroke="#a7c7e4" stroke-width="1.5"/>
     <!-- Body / tunic -->
-    <rect x="28" y="94" width="64" height="60" rx="4" fill="#fec8ac"/>
-    <line x1="60" y1="94" x2="60" y2="154" stroke="#74a0cf" stroke-width="2"/>
-    <rect x="44" y="100" width="8" height="8" rx="2" fill="#74a0cf"/>
-    <rect x="68" y="100" width="8" height="8" rx="2" fill="#74a0cf"/>
-    <rect x="44" y="114" width="8" height="8" rx="2" fill="#74a0cf"/>
-    <rect x="68" y="114" width="8" height="8" rx="2" fill="#74a0cf"/>
-    <rect x="44" y="128" width="8" height="8" rx="2" fill="#74a0cf"/>
-    <rect x="68" y="128" width="8" height="8" rx="2" fill="#74a0cf"/>
+    <rect x="28" y="94" width="64" height="60" rx="4" fill="#e4568b"/>
+    <line x1="60" y1="94" x2="60" y2="154" stroke="#a7c7e4" stroke-width="2"/>
+    <rect x="44" y="100" width="8" height="8" rx="2" fill="#a7c7e4"/>
+    <rect x="68" y="100" width="8" height="8" rx="2" fill="#a7c7e4"/>
+    <rect x="44" y="114" width="8" height="8" rx="2" fill="#a7c7e4"/>
+    <rect x="68" y="114" width="8" height="8" rx="2" fill="#a7c7e4"/>
+    <rect x="44" y="128" width="8" height="8" rx="2" fill="#a7c7e4"/>
+    <rect x="68" y="128" width="8" height="8" rx="2" fill="#a7c7e4"/>
     <!-- Belt -->
-    <rect x="28" y="140" width="64" height="8" fill="#74a0cf"/>
-    <rect x="54" y="138" width="12" height="12" rx="2" fill="#fec8ac" stroke="#74a0cf" stroke-width="1.5"/>
+    <rect x="28" y="140" width="64" height="8" fill="#a7c7e4"/>
+    <rect x="54" y="138" width="12" height="12" rx="2" fill="#e4568b" stroke="#a7c7e4" stroke-width="1.5"/>
     <!-- Legs -->
-    <rect x="34" y="154" width="20" height="36" rx="3" fill="#74a0cf"/>
-    <rect x="66" y="154" width="20" height="36" rx="3" fill="#74a0cf"/>
+    <rect x="34" y="154" width="20" height="36" rx="3" fill="#a7c7e4"/>
+    <rect x="66" y="154" width="20" height="36" rx="3" fill="#a7c7e4"/>
     <!-- Feet -->
     <rect x="32" y="186" width="24" height="10" rx="5" fill="#333"/>
     <rect x="64" y="186" width="24" height="10" rx="5" fill="#333"/>
     <!-- Arms -->
-    <rect x="10" y="96" width="18" height="10" rx="4" fill="#fec8ac"/>
-    <rect x="92" y="96" width="18" height="10" rx="4" fill="#fec8ac"/>
+    <rect x="10" y="96" width="18" height="10" rx="4" fill="#e4568b"/>
+    <rect x="92" y="96" width="18" height="10" rx="4" fill="#e4568b"/>
     <!-- Spear -->
-    <line x1="108" y1="20" x2="108" y2="180" stroke="#74a0cf" stroke-width="3"/>
-    <path d="M102 20 L108 4 L114 20 Z" fill="#fec8ac"/>
+    <line x1="108" y1="20" x2="108" y2="180" stroke="#a7c7e4" stroke-width="3"/>
+    <path d="M102 20 L108 4 L114 20 Z" fill="#e4568b"/>
   </svg>
   <div class="pw-title">Private Event</div>
   <div class="pw-sub">Please enter the password to continue</div>
@@ -832,7 +832,7 @@ footer {
     <div class="hero-inner">
       <div class="hero-text">
         <h1 class="hero-title">Laura & Marc</h1>
-        <p class="hero-sub">17 July &mdash; 18 July 2026 &middot; St. Gilgen, Austria</p>
+        <p class="hero-sub">17 July &mdash; 19 July 2026 &middot; St. Gilgen, Austria</p>
       </div>
       <div class="hero-photo">
         <img src="marc_larua_wedding_hero_new-Photoroom.png" alt="Laura & Marc">
@@ -990,7 +990,7 @@ footer {
                 <a href="https://www.google.com/maps/search/?api=1&query=Pfarrkirche+St.+Gilgen" target="_blank" rel="noopener">Parish Church St. Gilgen</a><br>
                 Ischlerstra&szlig;e 1, 5340 St. Gilgen
               </div>
-              <div class="itin-dress">Dress code: Cocktail Attire</div>
+              <div class="itin-dress">Dress code: Suit / Summer Formal</div>
             </div>
           </div>
         </div>
@@ -999,8 +999,8 @@ footer {
       <div class="itin-accordion">
         <button class="itin-trigger" onclick="toggleItin(this)">
           <div class="itin-trigger-left">
-            <span class="itin-trigger-title">Reception & Soir&eacute;e</span>
-            <span class="itin-trigger-time">12:00 pm</span>
+            <span class="itin-trigger-title">Reception</span>
+            <span class="itin-trigger-time">Following the wedding ceremony</span>
           </div>
           <svg class="itin-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -1014,7 +1014,7 @@ footer {
                 <a href="https://billroth.at/" target="_blank" rel="noopener">Seehotel Billroth</a><br>
                 Billrothstra&szlig;e 2, 5340 St. Gilgen
               </div>
-              <div class="itin-dress">Dress code: Cocktail Attire</div>
+              <div class="itin-dress">Dress code: Suit / Summer Formal</div>
             </div>
           </div>
         </div>
@@ -1039,6 +1039,28 @@ footer {
                 Vordereggstra&szlig;e 30, 5303 Thalgau
               </div>
               <div class="itin-dress">Dress code: Black Tie</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Sunday -->
+      <div class="itin-day-label">Sunday, July 19</div>
+
+      <div class="itin-accordion">
+        <button class="itin-trigger" onclick="toggleItin(this)">
+          <div class="itin-trigger-left">
+            <span class="itin-trigger-title">Breakfast & Lake Morning</span>
+            <span class="itin-trigger-time">From 11:00 am</span>
+          </div>
+          <svg class="itin-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="itin-body">
+          <div class="itin-body-content">
+            <div class="itin-details">
+              <div class="itin-detail-text">
+                No agenda, just good company. Join us for breakfast at the hotel and an easy morning by the lake. Come as you are.
+              </div>
+              <div class="itin-dress">Dress code: Whatever you feel like</div>
             </div>
           </div>
         </div>
@@ -1079,7 +1101,7 @@ footer {
             </div>
           </div>
           <p class="log-text" style="margin-top:1rem; font-style:italic; opacity:0.7;">
-            St. Gilgen is a small, beautiful and charming village by the lake. There are many more hotels and B&amp;Bs, and most of them are within walking distance to the recommended hotels here.
+            St. Gilgen is a small, beautiful and charming village by the lake. There are many more hotels and B&amp;Bs, and most are within walking distance of the wedding location and church.
           </p>
         </div>
       </div>
@@ -1115,7 +1137,7 @@ footer {
         </button>
         <div class="log-body">
           <p class="log-text">
-            We will provide a shuttle service to and from the evening venue on Saturday, July 18.
+            We will provide a shuttle service to and from the evening venue on Saturday, July 18th. The shuttles will be leaving from Seehotel Billroth and Hotel Zur Post at 5:00 pm. There will be regular shuttles from the evening location back to St. Gilgen throughout the night.
           </p>
         </div>
       </div>
@@ -1129,6 +1151,7 @@ footer {
     <h2 class="page-title">Registry</h2>
 
     <div class="registry-area">
+      <img src="present_ico.png" alt="Gift" style="width: 80px; height: auto; margin-bottom: 1.5rem; opacity: 0.85;">
       <p class="registry-text">Your presence is a great Gift! &lt;3</p>
       <p class="registry-text">A contribution to our honey moon is also a great gift :)</p>
       <p class="registry-text">If you would like to contribute, we would be very grateful.</p>
