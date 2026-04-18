@@ -30,10 +30,10 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --coral: #a7c7e4;
-  --navy: #e4568b;
-  --navy-hover: #d04478;
-  --body-text: #315aaa;
+  --coral: #F2EDD8;
+  --navy: #4A5E2A;
+  --navy-hover: #3a4c1e;
+  --body-text: #2C3A1A;
   --display: 'Larken', Georgia, serif;
   --body: 'DM Sans', sans-serif;
 }
@@ -52,7 +52,7 @@ section:nth-child(even) {
 
 /* Navy heart cursor */
 html, body, a, button, label, input, textarea, select {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='%23e4568b' stroke='%23c0304a' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='%234A5E2A' stroke='%232C3A1A' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 70px; }
@@ -78,7 +78,7 @@ nav {
 }
 
 nav.scrolled {
-  background: rgba(167, 199, 228, 0.95);
+  background: rgba(242, 237, 216, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -248,7 +248,7 @@ nav.scrolled {
   .nav-links {
     display: none; flex-direction: column;
     position: absolute; top: 100%; left: 0; right: 0;
-    background: #a7c7e4; padding: 1.5rem 2rem; gap: 1rem;
+    background: #F2EDD8; padding: 1.5rem 2rem; gap: 1rem;
   }
   .nav-links.open { display: flex; }
 }
@@ -293,7 +293,7 @@ section { display: block; }
 .hero-photo { flex-shrink: 0; }
 
 .hero-photo img {
-  width: clamp(310px, 44vw, 550px);
+  width: clamp(340px, 50vw, 620px);
   height: auto;
   border-radius: 180px 180px 40px 40px;
   object-fit: cover;
@@ -766,42 +766,42 @@ footer {
   <!-- Beefeater guard SVG -->
   <svg class="pw-beefeater" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- Hat -->
-    <rect x="30" y="8" width="60" height="50" rx="4" fill="#e4568b"/>
-    <rect x="38" y="0" width="44" height="12" rx="3" fill="#e4568b"/>
-    <line x1="50" y1="12" x2="50" y2="58" stroke="#a7c7e4" stroke-width="2"/>
-    <line x1="70" y1="12" x2="70" y2="58" stroke="#a7c7e4" stroke-width="2"/>
-    <circle cx="60" cy="6" r="4" fill="#a7c7e4"/>
+    <rect x="30" y="8" width="60" height="50" rx="4" fill="#4A5E2A"/>
+    <rect x="38" y="0" width="44" height="12" rx="3" fill="#4A5E2A"/>
+    <line x1="50" y1="12" x2="50" y2="58" stroke="#F2EDD8" stroke-width="2"/>
+    <line x1="70" y1="12" x2="70" y2="58" stroke="#F2EDD8" stroke-width="2"/>
+    <circle cx="60" cy="6" r="4" fill="#F2EDD8"/>
     <!-- Face -->
     <rect x="38" y="58" width="44" height="36" rx="8" fill="#ffffff"/>
-    <circle cx="50" cy="72" r="2.5" fill="#a7c7e4"/>
-    <circle cx="70" cy="72" r="2.5" fill="#a7c7e4"/>
-    <path d="M55 80 Q60 84 65 80" stroke="#a7c7e4" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="50" cy="72" r="2.5" fill="#F2EDD8"/>
+    <circle cx="70" cy="72" r="2.5" fill="#F2EDD8"/>
+    <path d="M55 80 Q60 84 65 80" stroke="#F2EDD8" stroke-width="2" fill="none" stroke-linecap="round"/>
     <!-- Beard -->
-    <path d="M38 82 Q38 100 60 102 Q82 100 82 82" fill="#ffffff" stroke="#a7c7e4" stroke-width="1.5"/>
+    <path d="M38 82 Q38 100 60 102 Q82 100 82 82" fill="#ffffff" stroke="#F2EDD8" stroke-width="1.5"/>
     <!-- Body / tunic -->
-    <rect x="28" y="94" width="64" height="60" rx="4" fill="#e4568b"/>
-    <line x1="60" y1="94" x2="60" y2="154" stroke="#a7c7e4" stroke-width="2"/>
-    <rect x="44" y="100" width="8" height="8" rx="2" fill="#a7c7e4"/>
-    <rect x="68" y="100" width="8" height="8" rx="2" fill="#a7c7e4"/>
-    <rect x="44" y="114" width="8" height="8" rx="2" fill="#a7c7e4"/>
-    <rect x="68" y="114" width="8" height="8" rx="2" fill="#a7c7e4"/>
-    <rect x="44" y="128" width="8" height="8" rx="2" fill="#a7c7e4"/>
-    <rect x="68" y="128" width="8" height="8" rx="2" fill="#a7c7e4"/>
+    <rect x="28" y="94" width="64" height="60" rx="4" fill="#4A5E2A"/>
+    <line x1="60" y1="94" x2="60" y2="154" stroke="#F2EDD8" stroke-width="2"/>
+    <rect x="44" y="100" width="8" height="8" rx="2" fill="#F2EDD8"/>
+    <rect x="68" y="100" width="8" height="8" rx="2" fill="#F2EDD8"/>
+    <rect x="44" y="114" width="8" height="8" rx="2" fill="#F2EDD8"/>
+    <rect x="68" y="114" width="8" height="8" rx="2" fill="#F2EDD8"/>
+    <rect x="44" y="128" width="8" height="8" rx="2" fill="#F2EDD8"/>
+    <rect x="68" y="128" width="8" height="8" rx="2" fill="#F2EDD8"/>
     <!-- Belt -->
-    <rect x="28" y="140" width="64" height="8" fill="#a7c7e4"/>
-    <rect x="54" y="138" width="12" height="12" rx="2" fill="#e4568b" stroke="#a7c7e4" stroke-width="1.5"/>
+    <rect x="28" y="140" width="64" height="8" fill="#F2EDD8"/>
+    <rect x="54" y="138" width="12" height="12" rx="2" fill="#4A5E2A" stroke="#F2EDD8" stroke-width="1.5"/>
     <!-- Legs -->
-    <rect x="34" y="154" width="20" height="36" rx="3" fill="#a7c7e4"/>
-    <rect x="66" y="154" width="20" height="36" rx="3" fill="#a7c7e4"/>
+    <rect x="34" y="154" width="20" height="36" rx="3" fill="#F2EDD8"/>
+    <rect x="66" y="154" width="20" height="36" rx="3" fill="#F2EDD8"/>
     <!-- Feet -->
     <rect x="32" y="186" width="24" height="10" rx="5" fill="#333"/>
     <rect x="64" y="186" width="24" height="10" rx="5" fill="#333"/>
     <!-- Arms -->
-    <rect x="10" y="96" width="18" height="10" rx="4" fill="#e4568b"/>
-    <rect x="92" y="96" width="18" height="10" rx="4" fill="#e4568b"/>
+    <rect x="10" y="96" width="18" height="10" rx="4" fill="#4A5E2A"/>
+    <rect x="92" y="96" width="18" height="10" rx="4" fill="#4A5E2A"/>
     <!-- Spear -->
-    <line x1="108" y1="20" x2="108" y2="180" stroke="#a7c7e4" stroke-width="3"/>
-    <path d="M102 20 L108 4 L114 20 Z" fill="#e4568b"/>
+    <line x1="108" y1="20" x2="108" y2="180" stroke="#F2EDD8" stroke-width="3"/>
+    <path d="M102 20 L108 4 L114 20 Z" fill="#4A5E2A"/>
   </svg>
   <div class="pw-title">Private Event</div>
   <div class="pw-sub">Please enter the password to continue</div>
@@ -1148,10 +1148,18 @@ footer {
 <!-- ============ PAGE 4: REGISTRY ============ -->
 <section id="sec-registry">
   <div class="page">
-    <h2 class="page-title">Registry</h2>
+    <div style="display:flex; align-items:center; gap:1.5rem; margin-bottom:2rem;">
+      <h2 class="page-title" style="margin-bottom:0;">Registry</h2>
+      <svg viewBox="0 0 64 64" width="70" height="70" fill="none" stroke="var(--sec-title)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+        <rect x="8" y="28" width="48" height="28" rx="3"/>
+        <rect x="4" y="20" width="56" height="10" rx="3"/>
+        <line x1="32" y1="20" x2="32" y2="56"/>
+        <path d="M32 20c0 0-4-12-14-12s-10 6-2 10 16 2 16 2"/>
+        <path d="M32 20c0 0 4-12 14-12s10 6 2 10-16 2-16 2"/>
+      </svg>
+    </div>
 
     <div class="registry-area">
-      <img src="present_ico.png" alt="Gift" style="width: 80px; height: auto; margin-bottom: 1.5rem; opacity: 0.85;">
       <p class="registry-text">Your presence is a great Gift! &lt;3</p>
       <p class="registry-text">A contribution to our honey moon is also a great gift :)</p>
       <p class="registry-text">If you would like to contribute, we would be very grateful.</p>
