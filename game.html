@@ -8,7 +8,7 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  background: #f28f78;
+  background: #F2EDD8;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,9 +23,9 @@ body {
 }
 #gameContainer {
   position: relative;
-  border: 4px solid #3a3a5c;
+  border: 4px solid #4A5E2A;
   border-radius: 8px;
-  box-shadow: 0 0 30px rgba(100, 100, 200, 0.3);
+  box-shadow: 0 0 30px rgba(74, 94, 42, 0.3);
 }
 canvas {
   display: block;
@@ -206,14 +206,14 @@ function isJump() { return keys.ArrowUp || keys.Space || keys.KeyW || mobileStat
 // COLORS
 // ============================================================
 const COL = {
-  sky1: '#87CEEB', sky2: '#A8D8A8', sky3: '#2c1e3f',
-  ground1: '#5a8f3c', ground2: '#5a5a68', ground3: '#4a4a5a',
-  plat1: '#7a5c3a', plat2: '#6a6a78', plat3: '#5a5a6a',
-  mountain: '#6b9b5a', village: '#c4956a', castle: '#6a6a7a',
-  coin: '#FFD700', enemy: '#cc3333', flag: '#22cc22',
-  marc: '#e87020', laura: '#ff69b4',
-  heart: '#ff4444', text: '#ffffff',
-  darkOutline: '#1a1a2e',
+  sky1: '#c8daa8', sky2: '#b0d488', sky3: '#2c3a1a',
+  ground1: '#4A5E2A', ground2: '#3a4c1e', ground3: '#2c3a1a',
+  plat1: '#6b7a3a', plat2: '#4A5E2A', plat3: '#3a4c1e',
+  mountain: '#4A5E2A', village: '#c5af20', castle: '#3a4c1e',
+  coin: '#c5af20', enemy: '#cc3333', flag: '#4A5E2A',
+  marc: '#4A5E2A', laura: '#c5af20',
+  heart: '#c5af20', text: '#F2EDD8',
+  darkOutline: '#2c3a1a',
 };
 
 // ============================================================
@@ -830,7 +830,7 @@ function spawnConfetti() {
       y: Math.random() * -BASE_H,
       vx: (Math.random() - 0.5) * 2,
       vy: Math.random() * 2 + 1,
-      color: ['#ff4444','#44ff44','#4444ff','#ffff44','#ff44ff','#44ffff','#FFD700','#ff69b4'][Math.floor(Math.random()*8)],
+      color: ['#ff4444','#44ff44','#4444ff','#ffff44','#ff44ff','#44ffff','#FFD700','#c5af20'][Math.floor(Math.random()*8)],
       size: Math.random() * 4 + 2,
       rot: Math.random() * 360
     });
@@ -866,7 +866,7 @@ function spawnFirework(x, y) {
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed,
       life: 40 + Math.random() * 20,
-      color: ['#ff4444','#FFD700','#ff69b4','#44ff44','#44aaff'][Math.floor(Math.random()*5)],
+      color: ['#ff4444','#FFD700','#c5af20','#44ff44','#44aaff'][Math.floor(Math.random()*5)],
       size: 2 + Math.random() * 2
     });
   }
@@ -1179,7 +1179,7 @@ function draw() {
     ctx.fillStyle = 'rgba(0,0,0,0.4)';
     ctx.fillRect(0, BASE_H/2 - 30, BASE_W, 60);
     if (level === 3 && clearTimer > 30) {
-      drawText('YOU FOUND LAURA!', BASE_W/2, BASE_H/2 + 5, 12, '#ff69b4', 'center');
+      drawText('YOU FOUND LAURA!', BASE_W/2, BASE_H/2 + 5, 12, '#c5af20', 'center');
     } else {
       drawText('LEVEL CLEAR!', BASE_W/2, BASE_H/2 + 5, 14, '#FFD700', 'center');
     }
@@ -1191,21 +1191,21 @@ function draw() {
 function drawTitleScreen() {
   // Background
   const grad = ctx.createLinearGradient(0, 0, 0, BASE_H);
-  grad.addColorStop(0, '#1a3a5c');
-  grad.addColorStop(1, '#2a1a4c');
+  grad.addColorStop(0, '#2c3a1a');
+  grad.addColorStop(1, '#1a2410');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, BASE_W, BASE_H);
 
   // Decorative mountains
-  ctx.fillStyle = '#2a4a3a';
+  ctx.fillStyle = '#3a4c1e';
   drawMountain(50, 180, 200, 140);
   drawMountain(250, 190, 160, 130);
-  ctx.fillStyle = '#2a4a3a';
+  ctx.fillStyle = '#3a4c1e';
   drawMountain(350, 200, 180, 120);
 
   // Title
   drawText('MARC & LAURA', BASE_W/2, 80, 14, '#FFD700', 'center');
-  drawText('Wedding Game', BASE_W/2, 105, 10, '#ff69b4', 'center');
+  drawText('Wedding Game', BASE_W/2, 105, 10, '#c5af20', 'center');
 
   // Characters
   // Marc — profile pic
@@ -1272,7 +1272,7 @@ function drawTitleScreen() {
   }
 
   // Date
-  drawText('18.07.2026', BASE_W/2, 290, 8, 'rgba(255,255,255,0.5)', 'center');
+  drawText('17-19.07.2026', BASE_W/2, 290, 8, 'rgba(255,255,255,0.5)', 'center');
 }
 
 function drawGameOverScreen() {
@@ -1292,8 +1292,8 @@ function drawGameOverScreen() {
 function drawWinScreen() {
   // Background
   const grad = ctx.createLinearGradient(0, 0, 0, BASE_H);
-  grad.addColorStop(0, '#1a0a2c');
-  grad.addColorStop(1, '#2a1a4c');
+  grad.addColorStop(0, '#1a2410');
+  grad.addColorStop(1, '#2c3a1a');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, BASE_W, BASE_H);
 
@@ -1301,8 +1301,8 @@ function drawWinScreen() {
   drawConfetti();
 
   drawText('You made it!', BASE_W/2, 70, 16, '#FFD700', 'center');
-  drawText('Laura & Marc', BASE_W/2, 110, 14, '#ff69b4', 'center');
-  drawText('18.07.2026', BASE_W/2, 145, 12, '#fff', 'center');
+  drawText('Laura & Marc', BASE_W/2, 110, 14, '#c5af20', 'center');
+  drawText('17-19.07.2026', BASE_W/2, 145, 12, '#fff', 'center');
 
   // Characters together
   // Marc — profile pic

@@ -9,21 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 @font-face {
-  font-family: 'Larken';
-  src: url('Larken_Font/Larken Serif Trial/LarkenDEMO-ExtraBold.otf') format('opentype');
-  font-weight: 800;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Larken';
-  src: url('Larken_Font/Larken Serif Trial/LarkenDEMO-Bold.otf') format('opentype');
+  font-family: 'ClashDisplay';
+  src: url('ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Bold.woff2') format('woff2'),
+       url('ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Bold.woff') format('woff');
   font-weight: 700;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Larken';
-  src: url('Larken_Font/Larken Serif Trial/LarkenDEMO-Regular.otf') format('opentype');
-  font-weight: 400;
+  font-family: 'ClashDisplay';
+  src: url('ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Semibold.woff2') format('woff2'),
+       url('ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Semibold.woff') format('woff');
+  font-weight: 600;
   font-display: swap;
 }
 
@@ -33,8 +29,8 @@
   --coral: #F2EDD8;
   --navy: #4A5E2A;
   --navy-hover: #3a4c1e;
-  --body-text: #2C3A1A;
-  --display: 'Larken', Georgia, serif;
+  --body-text: #c5af20;
+  --display: 'ClashDisplay', sans-serif;
   --body: 'DM Sans', sans-serif;
 }
 
@@ -265,7 +261,7 @@ section { display: block; }
 
 .hero-inner {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 2rem;
 }
@@ -274,7 +270,7 @@ section { display: block; }
 
 .hero-title {
   font-family: var(--display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: clamp(52px, 12vw, 140px);
   color: var(--sec-title);
   font-style: normal;
