@@ -289,16 +289,17 @@ section { display: block; }
 .hero-photo { flex-shrink: 0; margin-top: 30px; }
 
 .hero-photo img {
-  width: clamp(340px, 50vw, 620px);
+  width: clamp(170px, 22vw, 300px);
   height: auto;
-  border-radius: 180px 180px 40px 40px;
+  max-height: 300px;
+  border-radius: 100px 100px 24px 24px;
   object-fit: cover;
   filter: drop-shadow(0 8px 30px rgba(0,0,0,0.2));
 }
 
 @media (max-width: 700px) {
   .hero-inner { flex-direction: column; text-align: center; }
-  .hero-photo img { width: clamp(260px, 75vw, 400px); }
+  .hero-photo img { width: clamp(140px, 40vw, 200px); max-height: 220px; }
 }
 
 /* ===== CONTENT PAGES ===== */
