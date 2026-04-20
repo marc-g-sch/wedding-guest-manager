@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laura & Marc — July 2026</title>
+<title>Laura &amp; Marc — July 2026</title>
+<script src="color-config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
@@ -26,37 +27,50 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --coral: #F2EDD8;
-  --navy: #4A5E2A;
-  --navy-hover: #3a4c1e;
-  --body-text: #c5af20;
   --display: 'ClashDisplay', sans-serif;
   --body: 'DM Sans', sans-serif;
+  --nav-bg: #F5F0E8;
+  --nav-text: #2D4A1E;
+  --accent: #8B7355;
 }
 
-/* Alternating section colors */
-section:nth-child(odd) {
-  background: var(--coral);
-  --sec-bg: var(--coral);
-  --sec-title: var(--navy);
-}
-section:nth-child(even) {
-  background: var(--navy);
-  --sec-bg: var(--navy);
-  --sec-title: var(--coral);
+/* ===== SECTION SYSTEM =====
+   Each section has a unique class with its own CSS custom props.
+   JS also applies colors from color-config.js on load, overriding these fallbacks.
+   Light sections: hero, itinerary, registry
+   Dark sections: rsvp, logistics                                              */
+.section-hero      { --sec-bg: #F5F0E8; --sec-title: #2D4A1E; --sec-text: #8B7355; --sec-border: rgba(45,74,30,0.15); }
+.section-rsvp      { --sec-bg: #2D4A1E; --sec-title: #F5F0E8; --sec-text: #F5F0E8; --sec-input: #A8C5A0; --sec-border: rgba(245,240,232,0.2); }
+.section-itinerary { --sec-bg: #F5F0E8; --sec-title: #2D4A1E; --sec-text: #8B7355; --sec-border: rgba(45,74,30,0.15); }
+.section-logistics { --sec-bg: #2D4A1E; --sec-title: #F5F0E8; --sec-text: #F5F0E8; --sec-border: rgba(245,240,232,0.2); }
+.section-registry  { --sec-bg: #F5F0E8; --sec-title: #2D4A1E; --sec-text: #8B7355; --sec-border: rgba(45,74,30,0.15); }
+
+section {
+  background: var(--sec-bg, #F5F0E8);
+  color: var(--sec-text, #8B7355);
 }
 
-/* Navy heart cursor */
+/* Uniform section inner: max-width + identical padding on all sections */
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 48px;
+}
+
+@media (max-width: 640px) {
+  .section-inner { padding: 48px 20px; }
+}
+
+/* Heart cursor */
 html, body, a, button, label, input, textarea, select {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='%234A5E2A' stroke='%232C3A1A' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 21C12 21 3 13.5 3 8.5C3 5.5 5.5 3 8 3C9.5 3 11 4 12 5.5C13 4 14.5 3 16 3C18.5 3 21 5.5 21 8.5C21 13.5 12 21 12 21Z' fill='%232D4A1E' stroke='%231a2e12' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-8 12 12)'/%3E%3C/svg%3E") 12 12, auto;
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 70px; }
 
 body {
   font-family: var(--body);
-  background: var(--coral);
-  color: var(--body-text);
+  background: #F5F0E8;
   font-size: 16px;
   line-height: 1.7;
   font-weight: 400;
@@ -74,7 +88,7 @@ nav {
 }
 
 nav.scrolled {
-  background: rgba(242, 237, 216, 0.95);
+  background: rgba(245, 240, 232, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -86,15 +100,90 @@ nav.scrolled {
   gap: 2rem;
 }
 
+.nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+
+.nav-link {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--nav-text, #2D4A1E);
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 6px;
+}
+
+.nav-link:hover { opacity: 0.7; }
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 6px; height: 6px;
+  background: var(--nav-text, #2D4A1E);
+  border-radius: 50%;
+}
+
 .nav-game-link {
   display: flex !important;
   align-items: center;
   padding-bottom: 0 !important;
 }
-.nav-game-link:hover { transform: scale(1.15); }
 .nav-game-link { transition: transform 0.2s; }
+.nav-game-link:hover { transform: scale(1.15); opacity: 1; }
 
-/* Game overlay */
+/* ===== LANGUAGE TOGGLE ===== */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lang-btn {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1.5px solid var(--nav-text, #2D4A1E);
+  background: transparent;
+  color: var(--nav-text, #2D4A1E);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.lang-btn.active {
+  background: var(--accent, #8B7355);
+  border-color: var(--accent, #8B7355);
+  color: #F5F0E8;
+}
+
+/* Mobile nav */
+.nav-toggle {
+  display: none;
+  background: none; border: none;
+  cursor: pointer; padding: 0.5rem;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 2px;
+  background: var(--nav-text, #2D4A1E); margin: 5px 0;
+}
+
+@media (max-width: 640px) {
+  .nav-toggle { display: block; }
+  nav { padding: 1rem 1.5rem; }
+  .nav-links {
+    display: none; flex-direction: column;
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: #F5F0E8; padding: 1.5rem 2rem; gap: 1rem;
+  }
+  .nav-links.open { display: flex; }
+}
+
+/* ===== GAME OVERLAY ===== */
 .game-overlay {
   display: none;
   position: fixed;
@@ -111,19 +200,14 @@ nav.scrolled {
   display: none;
 }
 .game-container.active { display: block; }
-
-.game-container iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
+.game-container iframe { width: 100%; height: 100%; border: none; }
 
 .game-close {
   position: fixed;
   top: 70px; right: 20px;
   z-index: 101;
-  background: var(--navy);
-  color: var(--coral);
+  background: #2D4A1E;
+  color: #F5F0E8;
   border: none;
   width: 36px; height: 36px;
   border-radius: 50%;
@@ -142,7 +226,7 @@ nav.scrolled {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   z-index: 9999;
-  background: var(--coral);
+  background: #F5F0E8;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -150,29 +234,22 @@ nav.scrolled {
   text-align: center;
   padding: 2rem;
 }
-
 .pw-screen.hidden { display: none; }
-
-.pw-beefeater {
-  width: 120px;
-  height: auto;
-  margin-bottom: 2rem;
-}
+.pw-beefeater { width: 120px; height: auto; margin-bottom: 2rem; }
 
 .pw-title {
   font-family: var(--display);
   font-weight: 700;
   font-size: clamp(28px, 5vw, 42px);
-  color: var(--navy);
+  color: #2D4A1E;
   margin-bottom: 0.5rem;
 }
 
 .pw-sub {
   font-family: var(--body);
   font-size: 15px;
-  color: var(--body-text);
+  color: #8B7355;
   margin-bottom: 2rem;
-  opacity: 0.8;
 }
 
 .pw-input {
@@ -180,85 +257,27 @@ nav.scrolled {
   max-width: 90vw;
   padding: 0.8rem 1rem;
   border: none;
-  border-bottom: 2px solid var(--body-text);
+  border-bottom: 2px solid #8B7355;
   background: transparent;
   font-family: var(--body);
   font-size: 18px;
-  color: var(--body-text);
+  color: #2D4A1E;
   text-align: center;
   outline: none;
   letter-spacing: 0.1em;
 }
-
-.pw-input:focus { border-color: var(--navy); }
-.pw-input::placeholder { color: rgba(255,255,255,0.4); }
+.pw-input:focus { border-color: #2D4A1E; }
+.pw-input::placeholder { color: rgba(139,115,85,0.5); }
 
 .pw-error {
-  color: var(--navy);
+  color: #2D4A1E;
   font-size: 14px;
   margin-top: 1rem;
   visibility: hidden;
 }
-
 .pw-error.show { visibility: visible; }
 
-.nav-links { display: flex; gap: 2.5rem; list-style: none; }
-
-.nav-link {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--navy);
-  cursor: pointer;
-  text-decoration: none;
-  position: relative;
-  padding-bottom: 6px;
-}
-
-.nav-link:hover { color: var(--navy-hover); }
-
-.nav-link.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 6px; height: 6px;
-  background: var(--navy);
-  border-radius: 50%;
-}
-
-/* Mobile */
-.nav-toggle {
-  display: none;
-  background: none; border: none;
-  cursor: pointer; padding: 0.5rem;
-}
-.nav-toggle span {
-  display: block; width: 22px; height: 2px;
-  background: var(--navy); margin: 5px 0;
-}
-
-@media (max-width: 640px) {
-  .nav-toggle { display: block; }
-  .nav-links {
-    display: none; flex-direction: column;
-    position: absolute; top: 100%; left: 0; right: 0;
-    background: #F2EDD8; padding: 1.5rem 2rem; gap: 1rem;
-  }
-  .nav-links.open { display: flex; }
-}
-
-/* ===== SECTIONS ===== */
-section { display: block; }
-
-/* ===== HERO — side by side ===== */
-.hero {
-  padding: 4.5rem 48px 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
+/* ===== HERO ===== */
 .hero-inner {
   display: flex;
   align-items: flex-start;
@@ -273,7 +292,6 @@ section { display: block; }
   font-weight: 700;
   font-size: clamp(52px, 12vw, 140px);
   color: var(--sec-title);
-  font-style: normal;
   line-height: 0.95;
   letter-spacing: -2px;
 }
@@ -283,7 +301,7 @@ section { display: block; }
   font-family: var(--display);
   font-size: clamp(16px, 2.5vw, 24px);
   font-weight: 400;
-  color: var(--body-text);
+  color: var(--sec-text);
 }
 
 .hero-photo { flex-shrink: 0; margin-top: 30px; }
@@ -303,22 +321,15 @@ section { display: block; }
   .hero-photo img { width: clamp(140px, 40vw, 200px); max-height: 220px; }
 }
 
-/* ===== CONTENT PAGES ===== */
-.page { padding: 5rem 48px 4rem; max-width: 1100px; margin: 0 auto; }
-
-.page-title {
+/* ===== SECTION HEADINGS ===== */
+.section-heading {
   font-family: var(--display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: clamp(42px, 8vw, 80px);
   color: var(--sec-title);
   line-height: 1;
   letter-spacing: -2px;
   margin-bottom: 2rem;
-}
-
-@media (max-width: 640px) {
-  .page { padding: 2rem 20px 3rem; }
-  .hero { padding: 4rem 20px 1.5rem; }
 }
 
 /* ===== FLOWER BLOB (sticker CTA) ===== */
@@ -338,11 +349,7 @@ section { display: block; }
 }
 
 /* RSVP form + blob side by side */
-.rsvp-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 3rem;
-}
+.rsvp-row { display: flex; align-items: flex-start; gap: 3rem; }
 .rsvp-form-col { flex: 1; }
 .rsvp-blob-col {
   flex-shrink: 0;
@@ -356,31 +363,13 @@ section { display: block; }
 
 @media (max-width: 700px) {
   .rsvp-row { flex-direction: column; gap: 1rem; }
-  .rsvp-blob-col { padding-top: 0; }
+  .rsvp-blob-col { padding-top: 0; position: static; }
 }
 
-button.flower-blob {
-  background: none; border: none; padding: 0;
-}
+button.flower-blob { background: none; border: none; padding: 0; }
 button.flower-blob:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
 /* ===== RSVP FORM ===== */
-.rsvp-section {
-  max-width: 100%;
-  text-align: left;
-  padding-top: 1rem;
-}
-
-.rsvp-heading {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: clamp(42px, 8vw, 80px);
-  color: var(--sec-title);
-  line-height: 1;
-  letter-spacing: -2px;
-  margin-bottom: 2rem;
-}
-
 .form-group { margin-bottom: 1.5rem; }
 
 .form-label {
@@ -390,8 +379,7 @@ button.flower-blob:disabled { opacity: 0.4; cursor: not-allowed; transform: none
   font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--body-text);
-  opacity: 0.6;
+  color: var(--sec-input, var(--sec-text));
   margin-bottom: 0.5rem;
 }
 
@@ -399,22 +387,22 @@ button.flower-blob:disabled { opacity: 0.4; cursor: not-allowed; transform: none
   width: 100%;
   padding: 0.8rem 0;
   border: none;
-  border-bottom: 1px solid var(--body-text);
+  border-bottom: 1px solid var(--sec-input, var(--sec-text));
   background: transparent;
   font-family: var(--body);
   font-size: 16px;
   font-weight: 400;
-  color: var(--body-text);
+  color: var(--sec-input, var(--sec-text));
   outline: none;
   transition: border-color 0.25s;
 }
 
 .form-input:focus { border-color: var(--sec-title); }
-.form-input::placeholder { color: rgba(255,255,255,0.35); }
+.form-input::placeholder { color: var(--sec-input, var(--sec-text)); opacity: 0.55; }
 
 textarea.form-input {
   resize: vertical; min-height: 80px;
-  border: none; border-bottom: 1px solid var(--body-text);
+  border: none; border-bottom: 1px solid var(--sec-input, var(--sec-text));
 }
 
 .radio-group { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.3rem; }
@@ -423,7 +411,7 @@ textarea.form-input {
   display: flex; align-items: center; gap: 0.8rem;
   cursor: pointer; padding: 0.3rem 0;
   font-family: var(--body); font-size: 16px; font-weight: 400;
-  color: var(--body-text); transition: color 0.2s;
+  color: var(--sec-input, var(--sec-text)); transition: color 0.2s;
 }
 
 .radio-option:hover { color: var(--sec-title); }
@@ -431,7 +419,7 @@ textarea.form-input {
 .radio-option input[type="radio"] {
   -webkit-appearance: none; appearance: none;
   width: 18px; height: 18px;
-  border: 1.5px solid var(--body-text);
+  border: 1.5px solid var(--sec-input, var(--sec-text));
   border-radius: 50%; cursor: pointer;
   position: relative; flex-shrink: 0;
 }
@@ -449,12 +437,7 @@ textarea.form-input {
 .conditional-group { display: none; animation: fadeUp 0.3s ease; }
 .conditional-group.visible { display: block; }
 
-.dietary-input {
-  margin-top: 0.5rem;
-  padding-left: 1.8rem;
-  display: none;
-  animation: fadeUp 0.3s ease;
-}
+.dietary-input { margin-top: 0.5rem; padding-left: 1.8rem; display: none; animation: fadeUp 0.3s ease; }
 .dietary-input.visible { display: block; }
 
 @keyframes fadeUp {
@@ -462,15 +445,9 @@ textarea.form-input {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.error-msg {
-  color: var(--sec-title); font-size: 14px; font-weight: 400;
-  margin-top: 1rem; display: none;
-}
+.error-msg { color: var(--sec-title); font-size: 14px; font-weight: 400; margin-top: 1rem; display: none; }
 
-.success-msg {
-  display: none; text-align: center;
-  padding: 3rem 0; animation: fadeUp 0.5s ease;
-}
+.success-msg { display: none; text-align: center; padding: 3rem 0; animation: fadeUp 0.5s ease; }
 
 .success-title {
   font-family: var(--display); font-weight: 700;
@@ -478,285 +455,126 @@ textarea.form-input {
   color: var(--sec-title); line-height: 1.15; margin-bottom: 1.5rem;
 }
 
-.success-text {
-  font-size: 16px; color: var(--body-text); font-weight: 400;
-  margin-bottom: 2rem;
-}
-
 .back-link {
   font-family: var(--body); font-size: 14px; font-weight: 400;
-  color: var(--body-text);
+  color: var(--sec-input, var(--sec-text));
   text-decoration: underline; text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
-  cursor: pointer;
+  text-decoration-thickness: 1px; cursor: pointer;
 }
 .back-link:hover { color: var(--sec-title); }
 
-/* ===== ITINERARY — accordion events ===== */
-.itin-section { margin-bottom: 0; }
-
+/* ===== ITINERARY ===== */
 .itin-day-label {
-  font-family: var(--display);
-  font-weight: 700;
+  font-family: var(--display); font-weight: 700;
   font-size: clamp(28px, 4vw, 40px);
-  color: var(--body-text);
+  color: var(--sec-text);
   margin: 2.5rem 0 0.5rem;
 }
-
 .itin-day-label:first-child { margin-top: 0; }
 
-.itin-accordion {
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-
-.itin-accordion:first-of-type {
-  border-top: 1px solid rgba(255,255,255,0.2);
-}
+.itin-accordion { border-bottom: 1px solid var(--sec-border); }
+.itin-accordion:first-of-type { border-top: 1px solid var(--sec-border); }
 
 .itin-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 1.2rem 0;
-  cursor: pointer;
-  text-align: left;
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; background: none; border: none;
+  padding: 1.2rem 0; cursor: pointer; text-align: left;
 }
 
-.itin-trigger-left {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
+.itin-trigger-left { display: flex; flex-direction: column; gap: 0.15rem; }
 
 .itin-trigger-title {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: clamp(18px, 3vw, 24px);
-  color: var(--sec-title);
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(18px, 3vw, 24px); color: var(--sec-title);
 }
 
-.itin-trigger-time {
-  font-family: var(--body);
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--body-text);
-}
+.itin-trigger-time { font-family: var(--body); font-size: 14px; font-weight: 400; color: var(--sec-text); }
 
-.itin-arrow {
-  width: 20px; height: 20px;
-  flex-shrink: 0;
-  color: var(--sec-title);
-  transition: transform 0.3s;
-  transform: rotate(0deg);
-}
-
+.itin-arrow { width: 20px; height: 20px; flex-shrink: 0; color: var(--sec-title); transition: transform 0.3s; }
 .itin-accordion.open .itin-arrow { transform: rotate(90deg); }
 
-.itin-body {
-  display: none;
-  padding: 0 0 1.5rem 0;
-  animation: fadeUp 0.3s ease;
-}
-
+.itin-body { display: none; padding: 0 0 1.5rem 0; animation: fadeUp 0.3s ease; }
 .itin-accordion.open .itin-body { display: block; }
 
-.itin-body-content {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.5rem;
-}
+.itin-body-content { display: flex; align-items: flex-start; gap: 1.5rem; }
 
-.itin-icon {
-  width: 80px; height: 80px;
-  flex-shrink: 0;
-  color: var(--body-text);
-}
-
+.itin-icon { width: 80px; height: 80px; flex-shrink: 0; }
 .itin-icon svg, .itin-icon img { width: 100%; height: 100%; }
 
-.itin-details {
-  flex: 1;
-}
+.itin-details { flex: 1; }
 
-.itin-detail-text {
-  font-family: var(--body);
-  font-size: 15px;
-  font-weight: 400;
-  color: var(--body-text);
-  line-height: 1.6;
-}
-
-.itin-detail-text a {
-  color: var(--body-text);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-}
-
+.itin-detail-text { font-family: var(--body); font-size: 15px; font-weight: 400; color: var(--sec-text); line-height: 1.6; }
+.itin-detail-text a { color: var(--sec-text); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 .itin-detail-text a:hover { color: var(--sec-title); }
+.itin-dress { font-family: var(--body); font-size: 13px; font-weight: 400; font-style: italic; color: var(--sec-text); margin-top: 0.4rem; }
 
-.itin-dress {
-  font-family: var(--body);
-  font-size: 13px;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--body-text);
-  margin-top: 0.4rem;
-}
-
-/* ===== LOGISTICS — accordion ===== */
-.log-section { margin-bottom: 0; }
-
-.log-accordion {
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-
-.log-accordion:first-of-type {
-  border-top: 1px solid rgba(255,255,255,0.2);
-}
+/* ===== LOGISTICS ===== */
+.log-accordion { border-bottom: 1px solid var(--sec-border); }
+.log-accordion:first-of-type { border-top: 1px solid var(--sec-border); }
 
 .log-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 1.2rem 0;
-  cursor: pointer;
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: clamp(18px, 3vw, 24px);
-  color: var(--body-text);
-  text-align: left;
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; background: none; border: none;
+  padding: 1.2rem 0; cursor: pointer;
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(18px, 3vw, 24px); color: var(--sec-text); text-align: left;
 }
 
-.log-trigger-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
+.log-trigger-left { display: flex; align-items: center; gap: 1rem; }
+.log-trigger-left svg { width: 28px; height: 28px; flex-shrink: 0; color: var(--sec-text); }
 
-.log-trigger-left svg {
-  width: 28px; height: 28px;
-  flex-shrink: 0;
-  color: var(--body-text);
-}
-
-.log-arrow {
-  width: 20px; height: 20px;
-  flex-shrink: 0;
-  color: var(--sec-title);
-  transition: transform 0.3s;
-  transform: rotate(0deg);
-}
-
+.log-arrow { width: 20px; height: 20px; flex-shrink: 0; color: var(--sec-title); transition: transform 0.3s; }
 .log-accordion.open .log-arrow { transform: rotate(90deg); }
 
-.log-body {
-  display: none;
-  padding: 0 0 1.5rem 2.8rem;
-  animation: fadeUp 0.3s ease;
-}
-
+.log-body { display: none; padding: 0 0 1.5rem 2.8rem; animation: fadeUp 0.3s ease; }
 .log-accordion.open .log-body { display: block; }
 
-.log-text {
-  font-family: var(--body);
-  font-size: 15px;
-  font-weight: 400;
-  color: var(--body-text);
-  line-height: 1.8;
-  margin-bottom: 0.8rem;
-}
+.log-text { font-family: var(--body); font-size: 15px; font-weight: 400; color: var(--sec-text); line-height: 1.8; margin-bottom: 0.8rem; }
 
-.log-link {
-  color: var(--body-text);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  font-weight: 400;
-  transition: color 0.2s;
-}
-
+.log-link { color: var(--sec-text); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; font-weight: 400; transition: color 0.2s; }
 .log-link:hover { color: var(--sec-title); }
 
 .hotel-list { margin-top: 0.5rem; }
-
 .hotel-entry { padding: 0.5rem 0; }
-
-.hotel-entry a {
-  font-family: var(--body);
-  font-size: 15px;
-  font-weight: 400;
-  color: var(--body-text);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  transition: color 0.2s;
-}
-
+.hotel-entry a { font-family: var(--body); font-size: 15px; font-weight: 400; color: var(--sec-text); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; transition: color 0.2s; }
 .hotel-entry a:hover { color: var(--sec-title); }
-
-.hotel-entry .hotel-addr {
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--body-text);
-  opacity: 0.7;
-  margin-top: 0.1rem;
-}
+.hotel-entry .hotel-addr { font-size: 13px; font-weight: 400; color: var(--sec-text); opacity: 0.7; margin-top: 0.1rem; }
 
 /* ===== REGISTRY ===== */
 .registry-area { max-width: 600px; }
-
-.registry-text {
-  font-family: var(--body);
-  font-size: 18px;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--body-text);
-  line-height: 1.7;
-  margin-bottom: 0.5rem;
-}
-
-.registry-link {
-  display: inline-block;
-  margin-top: 1.5rem;
-  font-family: var(--body);
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--body-text);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
-  transition: color 0.2s;
-}
-
+.registry-text { font-family: var(--body); font-size: 18px; font-weight: 400; font-style: italic; color: var(--sec-text); line-height: 1.7; margin-bottom: 0.5rem; }
+.registry-link { display: inline-block; margin-top: 1.5rem; font-family: var(--body); font-size: 16px; font-weight: 400; color: var(--sec-text); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; transition: color 0.2s; }
 .registry-link:hover { color: var(--sec-title); }
 
 /* ===== FOOTER ===== */
 footer {
   padding: 3rem 48px;
-  border-top: 1px solid rgba(255,255,255,0.15);
-  background: var(--coral);
+  border-top: 1px solid rgba(45,74,30,0.15);
+  background: #F5F0E8;
 }
+.footer-names { font-family: var(--display); font-weight: 700; font-size: 24px; color: #2D4A1E; margin-bottom: 0.2rem; }
+.footer-sub { font-family: var(--body); font-size: 12px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: #8B7355; opacity: 0.7; }
+@media (max-width: 640px) { footer { padding: 2.5rem 20px; } }
 
-.footer-names {
-  font-family: var(--display); font-weight: 700;
-  font-size: 24px; color: var(--navy); margin-bottom: 0.2rem;
+/* ===== BACK TO TOP ===== */
+.back-to-top {
+  position: fixed;
+  bottom: 24px; left: 24px;
+  z-index: 200;
+  width: 80px; height: 80px;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s, transform 0.2s;
+  border: none; background: none; padding: 0;
+  cursor: pointer;
 }
-
-.footer-sub {
-  font-family: var(--body); font-size: 12px; font-weight: 400;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--body-text); opacity: 0.5;
-}
-
-@media (max-width: 640px) {
-  footer { padding: 2.5rem 20px; }
+.back-to-top.visible { opacity: 1; pointer-events: auto; }
+.back-to-top:hover { transform: scale(1.05); }
+.back-to-top svg { width: 100%; height: 100%; }
+.back-to-top .blob-fill { fill: var(--accent, #8B7355); }
+.back-to-top .blob-text {
+  font-family: var(--body); font-size: 28px; font-weight: 700;
+  fill: #F5F0E8; text-anchor: middle; dominant-baseline: middle;
 }
 </style>
 </head>
@@ -764,50 +582,40 @@ footer {
 
 <!-- Password Screen -->
 <div class="pw-screen" id="pwScreen">
-  <!-- Beefeater guard SVG -->
   <svg class="pw-beefeater" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Hat -->
-    <rect x="30" y="8" width="60" height="50" rx="4" fill="#4A5E2A"/>
-    <rect x="38" y="0" width="44" height="12" rx="3" fill="#4A5E2A"/>
-    <line x1="50" y1="12" x2="50" y2="58" stroke="#F2EDD8" stroke-width="2"/>
-    <line x1="70" y1="12" x2="70" y2="58" stroke="#F2EDD8" stroke-width="2"/>
-    <circle cx="60" cy="6" r="4" fill="#F2EDD8"/>
-    <!-- Face -->
+    <rect x="30" y="8" width="60" height="50" rx="4" fill="#2D4A1E"/>
+    <rect x="38" y="0" width="44" height="12" rx="3" fill="#2D4A1E"/>
+    <line x1="50" y1="12" x2="50" y2="58" stroke="#F5F0E8" stroke-width="2"/>
+    <line x1="70" y1="12" x2="70" y2="58" stroke="#F5F0E8" stroke-width="2"/>
+    <circle cx="60" cy="6" r="4" fill="#F5F0E8"/>
     <rect x="38" y="58" width="44" height="36" rx="8" fill="#ffffff"/>
-    <circle cx="50" cy="72" r="2.5" fill="#F2EDD8"/>
-    <circle cx="70" cy="72" r="2.5" fill="#F2EDD8"/>
-    <path d="M55 80 Q60 84 65 80" stroke="#F2EDD8" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <!-- Beard -->
-    <path d="M38 82 Q38 100 60 102 Q82 100 82 82" fill="#ffffff" stroke="#F2EDD8" stroke-width="1.5"/>
-    <!-- Body / tunic -->
-    <rect x="28" y="94" width="64" height="60" rx="4" fill="#4A5E2A"/>
-    <line x1="60" y1="94" x2="60" y2="154" stroke="#F2EDD8" stroke-width="2"/>
-    <rect x="44" y="100" width="8" height="8" rx="2" fill="#F2EDD8"/>
-    <rect x="68" y="100" width="8" height="8" rx="2" fill="#F2EDD8"/>
-    <rect x="44" y="114" width="8" height="8" rx="2" fill="#F2EDD8"/>
-    <rect x="68" y="114" width="8" height="8" rx="2" fill="#F2EDD8"/>
-    <rect x="44" y="128" width="8" height="8" rx="2" fill="#F2EDD8"/>
-    <rect x="68" y="128" width="8" height="8" rx="2" fill="#F2EDD8"/>
-    <!-- Belt -->
-    <rect x="28" y="140" width="64" height="8" fill="#F2EDD8"/>
-    <rect x="54" y="138" width="12" height="12" rx="2" fill="#4A5E2A" stroke="#F2EDD8" stroke-width="1.5"/>
-    <!-- Legs -->
-    <rect x="34" y="154" width="20" height="36" rx="3" fill="#F2EDD8"/>
-    <rect x="66" y="154" width="20" height="36" rx="3" fill="#F2EDD8"/>
-    <!-- Feet -->
+    <circle cx="50" cy="72" r="2.5" fill="#2D4A1E"/>
+    <circle cx="70" cy="72" r="2.5" fill="#2D4A1E"/>
+    <path d="M55 80 Q60 84 65 80" stroke="#2D4A1E" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M38 82 Q38 100 60 102 Q82 100 82 82" fill="#ffffff" stroke="#ddd" stroke-width="1.5"/>
+    <rect x="28" y="94" width="64" height="60" rx="4" fill="#2D4A1E"/>
+    <line x1="60" y1="94" x2="60" y2="154" stroke="#F5F0E8" stroke-width="2"/>
+    <rect x="44" y="100" width="8" height="8" rx="2" fill="#F5F0E8"/>
+    <rect x="68" y="100" width="8" height="8" rx="2" fill="#F5F0E8"/>
+    <rect x="44" y="114" width="8" height="8" rx="2" fill="#F5F0E8"/>
+    <rect x="68" y="114" width="8" height="8" rx="2" fill="#F5F0E8"/>
+    <rect x="44" y="128" width="8" height="8" rx="2" fill="#F5F0E8"/>
+    <rect x="68" y="128" width="8" height="8" rx="2" fill="#F5F0E8"/>
+    <rect x="28" y="140" width="64" height="8" fill="#F5F0E8"/>
+    <rect x="54" y="138" width="12" height="12" rx="2" fill="#2D4A1E" stroke="#F5F0E8" stroke-width="1.5"/>
+    <rect x="34" y="154" width="20" height="36" rx="3" fill="#F5F0E8"/>
+    <rect x="66" y="154" width="20" height="36" rx="3" fill="#F5F0E8"/>
     <rect x="32" y="186" width="24" height="10" rx="5" fill="#333"/>
     <rect x="64" y="186" width="24" height="10" rx="5" fill="#333"/>
-    <!-- Arms -->
-    <rect x="10" y="96" width="18" height="10" rx="4" fill="#4A5E2A"/>
-    <rect x="92" y="96" width="18" height="10" rx="4" fill="#4A5E2A"/>
-    <!-- Spear -->
-    <line x1="108" y1="20" x2="108" y2="180" stroke="#F2EDD8" stroke-width="3"/>
-    <path d="M102 20 L108 4 L114 20 Z" fill="#4A5E2A"/>
+    <rect x="10" y="96" width="18" height="10" rx="4" fill="#2D4A1E"/>
+    <rect x="92" y="96" width="18" height="10" rx="4" fill="#2D4A1E"/>
+    <line x1="108" y1="20" x2="108" y2="180" stroke="#F5F0E8" stroke-width="3"/>
+    <path d="M102 20 L108 4 L114 20 Z" fill="#2D4A1E"/>
   </svg>
-  <div class="pw-title">Private Event</div>
-  <div class="pw-sub">Please enter the password to continue</div>
+  <div class="pw-title" data-i18n="pw.title">Private Event</div>
+  <div class="pw-sub" data-i18n="pw.sub">Please enter the password to continue</div>
   <input type="password" class="pw-input" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()" autofocus>
-  <div class="pw-error" id="pwError">Incorrect password. Try again.</div>
+  <div class="pw-error" id="pwError" data-i18n="pw.error">Incorrect password. Try again.</div>
 </div>
 
 <!-- Nav -->
@@ -817,181 +625,184 @@ footer {
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links">
-      <li><a class="nav-link active" href="#sec-invitation" data-section="sec-invitation">Invitation</a></li>
-      <li><a class="nav-link" href="#sec-itinerary" data-section="sec-itinerary">Itinerary</a></li>
-      <li><a class="nav-link" href="#sec-logistics" data-section="sec-logistics">Logistics & Accommodation</a></li>
-      <li><a class="nav-link" href="#sec-registry" data-section="sec-registry">Registry</a></li>
-      <li><a class="nav-link nav-game-link" onclick="toggleGame(); return false;" href="#" title="Play the game!" style="font-size:24px; line-height:1;">🎮</a></li>
+      <li><a class="nav-link active" href="#sec-hero" data-section="sec-hero" data-i18n="nav.invitation">Invitation</a></li>
+      <li><a class="nav-link" href="#sec-itinerary" data-section="sec-itinerary" data-i18n="nav.itinerary">Itinerary</a></li>
+      <li><a class="nav-link" href="#sec-logistics" data-section="sec-logistics" data-i18n="nav.logistics">Logistics &amp; Accommodation</a></li>
+      <li><a class="nav-link" href="#sec-registry" data-section="sec-registry" data-i18n="nav.registry">Registry</a></li>
+      <li>
+        <div class="lang-toggle">
+          <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" id="btnDE" onclick="setLang('de')">DE</button>
+        </div>
+      </li>
+      <li><a class="nav-link nav-game-link" onclick="toggleGame(); return false;" href="#" title="Play the game!" style="font-size:24px; line-height:1; padding-bottom:0;">&#127918;</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- ============ PAGE 1: INVITATION ============ -->
-<section id="sec-invitation" class="active">
-  <!-- Hero — side by side -->
-  <div class="hero">
+<!-- ============ SECTION: HERO ============ -->
+<section id="sec-hero" class="section-hero">
+  <div class="section-inner">
     <div class="hero-inner">
       <div class="hero-text">
-        <h1 class="hero-title">Laura & Marc</h1>
-        <p class="hero-sub">17 July &mdash; 19 July 2026 &middot; St. Gilgen, Austria</p>
+        <h1 class="hero-title">Laura &amp; Marc</h1>
+        <p class="hero-sub" data-i18n="hero.sub">17 July &mdash; 19 July 2026 &middot; St. Gilgen, Austria</p>
       </div>
       <div class="hero-photo">
-        <img src="photo_new_new.png" alt="Laura & Marc">
-      </div>
-    </div>
-  </div>
-
-  <!-- RSVP Form — directly below hero -->
-  <div class="page">
-    <div class="rsvp-section">
-      <h2 class="rsvp-heading">RSVP</h2>
-
-      <form id="rsvpForm" onsubmit="submitRSVP(event)">
-        <div class="rsvp-row">
-          <div class="rsvp-form-col">
-            <div class="form-group">
-              <label class="form-label">Name(s)</label>
-              <input type="text" class="form-input" id="rsvpNames" placeholder="First and last name(s)" required>
-            </div>
-
-            <!-- Friday event -->
-            <div class="form-group">
-              <label class="form-label">Friday, 17.07.2026 &mdash; Get Together</label>
-              <div class="radio-group">
-                <label class="radio-option" onclick="pickEvent('friday','attending')">
-                  <input type="radio" name="friday" value="attending"> Attending
-                </label>
-                <label class="radio-option" onclick="pickEvent('friday','not_attending')">
-                  <input type="radio" name="friday" value="not_attending"> Not attending
-                </label>
-              </div>
-            </div>
-
-            <!-- Saturday event -->
-            <div class="form-group">
-              <label class="form-label">Saturday, 18.07.2026 &mdash; Wedding</label>
-              <div class="radio-group">
-                <label class="radio-option" onclick="pickEvent('saturday','attending')">
-                  <input type="radio" name="saturday" value="attending"> Attending
-                </label>
-                <label class="radio-option" onclick="pickEvent('saturday','not_attending')">
-                  <input type="radio" name="saturday" value="not_attending"> Not attending
-                </label>
-              </div>
-            </div>
-
-            <!-- Email — shown when attending -->
-            <div class="conditional-group" id="emailGroup">
-              <div class="form-group">
-                <label class="form-label">Email Address</label>
-                <input type="email" class="form-input" id="rsvpEmail" placeholder="your@email.com">
-              </div>
-            </div>
-
-            <!-- Food preference — shown when attending any event -->
-            <div class="conditional-group" id="foodGroup">
-              <div class="form-group">
-                <label class="form-label">Food Preference</label>
-                <div class="radio-group">
-                  <label class="radio-option" onclick="pickFood(this,'meat')">
-                    <input type="radio" name="food" value="meat"> Meat
-                  </label>
-                  <label class="radio-option" onclick="pickFood(this,'vegetarian')">
-                    <input type="radio" name="food" value="vegetarian"> Vegetarian
-                  </label>
-                  <label class="radio-option" onclick="pickFood(this,'dietary')">
-                    <input type="radio" name="food" value="dietary"> Dietary restrictions
-                  </label>
-                </div>
-                <div class="dietary-input" id="dietaryInput">
-                  <input type="text" class="form-input" id="dietaryText" placeholder="Please specify your dietary restrictions">
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Comments / Message</label>
-              <textarea class="form-input" id="rsvpMsg" placeholder="Questions or a message for us..."></textarea>
-            </div>
-
-            <div class="error-msg" id="errorMsg"></div>
-          </div>
-
-          <!-- Flower blob on the right -->
-          <div class="rsvp-blob-col">
-            <button type="submit" class="flower-blob" id="submitBtn" style="transform:rotate(3deg)">
-              <svg viewBox="0 0 200 200">
-                <path d="M100,8 C108,8 115,22 118,30 C122,22 132,12 140,14 C148,16 152,28 148,38 C156,34 168,30 174,36 C180,42 178,56 172,64 C180,66 192,72 192,82 C192,92 180,98 172,98 C178,104 184,116 180,124 C176,132 164,134 156,128 C158,138 156,150 148,154 C140,158 130,150 124,142 C122,150 116,162 108,164 C100,166 92,158 88,148 C84,156 74,164 66,162 C58,160 52,148 54,138 C46,144 34,148 28,142 C22,136 24,124 30,116 C22,114 12,106 10,98 C8,90 16,80 24,76 C18,70 12,58 16,50 C20,42 32,38 40,42 C38,34 40,22 48,18 C56,14 66,22 72,30 C76,22 84,10 92,8 C96,7 100,8 100,8 Z"/>
-                <text x="100" y="108" text-anchor="middle" dominant-baseline="middle">SEND</text>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </form>
-
-      <div class="success-msg" id="successMsg">
-        <div class="success-title">Thank you &mdash;<br>we can't wait to celebrate with you!</div>
-        <a class="back-link" onclick="backToInvitation()">Back to invitation</a>
+        <img src="photo_new_new.png" alt="Laura &amp; Marc">
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ PAGE 2: ITINERARY ============ -->
-<section id="sec-itinerary">
-  <div class="page">
-    <h2 class="page-title">Itinerary</h2>
+<!-- ============ SECTION: RSVP ============ -->
+<section id="sec-rsvp" class="section-rsvp">
+  <div class="section-inner">
+    <h2 class="section-heading" data-i18n="rsvp.heading">RSVP</h2>
+
+    <form id="rsvpForm" onsubmit="submitRSVP(event)">
+      <div class="rsvp-row">
+        <div class="rsvp-form-col">
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="rsvp.names">Name(s)</label>
+            <input type="text" class="form-input" id="rsvpNames" data-i18n-placeholder="rsvp.names.placeholder" placeholder="First and last name(s)" required>
+          </div>
+
+          <!-- Friday -->
+          <div class="form-group">
+            <label class="form-label" data-i18n="rsvp.friday">Friday, 17.07.2026 &mdash; Get Together</label>
+            <div class="radio-group">
+              <label class="radio-option" onclick="pickEvent('friday','attending')">
+                <input type="radio" name="friday" value="attending">
+                <span data-i18n="rsvp.attending">Attending</span>
+              </label>
+              <label class="radio-option" onclick="pickEvent('friday','not_attending')">
+                <input type="radio" name="friday" value="not_attending">
+                <span data-i18n="rsvp.not_attending">Not attending</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Saturday -->
+          <div class="form-group">
+            <label class="form-label" data-i18n="rsvp.saturday">Saturday, 18.07.2026 &mdash; Wedding</label>
+            <div class="radio-group">
+              <label class="radio-option" onclick="pickEvent('saturday','attending')">
+                <input type="radio" name="saturday" value="attending">
+                <span data-i18n="rsvp.attending">Attending</span>
+              </label>
+              <label class="radio-option" onclick="pickEvent('saturday','not_attending')">
+                <input type="radio" name="saturday" value="not_attending">
+                <span data-i18n="rsvp.not_attending">Not attending</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="conditional-group" id="emailGroup">
+            <div class="form-group">
+              <label class="form-label" data-i18n="rsvp.email">Email Address</label>
+              <input type="email" class="form-input" id="rsvpEmail" data-i18n-placeholder="rsvp.email.placeholder" placeholder="your@email.com">
+            </div>
+          </div>
+
+          <!-- Food -->
+          <div class="conditional-group" id="foodGroup">
+            <div class="form-group">
+              <label class="form-label" data-i18n="rsvp.food">Food Preference</label>
+              <div class="radio-group">
+                <label class="radio-option" onclick="pickFood(this,'meat')">
+                  <input type="radio" name="food" value="meat">
+                  <span data-i18n="rsvp.meat">Meat</span>
+                </label>
+                <label class="radio-option" onclick="pickFood(this,'vegetarian')">
+                  <input type="radio" name="food" value="vegetarian">
+                  <span data-i18n="rsvp.vegetarian">Vegetarian</span>
+                </label>
+                <label class="radio-option" onclick="pickFood(this,'dietary')">
+                  <input type="radio" name="food" value="dietary">
+                  <span data-i18n="rsvp.dietary">Dietary restrictions</span>
+                </label>
+              </div>
+              <div class="dietary-input" id="dietaryInput">
+                <input type="text" class="form-input" id="dietaryText" data-i18n-placeholder="rsvp.dietary.placeholder" placeholder="Please specify your dietary restrictions">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="rsvp.comments">Comments / Message</label>
+            <textarea class="form-input" id="rsvpMsg" data-i18n-placeholder="rsvp.comments.placeholder" placeholder="Questions or a message for us..."></textarea>
+          </div>
+
+          <div class="error-msg" id="errorMsg"></div>
+        </div>
+
+        <!-- SEND blob -->
+        <div class="rsvp-blob-col">
+          <button type="submit" class="flower-blob" id="submitBtn" style="transform:rotate(3deg)">
+            <svg viewBox="0 0 200 200">
+              <path d="M100,8 C108,8 115,22 118,30 C122,22 132,12 140,14 C148,16 152,28 148,38 C156,34 168,30 174,36 C180,42 178,56 172,64 C180,66 192,72 192,82 C192,92 180,98 172,98 C178,104 184,116 180,124 C176,132 164,134 156,128 C158,138 156,150 148,154 C140,158 130,150 124,142 C122,150 116,162 108,164 C100,166 92,158 88,148 C84,156 74,164 66,162 C58,160 52,148 54,138 C46,144 34,148 28,142 C22,136 24,124 30,116 C22,114 12,106 10,98 C8,90 16,80 24,76 C18,70 12,58 16,50 C20,42 32,38 40,42 C38,34 40,22 48,18 C56,14 66,22 72,30 C76,22 84,10 92,8 C96,7 100,8 100,8 Z"/>
+              <text x="100" y="108" text-anchor="middle" dominant-baseline="middle" data-i18n="rsvp.send">SEND</text>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="success-msg" id="successMsg">
+      <div class="success-title" data-i18n="rsvp.success">Thank you &mdash;<br>we can&rsquo;t wait to celebrate with you!</div>
+      <a class="back-link" onclick="backToInvitation()" data-i18n="rsvp.back">Back to invitation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION: ITINERARY ============ -->
+<section id="sec-itinerary" class="section-itinerary">
+  <div class="section-inner">
+    <h2 class="section-heading" data-i18n="itin.heading">Itinerary</h2>
 
     <div class="itin-section">
       <!-- Friday -->
-      <div class="itin-day-label">Friday, July 17</div>
+      <div class="itin-day-label" data-i18n="itin.friday">Friday, July 17</div>
 
       <div class="itin-accordion">
         <button class="itin-trigger" onclick="toggleItin(this)">
           <div class="itin-trigger-left">
-            <span class="itin-trigger-title">Welcome Reception</span>
-            <span class="itin-trigger-time">From 6:00 pm</span>
+            <span class="itin-trigger-title" data-i18n="itin.welcome">Welcome Reception</span>
+            <span class="itin-trigger-time" data-i18n="itin.welcome.time">From 6:00 pm</span>
           </div>
           <svg class="itin-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="itin-body">
           <div class="itin-body-content">
-            <div class="itin-icon">
-              <img src="01_get_together_bavarian_picasso.svg" alt="Get Together">
-            </div>
+            <div class="itin-icon"><img src="01_get_together_bavarian_picasso.svg" alt="Get Together"></div>
             <div class="itin-details">
-              <div class="itin-detail-text">
-                <a href="https://billroth.at/" target="_blank" rel="noopener">Seehotel Billroth</a><br>
-                Billrothstra&szlig;e 2, 5340 St. Gilgen
-              </div>
-              <div class="itin-dress">Dress code: Tracht</div>
+              <div class="itin-detail-text"><a href="https://billroth.at/" target="_blank" rel="noopener">Seehotel Billroth</a><br>Billrothstra&szlig;e 2, 5340 St. Gilgen</div>
+              <div class="itin-dress" data-i18n="itin.welcome.dress">Dress code: Tracht</div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Saturday -->
-      <div class="itin-day-label">Saturday, July 18</div>
+      <div class="itin-day-label" data-i18n="itin.saturday">Saturday, July 18</div>
 
       <div class="itin-accordion">
         <button class="itin-trigger" onclick="toggleItin(this)">
           <div class="itin-trigger-left">
-            <span class="itin-trigger-title">Wedding Ceremony</span>
-            <span class="itin-trigger-time">11:00 am</span>
+            <span class="itin-trigger-title" data-i18n="itin.ceremony">Wedding Ceremony</span>
+            <span class="itin-trigger-time" data-i18n="itin.ceremony.time">11:00 am</span>
           </div>
           <svg class="itin-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="itin-body">
           <div class="itin-body-content">
-            <div class="itin-icon">
-              <img src="02_ceremony_church.svg" alt="Church">
-            </div>
+            <div class="itin-icon"><img src="02_ceremony_church.svg" alt="Church"></div>
             <div class="itin-details">
-              <div class="itin-detail-text">
-                <a href="https://www.google.com/maps/search/?api=1&query=Pfarrkirche+St.+Gilgen" target="_blank" rel="noopener">Parish Church St. Gilgen</a><br>
-                Ischlerstra&szlig;e 1, 5340 St. Gilgen
-              </div>
-              <div class="itin-dress">Dress code: Suit / Summer Formal</div>
+              <div class="itin-detail-text"><a href="https://www.google.com/maps/search/?api=1&query=Pfarrkirche+St.+Gilgen" target="_blank" rel="noopener">Parish Church St. Gilgen</a><br>Ischlerstra&szlig;e 1, 5340 St. Gilgen</div>
+              <div class="itin-dress" data-i18n="itin.ceremony.dress">Dress code: Suit / Summer Formal</div>
             </div>
           </div>
         </div>
@@ -1000,22 +811,17 @@ footer {
       <div class="itin-accordion">
         <button class="itin-trigger" onclick="toggleItin(this)">
           <div class="itin-trigger-left">
-            <span class="itin-trigger-title">Reception</span>
-            <span class="itin-trigger-time">Following the wedding ceremony</span>
+            <span class="itin-trigger-title" data-i18n="itin.reception">Reception</span>
+            <span class="itin-trigger-time" data-i18n="itin.reception.time">Following the wedding ceremony</span>
           </div>
           <svg class="itin-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="itin-body">
           <div class="itin-body-content">
-            <div class="itin-icon">
-              <img src="03_reception_champagne_picasso.svg" alt="Champagne">
-            </div>
+            <div class="itin-icon"><img src="03_reception_champagne_picasso.svg" alt="Champagne"></div>
             <div class="itin-details">
-              <div class="itin-detail-text">
-                <a href="https://billroth.at/" target="_blank" rel="noopener">Seehotel Billroth</a><br>
-                Billrothstra&szlig;e 2, 5340 St. Gilgen
-              </div>
-              <div class="itin-dress">Dress code: Suit / Summer Formal</div>
+              <div class="itin-detail-text"><a href="https://billroth.at/" target="_blank" rel="noopener">Seehotel Billroth</a><br>Billrothstra&szlig;e 2, 5340 St. Gilgen</div>
+              <div class="itin-dress" data-i18n="itin.reception.dress">Dress code: Suit / Summer Formal</div>
             </div>
           </div>
         </div>
@@ -1024,44 +830,38 @@ footer {
       <div class="itin-accordion">
         <button class="itin-trigger" onclick="toggleItin(this)">
           <div class="itin-trigger-left">
-            <span class="itin-trigger-title">Aperitivo, Dinner & Party</span>
-            <span class="itin-trigger-time">From 5:00 pm</span>
+            <span class="itin-trigger-title" data-i18n="itin.dinner">Aperitivo, Dinner &amp; Party</span>
+            <span class="itin-trigger-time" data-i18n="itin.dinner.time">From 5:00 pm</span>
           </div>
           <svg class="itin-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="itin-body">
           <div class="itin-body-content">
-            <div class="itin-icon">
-              <img src="01_get_together_bavarian.svg" alt="Dinner & Party">
-            </div>
+            <div class="itin-icon"><img src="01_get_together_bavarian.svg" alt="Dinner &amp; Party"></div>
             <div class="itin-details">
-              <div class="itin-detail-text">
-                <a href="https://www.google.com/maps/search/?api=1&query=Ansitz+Wartenfels+Thalgau" target="_blank" rel="noopener">Ansitz Wartenfels</a><br>
-                Vordereggstra&szlig;e 30, 5303 Thalgau
-              </div>
-              <div class="itin-dress">Dress code: Black Tie</div>
+              <div class="itin-detail-text"><a href="https://www.google.com/maps/search/?api=1&query=Ansitz+Wartenfels+Thalgau" target="_blank" rel="noopener">Ansitz Wartenfels</a><br>Vordereggstra&szlig;e 30, 5303 Thalgau</div>
+              <div class="itin-dress" data-i18n="itin.dinner.dress">Dress code: Black Tie</div>
             </div>
           </div>
         </div>
       </div>
+
       <!-- Sunday -->
-      <div class="itin-day-label">Sunday, July 19</div>
+      <div class="itin-day-label" data-i18n="itin.sunday">Sunday, July 19</div>
 
       <div class="itin-accordion">
         <button class="itin-trigger" onclick="toggleItin(this)">
           <div class="itin-trigger-left">
-            <span class="itin-trigger-title">Breakfast & Lake Morning</span>
-            <span class="itin-trigger-time">From 11:00 am</span>
+            <span class="itin-trigger-title" data-i18n="itin.morning">Breakfast &amp; Lake Morning</span>
+            <span class="itin-trigger-time" data-i18n="itin.morning.time">From 11:00 am</span>
           </div>
           <svg class="itin-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="itin-body">
           <div class="itin-body-content">
             <div class="itin-details">
-              <div class="itin-detail-text">
-                No agenda, just good company. Join us for breakfast at the hotel and an easy morning by the lake. Come as you are.
-              </div>
-              <div class="itin-dress">Dress code: Whatever you feel like</div>
+              <div class="itin-detail-text" data-i18n="itin.morning.desc">No agenda, just good company. Join us for breakfast at the hotel and an easy morning by the lake. Come as you are.</div>
+              <div class="itin-dress" data-i18n="itin.morning.dress">Dress code: Whatever you feel like</div>
             </div>
           </div>
         </div>
@@ -1070,10 +870,10 @@ footer {
   </div>
 </section>
 
-<!-- ============ PAGE 3: LOGISTICS ============ -->
-<section id="sec-logistics">
-  <div class="page">
-    <h2 class="page-title">Logistics & Accommodation</h2>
+<!-- ============ SECTION: LOGISTICS ============ -->
+<section id="sec-logistics" class="section-logistics">
+  <div class="section-inner">
+    <h2 class="section-heading" data-i18n="log.heading">Logistics &amp; Accommodation</h2>
 
     <div class="log-section">
       <!-- Where to Stay -->
@@ -1081,12 +881,12 @@ footer {
         <button class="log-trigger" onclick="toggleAccordion(this)">
           <div class="log-trigger-left">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20h20M6 20v-6a2 2 0 012-2h12a2 2 0 012 2v6M9 12V9a5 5 0 0110 0v3"/><rect x="4" y="20" width="20" height="3" rx="1"/></svg>
-            <span>Where to Stay</span>
+            <span data-i18n="log.stay">Where to Stay</span>
           </div>
           <svg class="log-arrow" viewBox="0 0 20 20"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="log-body">
-          <p class="log-text">We recommend the following hotels in St. Gilgen.</p>
+          <p class="log-text" data-i18n="log.stay.intro">We recommend the following hotels in St. Gilgen.</p>
           <div class="hotel-list">
             <div class="hotel-entry">
               <a href="https://billroth.at/" target="_blank" rel="noopener">Seehotel Billroth</a>
@@ -1101,9 +901,7 @@ footer {
               <div class="hotel-addr">Kirchenpl. 3, 5340 St. Gilgen &middot; +43 6227 2223</div>
             </div>
           </div>
-          <p class="log-text" style="margin-top:1rem; font-style:italic; opacity:0.7;">
-            St. Gilgen is a small, beautiful and charming village by the lake. There are many more hotels and B&amp;Bs, and most are within walking distance of the wedding location and church.
-          </p>
+          <p class="log-text" style="margin-top:1rem; font-style:italic; opacity:0.7;" data-i18n="log.stay.note">St. Gilgen is a small, beautiful and charming village by the lake. There are many more hotels and B&amp;Bs, and most are within walking distance of the wedding location and church.</p>
         </div>
       </div>
 
@@ -1112,18 +910,13 @@ footer {
         <button class="log-trigger" onclick="toggleAccordion(this)">
           <div class="log-trigger-left">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 22l6-16 5 8 5-4 6 12H3z"/><path d="M22 6l-4 2 1-4 3 2z"/><path d="M18 8l4-2"/></svg>
-            <span>How to Get There</span>
+            <span data-i18n="log.travel">How to Get There</span>
           </div>
           <svg class="log-arrow" viewBox="0 0 20 20"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="log-body">
-          <p class="log-text">
-            St. Gilgen can be reached by train or car from Vienna and Munich.
-            There are also direct flights to Salzburg. From Salzburg, it is approximately 40 minutes by car.
-          </p>
-          <p class="log-text" style="margin-top:0.5rem;">
-            <a href="https://www.google.com/maps/place/St.+Gilgen,+Austria" target="_blank" rel="noopener" class="log-link">View St. Gilgen on Google Maps &rarr;</a>
-          </p>
+          <p class="log-text" data-i18n="log.travel.desc">St. Gilgen can be reached by train or car from Vienna and Munich. There are also direct flights to Salzburg. From Salzburg, it is approximately 40 minutes by car.</p>
+          <p class="log-text" style="margin-top:0.5rem;"><a href="https://www.google.com/maps/place/St.+Gilgen,+Austria" target="_blank" rel="noopener" class="log-link" data-i18n="log.maps">View St. Gilgen on Google Maps &rarr;</a></p>
         </div>
       </div>
 
@@ -1132,25 +925,23 @@ footer {
         <button class="log-trigger" onclick="toggleAccordion(this)">
           <div class="log-trigger-left">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="8" width="24" height="14" rx="3"/><circle cx="8" cy="22" r="2.5"/><circle cx="20" cy="22" r="2.5"/><path d="M2 15h24"/><path d="M6 8V6a2 2 0 012-2h12a2 2 0 012 2v2"/></svg>
-            <span>Transport</span>
+            <span data-i18n="log.transport">Transport</span>
           </div>
           <svg class="log-arrow" viewBox="0 0 20 20"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="log-body">
-          <p class="log-text">
-            We will provide a shuttle service to and from the evening venue on Saturday, July 18th. The shuttles will be leaving from Seehotel Billroth and Hotel Zur Post at 5:00 pm. There will be regular shuttles from the evening location back to St. Gilgen throughout the night.
-          </p>
+          <p class="log-text" data-i18n="log.transport.desc">We will provide a shuttle service to and from the evening venue on Saturday, July 18th. The shuttles will be leaving from Seehotel Billroth and Hotel Zur Post at 5:00 pm. There will be regular shuttles from the evening location back to St. Gilgen throughout the night.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ PAGE 4: REGISTRY ============ -->
-<section id="sec-registry">
-  <div class="page">
+<!-- ============ SECTION: REGISTRY ============ -->
+<section id="sec-registry" class="section-registry">
+  <div class="section-inner">
     <div style="display:flex; align-items:center; gap:1.5rem; margin-bottom:2rem;">
-      <h2 class="page-title" style="margin-bottom:0;">Registry</h2>
+      <h2 class="section-heading" style="margin-bottom:0;" data-i18n="reg.heading">Registry</h2>
       <svg viewBox="0 0 64 64" width="70" height="70" fill="none" stroke="var(--sec-title)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
         <rect x="8" y="28" width="48" height="28" rx="3"/>
         <rect x="4" y="20" width="56" height="10" rx="3"/>
@@ -1161,20 +952,28 @@ footer {
     </div>
 
     <div class="registry-area">
-      <p class="registry-text">Your presence is a great Gift! &lt;3</p>
-      <p class="registry-text">A contribution to our honey moon is also a great gift :)</p>
-      <p class="registry-text">If you would like to contribute, we would be very grateful.</p>
+      <p class="registry-text" data-i18n="reg.text1">Your presence is a great Gift! &lt;3</p>
+      <p class="registry-text" data-i18n="reg.text2">A contribution to our honey moon is also a great gift :)</p>
+      <p class="registry-text" data-i18n="reg.text3">If you would like to contribute, we would be very grateful.</p>
       <div style="margin-top:2rem;">
-        <p class="form-label">Bank Transfer</p>
+        <p class="form-label" data-i18n="reg.bank">Bank Transfer</p>
         <p class="registry-text" style="font-style:normal; font-size:15px;">IBAN: <strong>PLACEHOLDER</strong></p>
       </div>
       <div style="margin-top:1.5rem;">
-        <p class="form-label">PayPal</p>
+        <p class="form-label" data-i18n="reg.paypal">PayPal</p>
         <p class="registry-text" style="font-style:normal; font-size:15px;">PayPal: <strong>PLACEHOLDER</strong></p>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Back to top -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <svg viewBox="0 0 80 80">
+    <path class="blob-fill" d="M40,6 C46,6 51,15 54,21 C58,15 65,8 71,10 C77,12 79,22 76,30 C82,27 88,28 90,34 C90,34 91,44 85,50 C91,54 92,63 87,68 C82,73 74,71 69,66 C67,74 62,80 55,80 C48,80 43,73 40,66 C37,73 32,80 25,80 C18,80 13,74 11,66 C6,71 -2,73 -7,68 C-12,63 -11,54 -5,50 C-11,44 -10,34 -10,34 C-8,28 -2,27 4,30 C1,22 3,12 9,10 C15,8 22,15 26,21 C29,15 34,6 40,6 Z"/>
+    <text class="blob-text" x="40" y="42">&#8593;</text>
+  </svg>
+</button>
 
 <!-- Game overlay -->
 <div class="game-overlay" id="gameOverlay" onclick="toggleGame()"></div>
@@ -1185,11 +984,215 @@ footer {
 
 <!-- Footer -->
 <footer>
-  <div class="footer-names">Laura & Marc</div>
-  <p class="footer-sub">July 17 &mdash; 18, 2026 &middot; St. Gilgen, Austria</p>
+  <div class="footer-names">Laura &amp; Marc</div>
+  <p class="footer-sub" data-i18n="footer.sub">July 17 &mdash; 19, 2026 &middot; St. Gilgen, Austria</p>
 </footer>
 
 <script>
+// ===== TRANSLATIONS =====
+const TRANSLATIONS = {
+  en: {
+    'nav.invitation': 'Invitation',
+    'nav.itinerary': 'Itinerary',
+    'nav.logistics': 'Logistics & Accommodation',
+    'nav.registry': 'Registry',
+    'hero.sub': '17 July \u2014 19 July 2026 \u00b7 St. Gilgen, Austria',
+    'rsvp.heading': 'RSVP',
+    'rsvp.names': 'Name(s)',
+    'rsvp.names.placeholder': 'First and last name(s)',
+    'rsvp.friday': 'Friday, 17.07.2026 \u2014 Get Together',
+    'rsvp.attending': 'Attending',
+    'rsvp.not_attending': 'Not attending',
+    'rsvp.saturday': 'Saturday, 18.07.2026 \u2014 Wedding',
+    'rsvp.email': 'Email Address',
+    'rsvp.email.placeholder': 'your@email.com',
+    'rsvp.food': 'Food Preference',
+    'rsvp.meat': 'Meat',
+    'rsvp.vegetarian': 'Vegetarian',
+    'rsvp.dietary': 'Dietary restrictions',
+    'rsvp.dietary.placeholder': 'Please specify your dietary restrictions',
+    'rsvp.comments': 'Comments / Message',
+    'rsvp.comments.placeholder': 'Questions or a message for us\u2026',
+    'rsvp.send': 'SEND',
+    'rsvp.success': 'Thank you \u2014\nwe can\u2019t wait to celebrate with you!',
+    'rsvp.back': 'Back to invitation',
+    'itin.heading': 'Itinerary',
+    'itin.friday': 'Friday, July 17',
+    'itin.welcome': 'Welcome Reception',
+    'itin.welcome.time': 'From 6:00 pm',
+    'itin.welcome.dress': 'Dress code: Tracht',
+    'itin.saturday': 'Saturday, July 18',
+    'itin.ceremony': 'Wedding Ceremony',
+    'itin.ceremony.time': '11:00 am',
+    'itin.ceremony.dress': 'Dress code: Suit / Summer Formal',
+    'itin.reception': 'Reception',
+    'itin.reception.time': 'Following the wedding ceremony',
+    'itin.reception.dress': 'Dress code: Suit / Summer Formal',
+    'itin.dinner': 'Aperitivo, Dinner & Party',
+    'itin.dinner.time': 'From 5:00 pm',
+    'itin.dinner.dress': 'Dress code: Black Tie',
+    'itin.sunday': 'Sunday, July 19',
+    'itin.morning': 'Breakfast & Lake Morning',
+    'itin.morning.time': 'From 11:00 am',
+    'itin.morning.desc': 'No agenda, just good company. Join us for breakfast at the hotel and an easy morning by the lake. Come as you are.',
+    'itin.morning.dress': 'Dress code: Whatever you feel like',
+    'log.heading': 'Logistics & Accommodation',
+    'log.stay': 'Where to Stay',
+    'log.stay.intro': 'We recommend the following hotels in St. Gilgen.',
+    'log.stay.note': 'St. Gilgen is a small, beautiful and charming village by the lake. There are many more hotels and B&Bs, and most are within walking distance of the wedding location and church.',
+    'log.travel': 'How to Get There',
+    'log.travel.desc': 'St. Gilgen can be reached by train or car from Vienna and Munich. There are also direct flights to Salzburg. From Salzburg, it is approximately 40 minutes by car.',
+    'log.maps': 'View St. Gilgen on Google Maps \u2192',
+    'log.transport': 'Transport',
+    'log.transport.desc': 'We will provide a shuttle service to and from the evening venue on Saturday, July 18th. The shuttles will be leaving from Seehotel Billroth and Hotel Zur Post at 5:00 pm. There will be regular shuttles from the evening location back to St. Gilgen throughout the night.',
+    'reg.heading': 'Registry',
+    'reg.text1': 'Your presence is a great Gift! <3',
+    'reg.text2': 'A contribution to our honey moon is also a great gift :)',
+    'reg.text3': 'If you would like to contribute, we would be very grateful.',
+    'reg.bank': 'Bank Transfer',
+    'reg.paypal': 'PayPal',
+    'pw.title': 'Private Event',
+    'pw.sub': 'Please enter the password to continue',
+    'pw.error': 'Incorrect password. Try again.',
+    'footer.sub': 'July 17 \u2014 19, 2026 \u00b7 St. Gilgen, Austria',
+  },
+  de: {
+    'nav.invitation': 'Einladung',
+    'nav.itinerary': 'Programm',
+    'nav.logistics': 'Anreise & Unterkunft',
+    'nav.registry': 'Geschenke',
+    'hero.sub': '17. Juli \u2014 19. Juli 2026 \u00b7 St. Gilgen, \u00d6sterreich',
+    'rsvp.heading': 'RSVP',
+    'rsvp.names': 'Name(n)',
+    'rsvp.names.placeholder': 'Vor- und Nachname(n)',
+    'rsvp.friday': 'Freitag, 17.07.2026 \u2014 Get Together',
+    'rsvp.attending': 'Dabei',
+    'rsvp.not_attending': 'Nicht dabei',
+    'rsvp.saturday': 'Samstag, 18.07.2026 \u2014 Hochzeit',
+    'rsvp.email': 'E-Mail-Adresse',
+    'rsvp.email.placeholder': 'deine@email.com',
+    'rsvp.food': 'Essenswunsch',
+    'rsvp.meat': 'Fleisch',
+    'rsvp.vegetarian': 'Vegetarisch',
+    'rsvp.dietary': 'Besondere Ern\u00e4hrung',
+    'rsvp.dietary.placeholder': 'Bitte angeben',
+    'rsvp.comments': 'Kommentare / Nachricht',
+    'rsvp.comments.placeholder': 'Fragen oder eine Nachricht f\u00fcr uns\u2026',
+    'rsvp.send': 'SENDEN',
+    'rsvp.success': 'Danke \u2014\nwir freuen uns riesig auf euch!',
+    'rsvp.back': 'Zur\u00fcck zur Einladung',
+    'itin.heading': 'Programm',
+    'itin.friday': 'Freitag, 17. Juli',
+    'itin.welcome': 'Welcome Reception',
+    'itin.welcome.time': 'Ab 18:00 Uhr',
+    'itin.welcome.dress': 'Dresscode: Tracht',
+    'itin.saturday': 'Samstag, 18. Juli',
+    'itin.ceremony': 'Trauung',
+    'itin.ceremony.time': '11:00 Uhr',
+    'itin.ceremony.dress': 'Dresscode: Anzug / Sommer Elegant',
+    'itin.reception': 'Sektempfang',
+    'itin.reception.time': 'Im Anschluss an die Trauung',
+    'itin.reception.dress': 'Dresscode: Anzug / Sommer Elegant',
+    'itin.dinner': 'Aperitivo, Dinner & Party',
+    'itin.dinner.time': 'Ab 17:00 Uhr',
+    'itin.dinner.dress': 'Dresscode: Black Tie',
+    'itin.sunday': 'Sonntag, 19. Juli',
+    'itin.morning': 'Fr\u00fchst\u00fcck & Morgen am See',
+    'itin.morning.time': 'Ab 11:00 Uhr',
+    'itin.morning.desc': 'Kein Programm, nur gute Gesellschaft. Kommt zum Fr\u00fchst\u00fcck ins Hotel und genie\u00dft den Morgen am See. Kommt wie ihr seid.',
+    'itin.morning.dress': 'Dresscode: Was euch gef\u00e4llt',
+    'log.heading': 'Anreise & Unterkunft',
+    'log.stay': 'Unterkunft',
+    'log.stay.intro': 'Wir empfehlen folgende Hotels in St. Gilgen.',
+    'log.stay.note': 'St. Gilgen ist ein kleines, sch\u00f6nes Dorf am See. Es gibt viele weitere Hotels und Pensionen, die meisten sind zu Fu\u00df erreichbar.',
+    'log.travel': 'Anreise',
+    'log.travel.desc': 'St. Gilgen ist mit Zug oder Auto aus Wien und M\u00fcnchen erreichbar. Es gibt auch Direktfl\u00fcge nach Salzburg. Von Salzburg sind es ca. 40 Minuten mit dem Auto.',
+    'log.maps': 'St. Gilgen auf Google Maps \u2192',
+    'log.transport': 'Transport',
+    'log.transport.desc': 'Wir organisieren einen Shuttleservice zum Abendveranstaltungsort am Samstag, 18. Juli. Die Shuttles fahren um 17:00 Uhr vom Seehotel Billroth und Hotel Zur Post ab. Es wird regelm\u00e4\u00dfige Shuttles zur\u00fcck nach St. Gilgen geben.',
+    'reg.heading': 'Geschenke',
+    'reg.text1': 'Eure Anwesenheit ist das gr\u00f6\u00dfte Geschenk! \u2764',
+    'reg.text2': 'Ein Beitrag zu unserer Hochzeitsreise ist ebenfalls ein sch\u00f6nes Geschenk :)',
+    'reg.text3': 'Wenn ihr m\u00f6chtet, freuen wir uns sehr.',
+    'reg.bank': 'Bank\u00fcberweisung',
+    'reg.paypal': 'PayPal',
+    'pw.title': 'Privates Event',
+    'pw.sub': 'Bitte Passwort eingeben',
+    'pw.error': 'Falsches Passwort. Nochmal versuchen.',
+    'footer.sub': '17. Juli \u2014 19. Juli 2026 \u00b7 St. Gilgen, \u00d6sterreich',
+  }
+};
+
+// ===== APPLY COLORS FROM color-config.js =====
+function applyColors() {
+  if (typeof COLORS === 'undefined') return;
+
+  const hexToRgba = (hex, a) => {
+    const r = parseInt(hex.slice(1,3),16);
+    const g = parseInt(hex.slice(3,5),16);
+    const b = parseInt(hex.slice(5,7),16);
+    return `rgba(${r},${g},${b},${a})`;
+  };
+
+  const map = [
+    ['section-hero',      COLORS.hero],
+    ['section-rsvp',      COLORS.rsvp],
+    ['section-itinerary', COLORS.itinerary],
+    ['section-logistics', COLORS.logistics],
+    ['section-registry',  COLORS.registry],
+  ];
+
+  map.forEach(([cls, col]) => {
+    const el = document.querySelector('.' + cls);
+    if (!el || !col) return;
+    el.style.setProperty('--sec-bg',    col.bg);
+    el.style.setProperty('--sec-title', col.title);
+    el.style.setProperty('--sec-text',  col.text);
+    if (col.input) el.style.setProperty('--sec-input', col.input);
+    // Compute border color from title
+    el.style.setProperty('--sec-border', hexToRgba(col.title, 0.18));
+  });
+
+  // Nav
+  if (COLORS.nav) {
+    document.documentElement.style.setProperty('--nav-bg',   COLORS.nav.bg);
+    document.documentElement.style.setProperty('--nav-text', COLORS.nav.text);
+  }
+  if (COLORS.accent) {
+    document.documentElement.style.setProperty('--accent', COLORS.accent);
+  }
+}
+applyColors();
+
+// ===== LANGUAGE TOGGLE =====
+let currentLang = localStorage.getItem('lang') || 'en';
+
+function applyLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  document.getElementById('btnEN').classList.toggle('active', lang === 'en');
+  document.getElementById('btnDE').classList.toggle('active', lang === 'de');
+
+  const t = TRANSLATIONS[lang];
+
+  // Swap textContent for data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) {
+      // Preserve line breaks with <br> where needed
+      el.textContent = t[key];
+    }
+  });
+
+  // Swap placeholder text
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+}
+
+function setLang(lang) { applyLang(lang); }
+
 // ===== PASSWORD =====
 function checkPw() {
   const input = document.getElementById('pwInput').value;
@@ -1202,7 +1205,6 @@ function checkPw() {
     document.getElementById('pwInput').focus();
   }
 }
-// Auto-unlock if already authenticated this session
 if (sessionStorage.getItem('pw_ok') === '1') {
   document.getElementById('pwScreen').classList.add('hidden');
 }
@@ -1212,7 +1214,6 @@ const SB_URL = 'https://rmdwqdfuzwwaqlwampkf.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJtZHdxZGZ1end3YXFsd2FtcGtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMjU3MDEsImV4cCI6MjA5MDgwMTcwMX0.RmIYijO-RJ8QoQ6lGNO_S7lI-sGbY8Ao_OEexFMiZ24';
 
 // ===== NAV =====
-// Smooth scroll nav links
 document.querySelectorAll('.nav-link[data-section]').forEach(link => {
   link.addEventListener('click', function(e) {
     e.preventDefault();
@@ -1224,38 +1225,38 @@ document.querySelectorAll('.nav-link[data-section]').forEach(link => {
   });
 });
 
-// Scroll spy — auto-update active nav dot
+// Scroll spy
 const spySections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-link[data-section]');
 
 function updateActiveNav() {
   const nav = document.getElementById('mainNav');
-  if (window.scrollY > 40) {
-    nav.classList.add('scrolled');
-  } else {
-    nav.classList.remove('scrolled');
-  }
+  nav.classList.toggle('scrolled', window.scrollY > 40);
 
   let current = '';
   spySections.forEach(section => {
-    const rect = section.getBoundingClientRect();
-    if (rect.top <= 150) {
-      current = section.id;
-    }
+    if (section.getBoundingClientRect().top <= 150) current = section.id;
   });
 
-  if (current) {
+  // Map sec-rsvp back to sec-hero for nav highlighting
+  const navTarget = current === 'sec-rsvp' ? 'sec-hero' : current;
+
+  if (navTarget) {
     navLinks.forEach(link => {
       link.classList.remove('active');
-      if (link.dataset.section === current) {
-        link.classList.add('active');
-      }
+      if (link.dataset.section === navTarget) link.classList.add('active');
     });
   }
 }
 
 window.addEventListener('scroll', updateActiveNav);
 updateActiveNav();
+
+// ===== BACK TO TOP =====
+const btt = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  btt.classList.toggle('visible', window.scrollY > 300);
+});
 
 // ===== GAME OVERLAY =====
 function toggleGame() {
@@ -1279,14 +1280,12 @@ function toggleGame() {
 
 // ===== ITINERARY ACCORDION =====
 function toggleItin(trigger) {
-  const acc = trigger.closest('.itin-accordion');
-  acc.classList.toggle('open');
+  trigger.closest('.itin-accordion').classList.toggle('open');
 }
 
 // ===== LOGISTICS ACCORDION =====
 function toggleAccordion(trigger) {
-  const acc = trigger.closest('.log-accordion');
-  acc.classList.toggle('open');
+  trigger.closest('.log-accordion').classList.toggle('open');
 }
 
 // ===== RSVP =====
@@ -1296,29 +1295,24 @@ function pickEvent(day, val) {
   if (day === 'friday') friday = val;
   if (day === 'saturday') saturday = val;
 
-  // Highlight selected option
   const group = document.querySelectorAll(`input[name="${day}"]`);
   group.forEach(r => r.closest('.radio-option').classList.remove('selected'));
   const sel = document.querySelector(`input[name="${day}"][value="${val}"]`);
   if (sel) { sel.checked = true; sel.closest('.radio-option').classList.add('selected'); }
 
-  // Show email if attending either event; food only if attending Saturday (wedding dinner)
   const anyAttending = (friday === 'attending' || saturday === 'attending');
   const satAttending = (saturday === 'attending');
-  const eg = document.getElementById('emailGroup');
-  const fg = document.getElementById('foodGroup');
-  if (anyAttending) {
-    eg.classList.add('visible');
-  } else {
-    eg.classList.remove('visible');
-    document.getElementById('rsvpEmail').value = '';
-  }
-  if (satAttending) {
-    fg.classList.add('visible');
-  } else {
-    fg.classList.remove('visible');
+
+  document.getElementById('emailGroup').classList.toggle('visible', anyAttending);
+  if (!anyAttending) document.getElementById('rsvpEmail').value = '';
+
+  document.getElementById('foodGroup').classList.toggle('visible', satAttending);
+  if (!satAttending) {
     food = null;
-    fg.querySelectorAll('.radio-option').forEach(o => { o.classList.remove('selected'); o.querySelector('input').checked = false; });
+    document.getElementById('foodGroup').querySelectorAll('.radio-option').forEach(o => {
+      o.classList.remove('selected');
+      o.querySelector('input').checked = false;
+    });
     document.getElementById('dietaryInput').classList.remove('visible');
     document.getElementById('dietaryText').value = '';
   }
@@ -1328,13 +1322,8 @@ function pickFood(el, val) {
   food = val;
   document.querySelectorAll('#foodGroup .radio-option').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
-  const di = document.getElementById('dietaryInput');
-  if (val === 'dietary') {
-    di.classList.add('visible');
-  } else {
-    di.classList.remove('visible');
-    document.getElementById('dietaryText').value = '';
-  }
+  document.getElementById('dietaryInput').classList.toggle('visible', val === 'dietary');
+  if (val !== 'dietary') document.getElementById('dietaryText').value = '';
 }
 
 async function submitRSVP(e) {
@@ -1372,32 +1361,36 @@ async function submitRSVP(e) {
   } catch (er) {
     console.error('RSVP error:', er);
     const subj = encodeURIComponent('RSVP - ' + names);
-    const email = document.getElementById('rsvpEmail').value.trim();
-    const body = encodeURIComponent(['Name(s): '+names, email?'Email: '+email:'', 'Friday Get Together: '+friday, 'Saturday Wedding: '+saturday, food?'Food: '+food:'', dietaryNote?'Dietary: '+dietaryNote:'', document.getElementById('rsvpMsg').value.trim()||''].filter(Boolean).join('\n'));
+    const emailVal = document.getElementById('rsvpEmail').value.trim();
+    const body = encodeURIComponent(['Name(s): '+names, emailVal?'Email: '+emailVal:'', 'Friday: '+friday, 'Saturday: '+saturday, food?'Food: '+food:'', dietaryNote?'Dietary: '+dietaryNote:'', document.getElementById('rsvpMsg').value.trim()||''].filter(Boolean).join('\n'));
     window.open('mailto:weddinglauramarc@gmail.com?subject='+subj+'&body='+body, '_self');
     document.getElementById('rsvpForm').style.display = 'none';
     document.getElementById('successMsg').style.display = 'block';
   }
 }
 
-function showErr(msg) { const el = document.getElementById('errorMsg'); el.textContent = msg; el.style.display = 'block'; }
+function showErr(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
 
 function backToInvitation() {
   document.getElementById('rsvpForm').style.display = 'block';
   document.getElementById('successMsg').style.display = 'none';
   document.getElementById('submitBtn').disabled = false;
-  document.getElementById('rsvpNames').value = '';
-  document.getElementById('rsvpEmail').value = '';
-  document.getElementById('rsvpMsg').value = '';
-  document.getElementById('dietaryText').value = '';
+  ['rsvpNames','rsvpEmail','rsvpMsg','dietaryText'].forEach(id => document.getElementById(id).value = '');
   friday = null; saturday = null; food = null;
   document.querySelectorAll('.radio-option').forEach(o => { o.classList.remove('selected'); const r = o.querySelector('input'); if(r) r.checked = false; });
   document.getElementById('emailGroup').classList.remove('visible');
   document.getElementById('foodGroup').classList.remove('visible');
   document.getElementById('dietaryInput').classList.remove('visible');
   document.getElementById('errorMsg').style.display = 'none';
-  document.getElementById('sec-invitation').scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('sec-hero').scrollIntoView({ behavior: 'smooth' });
 }
+
+// Apply language on load (after DOM is ready)
+applyLang(currentLang);
 </script>
 </body>
 </html>
