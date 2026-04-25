@@ -1125,19 +1125,34 @@ async function submitRSVP(e) {
     message: document.getElementById('rsvpMsg').value.trim()||null
   };
 
+  console.log('[RSVP] Payload to send:', payload);
+
   if (SHEETS_URL && SHEETS_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
     try {
-      await fetch(SHEETS_URL, {
+      console.log('[RSVP] POSTing to Apps Script…');
+      // Note: Content-Type text/plain = simple CORS request (no preflight).
+      // Do NOT use mode:'no-cors' — it drops the POST body on Apps Script's redirect.
+      const res = await fetch(SHEETS_URL, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload)
       });
-      showSuccess();
+      console.log('[RSVP] Response status:', res.status, res.statusText);
+      const json = await res.json().catch(() => null);
+      console.log('[RSVP] Response body:', json);
+      if (json && json.success) {
+        console.log('[RSVP] ✅ Sheet updated successfully');
+        showSuccess();
+      } else {
+        console.warn('[RSVP] ⚠️ Unexpected response, falling back to email:', json);
+        fallbackEmail(names, payload);
+      }
     } catch (err) {
+      console.error('[RSVP] ❌ Fetch error:', err);
       fallbackEmail(names, payload);
     }
   } else {
+    console.log('[RSVP] No Sheets URL configured, using email fallback');
     fallbackEmail(names, payload);
   }
 }
