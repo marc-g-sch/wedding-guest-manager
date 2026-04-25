@@ -203,10 +203,10 @@ a { cursor: pointer; }
 }
 .flower-blob:hover { transform: scale(1.08) rotate(-4deg) translateY(-6px); }
 .flower-blob svg { width:100%; height:100%; }
-.flower-blob svg .blob-path { fill: var(--sec-title); }
+.flower-blob svg .blob-path { fill: var(--accent, #8B7355); }
 .flower-blob svg .blob-text {
   font-family:var(--body); font-size:18px; font-weight:700;
-  letter-spacing:0.1em; text-transform:uppercase; fill:var(--sec-bg);
+  letter-spacing:0.1em; text-transform:uppercase; fill:#F5F0E8;
   text-anchor:middle; dominant-baseline:middle;
 }
 button.flower-blob { background:none; border:none; padding:0; }
@@ -227,8 +227,8 @@ button.flower-blob:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
 .back-to-top.visible { opacity: 1; pointer-events: auto; }
 .back-to-top:hover { transform: scale(1.05) rotate(-3deg) translateY(-6px); }
 .back-to-top svg { width:100%; height:100%; }
-.back-to-top .btt-path { fill: #F5F0E8; }
-.back-to-top .btt-text { font-family:var(--body); font-size:28px; font-weight:700; fill: #2D4A1E; text-anchor:middle; dominant-baseline:middle; }
+.back-to-top .btt-path { fill: var(--accent, #8B7355); }
+.back-to-top .btt-text { font-family:var(--body); font-size:28px; font-weight:700; fill: #F5F0E8; text-anchor:middle; dominant-baseline:middle; }
 
 /* ===== RSVP FORM ===== */
 .rsvp-row { display:flex; align-items:flex-start; gap:3rem; }
