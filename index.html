@@ -215,7 +215,7 @@ button.flower-blob:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
 /* ===== BACK TO TOP (blob style) ===== */
 .back-to-top {
   position: fixed;
-  bottom: 24px; left: 24px;
+  bottom: 24px; right: 24px;
   z-index: 200;
   width: 80px; height: 80px;
   opacity: 0; pointer-events: none;
@@ -258,10 +258,46 @@ textarea.form-input { resize:vertical; min-height:80px; border:none; border-bott
 @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
 .error-msg { color:var(--sec-title); font-size:14px; font-weight:400; margin-top:1rem; display:none; }
-.success-msg { display:none; text-align:center; padding:3rem 0; animation:fadeUp 0.5s ease; }
-.success-title { font-family:var(--display); font-weight:700; font-size:clamp(36px,6vw,60px); color:var(--sec-title); line-height:1.15; margin-bottom:1.5rem; }
-.back-link { font-family:var(--body); font-size:14px; font-weight:400; color:var(--sec-input,var(--sec-text)); text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:1px; cursor:pointer; }
-.back-link:hover { color: var(--sec-title); }
+
+/* ===== SUCCESS OVERLAY (full-screen) ===== */
+#successOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 998; /* below confetti canvas (9999) */
+  background: #2D4A1E;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  animation: fadeIn 0.45s ease;
+}
+#successOverlay.visible { display: flex; }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.success-overlay-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(42px, 9vw, 100px);
+  color: #F5F0E8;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 2.5rem;
+}
+.success-overlay-back {
+  font-family: var(--body);
+  font-size: 15px;
+  color: #8B7355;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color 0.2s;
+}
+.success-overlay-back:hover { color: #F5F0E8; }
 
 /* ===== ITINERARY ===== */
 .itin-day-label { font-family:var(--display); font-weight:700; font-size:clamp(28px,4vw,40px); color:var(--sec-text); margin:2.5rem 0 0.5rem; }
@@ -420,7 +456,7 @@ footer { padding:3rem 48px; border-top:none; background:#2D4A1E; }
   footer { padding: 2.5rem 20px; }
 
   /* Back to top */
-  .back-to-top { width: 64px; height: 64px; bottom: 16px; left: 16px; }
+  .back-to-top { width: 64px; height: 64px; bottom: 16px; right: 16px; }
 }
 
 @media (max-width: 430px) {
@@ -823,6 +859,12 @@ footer { padding:3rem 48px; border-top:none; background:#2D4A1E; }
   </div>
 </section>
 
+<!-- Full-screen success overlay -->
+<div id="successOverlay">
+  <div class="success-overlay-title" data-i18n="rsvp.success">Thank you &mdash;<br>we can&rsquo;t wait to celebrate with you!</div>
+  <button class="success-overlay-back" onclick="backToInvitation()" data-i18n="rsvp.back">Back to invitation</button>
+</div>
+
 <!-- Confetti canvas -->
 <canvas id="confettiCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;"></canvas>
 
@@ -1105,11 +1147,10 @@ function pickFood(el, val) {
   if (val !== 'dietary') document.getElementById('dietaryText').value = '';
 }
 
-async function submitRSVP(e) {
+function submitRSVP(e) {
   e.preventDefault();
   document.getElementById('errorMsg').style.display = 'none';
   const names = document.getElementById('rsvpNames').value.trim();
-  const t = TRANSLATIONS[currentLang];
   if (!names) return showErr(currentLang==='de' ? 'Bitte Namen eingeben.' : 'Please enter your name(s).');
   if (!friday) return showErr(currentLang==='de' ? 'Bitte Freitag-Teilnahme angeben.' : 'Please let us know about Friday.');
   if (!saturday) return showErr(currentLang==='de' ? 'Bitte Samstag-Teilnahme angeben.' : 'Please let us know about Saturday.');
@@ -1118,51 +1159,46 @@ async function submitRSVP(e) {
   if (food==='dietary' && !document.getElementById('dietaryText').value.trim()) return showErr(currentLang==='de' ? 'Bitte Ern\u00e4hrung angeben.' : 'Please specify your dietary restrictions.');
 
   document.getElementById('submitBtn').disabled = true;
-  const anyAttending = friday==='attending' || saturday==='attending';
   const dietaryNote = food==='dietary' ? document.getElementById('dietaryText').value.trim() : null;
   const payload = {
     names,
-    email: document.getElementById('rsvpEmail').value.trim()||null,
-    friday, saturday, food: satAttending ? (food||null) : null,
+    email:         document.getElementById('rsvpEmail').value.trim() || null,
+    friday,        saturday,
+    food:          satAttending ? (food || null) : null,
     dietary_notes: dietaryNote,
-    message: document.getElementById('rsvpMsg').value.trim()||null
+    message:       document.getElementById('rsvpMsg').value.trim() || null
   };
 
-  console.log('[RSVP] Payload to send:', payload);
+  // ── Optimistic UI: show success + confetti immediately ──
+  showSuccess();
 
-  if (SHEETS_URL && SHEETS_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-    try {
-      console.log('[RSVP] POSTing to Apps Script…');
-      // Note: Content-Type text/plain = simple CORS request (no preflight).
-      // Do NOT use mode:'no-cors' — it drops the POST body on Apps Script's redirect.
-      const res = await fetch(SHEETS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(payload)
-      });
-      console.log('[RSVP] Response status:', res.status, res.statusText);
-      const json = await res.json().catch(() => null);
-      console.log('[RSVP] Response body:', json);
-      if (json && json.success) {
-        console.log('[RSVP] ✅ Sheet updated successfully');
-        showSuccess();
-      } else {
-        console.warn('[RSVP] ⚠️ Unexpected response, falling back to email:', json);
-        fallbackEmail(names, payload);
-      }
-    } catch (err) {
-      console.error('[RSVP] ❌ Fetch error:', err);
-      fallbackEmail(names, payload);
-    }
-  } else {
-    console.log('[RSVP] No Sheets URL configured, using email fallback');
-    fallbackEmail(names, payload);
+  // ── Submit to Sheets silently in the background ──
+  submitToSheets(payload);
+}
+
+async function submitToSheets(payload) {
+  if (!SHEETS_URL || SHEETS_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') return;
+  try {
+    console.log('[RSVP] Sending to Sheets…', payload);
+    const res  = await fetch(SHEETS_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body:    JSON.stringify(payload)
+    });
+    const json = await res.json().catch(() => null);
+    console.log('[RSVP] Sheets response:', json);
+  } catch (err) {
+    console.error('[RSVP] Sheets submission failed (silent):', err);
   }
 }
 
 function showSuccess() {
-  document.getElementById('rsvpForm').style.display = 'none';
-  document.getElementById('successMsg').style.display = 'block';
+  // Apply current language to overlay
+  const t = TRANSLATIONS[currentLang];
+  const overlay = document.getElementById('successOverlay');
+  overlay.querySelector('[data-i18n="rsvp.success"]').textContent  = t['rsvp.success'];
+  overlay.querySelector('[data-i18n="rsvp.back"]').textContent     = t['rsvp.back'];
+  overlay.classList.add('visible');
   launchConfetti();
 }
 
@@ -1263,8 +1299,7 @@ function fallbackEmail(names, p) {
 function showErr(msg) { const el=document.getElementById('errorMsg'); el.textContent=msg; el.style.display='block'; }
 
 function backToInvitation() {
-  document.getElementById('rsvpForm').style.display = 'block';
-  document.getElementById('successMsg').style.display = 'none';
+  document.getElementById('successOverlay').classList.remove('visible');
   document.getElementById('submitBtn').disabled = false;
   ['rsvpNames','rsvpEmail','rsvpMsg','dietaryText'].forEach(id => document.getElementById(id).value='');
   friday=null; saturday=null; food=null;
