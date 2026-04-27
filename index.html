@@ -815,13 +815,7 @@ footer { padding:3rem 48px; border-top:none; background:#2D4A1E; }
       <p class="registry-lead" data-i18n="reg.text1">Your presence is the greatest gift! &#10084;&#65039;</p>
       <p class="registry-secondary" data-i18n="reg.text2">.... if you would like to spoil us some more: a contribution to our honeymoon is also a great gift :)</p>
 
-      <!-- Payment buttons -->
-      <div class="payment-buttons">
-        <a href="https://revolut.me/marcgeorg" target="_blank" rel="noopener" class="payment-btn revolut-btn" data-i18n="reg.revolut">Revolut</a>
-        <a href="https://paypal.me/Lauraandmarc" target="_blank" rel="noopener" class="payment-btn paypal-btn" data-i18n="reg.paypal">PayPal</a>
-      </div>
-
-      <!-- IBAN box -->
+      <!-- IBAN + PayPal box -->
       <div class="iban-box">
         <div class="iban-row">
           <span class="iban-lbl">IBAN</span>
@@ -835,9 +829,21 @@ footer { padding:3rem 48px; border-top:none; background:#2D4A1E; }
           <span class="iban-lbl">BIC</span>
           <span class="iban-val">REVODEB2</span>
         </div>
-        <button class="copy-btn" id="copyIban" onclick="copyIBAN()" data-i18n="reg.copy">Copy IBAN</button>
+        <div class="iban-row">
+          <span class="iban-lbl">PayPal</span>
+          <span class="iban-val" id="paypalValue">2026lauramarc@gmail.com</span>
+        </div>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:0.75rem;">
+          <button class="copy-btn" id="copyIban" onclick="copyIBAN()" data-i18n="reg.copy">Copy IBAN</button>
+          <button class="copy-btn" id="copyPaypal" onclick="copyPayPal()" data-i18n="reg.copyPaypal">Copy PayPal</button>
+        </div>
       </div>
-      <p class="registry-ref" data-i18n="reg.reference">Reference / Message: 2026lauramarc@gmail.com</p>
+
+      <!-- Payment buttons -->
+      <div class="payment-buttons">
+        <a href="https://revolut.me/marcgeorg" target="_blank" rel="noopener" class="payment-btn revolut-btn" data-i18n="reg.revolut">Revolut</a>
+        <a href="https://paypal.me/Lauraandmarc" target="_blank" rel="noopener" class="payment-btn paypal-btn" data-i18n="reg.paypal">PayPal</a>
+      </div>
     </div>
   </div>
 </section>
@@ -922,7 +928,7 @@ const TRANSLATIONS = {
     'reg.revolut': 'Revolut',
     'reg.paypal': 'PayPal',
     'reg.copy': 'Copy IBAN', 'reg.copied': 'Copied \u2713',
-    'reg.reference': 'Reference / Message: 2026lauramarc@gmail.com',
+    'reg.copyPaypal': 'Copy PayPal', 'reg.copiedPaypal': 'Copied \u2713',
     'pw.title': 'Private Event', 'pw.sub': 'Please enter the password to continue',
     'pw.error': 'Incorrect password. Try again.',
     'footer.sub': 'July 17 \u2014 19, 2026 \u00b7 St. Gilgen, Austria',
@@ -970,7 +976,7 @@ const TRANSLATIONS = {
     'reg.revolut': 'Revolut',
     'reg.paypal': 'PayPal',
     'reg.copy': 'IBAN kopieren', 'reg.copied': 'Kopiert \u2713',
-    'reg.reference': 'Verwendungszweck: 2026lauramarc@gmail.com',
+    'reg.copyPaypal': 'PayPal kopieren', 'reg.copiedPaypal': 'Kopiert \u2713',
     'pw.title': 'Privates Event', 'pw.sub': 'Bitte Passwort eingeben',
     'pw.error': 'Falsches Passwort. Nochmal versuchen.',
     'footer.sub': '17. Juli \u2014 19. Juli 2026 \u00b7 St. Gilgen, \u00d6sterreich',
@@ -1020,9 +1026,9 @@ function applyLang(lang) {
     const key = el.getAttribute('data-i18n-placeholder');
     if (t[key] !== undefined) el.placeholder = t[key];
   });
-  // Reset copy button text
-  const cb = document.getElementById('copyIban');
-  if (cb) cb.textContent = t['reg.copy'];
+  // Reset copy button texts
+  const cb = document.getElementById('copyIban');   if (cb) cb.textContent = t['reg.copy'];
+  const cp = document.getElementById('copyPaypal'); if (cp) cp.textContent = t['reg.copyPaypal'];
 }
 function setLang(lang) { applyLang(lang); }
 
@@ -1298,27 +1304,20 @@ function backToInvitation() {
   document.getElementById('sec-hero').scrollIntoView({ behavior: 'smooth' });
 }
 
-// ===== COPY IBAN =====
-function copyIBAN() {
+// ===== COPY HELPERS =====
+function copyText(text, btnId, copiedKey, normalKey) {
   const t = TRANSLATIONS[currentLang];
-  navigator.clipboard.writeText('DE85100101781710142597').then(() => {
-    const btn = document.getElementById('copyIban');
-    btn.textContent = t['reg.copied'];
-    setTimeout(() => { btn.textContent = t['reg.copy']; }, 2000);
-  }).catch(() => {
-    // Fallback for older browsers
-    const el = document.getElementById('ibanValue');
-    const range = document.createRange();
-    range.selectNode(el);
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-    document.execCommand('copy');
-    window.getSelection().removeAllRanges();
-    const btn = document.getElementById('copyIban');
-    btn.textContent = t['reg.copied'];
-    setTimeout(() => { btn.textContent = t['reg.copy']; }, 2000);
+  const btn = document.getElementById(btnId);
+  const done = () => { btn.textContent = t[copiedKey]; setTimeout(() => { btn.textContent = t[normalKey]; }, 2000); };
+  navigator.clipboard.writeText(text).then(done).catch(() => {
+    const el = document.createElement('textarea');
+    el.value = text; el.style.position = 'fixed'; el.style.opacity = '0';
+    document.body.appendChild(el); el.select(); document.execCommand('copy');
+    document.body.removeChild(el); done();
   });
 }
+function copyIBAN()   { copyText('DE85100101781710142597',  'copyIban',   'reg.copied',       'reg.copy'); }
+function copyPayPal() { copyText('2026lauramarc@gmail.com', 'copyPaypal', 'reg.copiedPaypal', 'reg.copyPaypal'); }
 
 // Apply lang on load
 applyLang(currentLang);
