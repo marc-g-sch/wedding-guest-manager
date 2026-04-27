@@ -262,7 +262,7 @@ textarea.form-input { resize:vertical; min-height:80px; border:none; border-bott
 /* ===== SUCCESS OVERLAY (full-screen) ===== */
 #successOverlay {
   position: fixed;
-  inset: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   z-index: 998; /* below confetti canvas (9999) */
   background: #2D4A1E;
   display: none;
@@ -271,6 +271,7 @@ textarea.form-input { resize:vertical; min-height:80px; border:none; border-bott
   justify-content: center;
   text-align: center;
   padding: 2rem;
+  overflow-y: auto;
   animation: fadeIn 0.45s ease;
 }
 #successOverlay.visible { display: flex; }
@@ -1193,11 +1194,16 @@ async function submitToSheets(payload) {
 }
 
 function showSuccess() {
+  // Scroll to top first so the fixed overlay is fully in view
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  // Lock body scroll while overlay is open
+  document.body.style.overflow = 'hidden';
+
   // Apply current language to overlay
   const t = TRANSLATIONS[currentLang];
   const overlay = document.getElementById('successOverlay');
-  overlay.querySelector('[data-i18n="rsvp.success"]').textContent  = t['rsvp.success'];
-  overlay.querySelector('[data-i18n="rsvp.back"]').textContent     = t['rsvp.back'];
+  overlay.querySelector('[data-i18n="rsvp.success"]').textContent = t['rsvp.success'];
+  overlay.querySelector('[data-i18n="rsvp.back"]').textContent    = t['rsvp.back'];
   overlay.classList.add('visible');
   launchConfetti();
 }
@@ -1300,6 +1306,7 @@ function showErr(msg) { const el=document.getElementById('errorMsg'); el.textCon
 
 function backToInvitation() {
   document.getElementById('successOverlay').classList.remove('visible');
+  document.body.style.overflow = '';
   document.getElementById('submitBtn').disabled = false;
   ['rsvpNames','rsvpEmail','rsvpMsg','dietaryText'].forEach(id => document.getElementById(id).value='');
   friday=null; saturday=null; food=null;
