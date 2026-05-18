@@ -598,6 +598,10 @@ footer { padding:3rem 48px; border-top:none; background:#2D4A1E; }
                   <input type="radio" name="food" value="meat">
                   <span data-i18n="rsvp.meat">Meat</span>
                 </label>
+                <label class="radio-option" onclick="pickFood(this,'fish')">
+                  <input type="radio" name="food" value="fish">
+                  <span data-i18n="rsvp.fish">Fish</span>
+                </label>
                 <label class="radio-option" onclick="pickFood(this,'vegetarian')">
                   <input type="radio" name="food" value="vegetarian">
                   <span data-i18n="rsvp.vegetarian">Vegetarian</span>
@@ -896,7 +900,7 @@ const TRANSLATIONS = {
     'rsvp.saturday': 'Saturday, 18.07.2026 \u2014 Wedding',
     'rsvp.email': 'Email Address', 'rsvp.email.optional': '(optional)',
     'rsvp.email.placeholder': 'your@email.com',
-    'rsvp.food': 'Food Preference', 'rsvp.meat': 'Meat',
+    'rsvp.food': 'Food Preference', 'rsvp.meat': 'Meat', 'rsvp.fish': 'Fish',
     'rsvp.vegetarian': 'Vegetarian', 'rsvp.dietary': 'Dietary restrictions',
     'rsvp.dietary.placeholder': 'Please specify your dietary restrictions',
     'rsvp.comments': 'Comments / Message',
@@ -944,7 +948,7 @@ const TRANSLATIONS = {
     'rsvp.saturday': 'Samstag, 18.07.2026 \u2014 Hochzeit',
     'rsvp.email': 'E-Mail-Adresse', 'rsvp.email.optional': '(optional)',
     'rsvp.email.placeholder': 'deine@email.com',
-    'rsvp.food': 'Essenswunsch', 'rsvp.meat': 'Fleisch',
+    'rsvp.food': 'Essenswunsch', 'rsvp.meat': 'Fleisch', 'rsvp.fish': 'Fisch',
     'rsvp.vegetarian': 'Vegetarisch', 'rsvp.dietary': 'Besondere Ern\u00e4hrung',
     'rsvp.dietary.placeholder': 'Bitte angeben',
     'rsvp.comments': 'Kommentare / Nachricht',
