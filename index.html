@@ -156,6 +156,25 @@ nav.scrolled {
 .pw-input::placeholder { color: rgba(92,74,50,0.5); }
 .pw-error { color:#2D4A1E; font-size:14px; margin-top:1rem; visibility:hidden; }
 .pw-error.show { visibility: visible; }
+.pw-btn {
+  margin-top: 1.5rem;
+  padding: 0.9rem 3rem;
+  background: #2D4A1E;
+  color: #F5F0E8;
+  border: none;
+  border-radius: 100px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  min-height: 52px;
+  min-width: 160px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.pw-btn:hover { opacity: 0.85; }
+.pw-btn:active { transform: scale(0.97); }
 
 /* ===== HERO ===== */
 .hero-inner { display:flex; align-items:flex-start; justify-content:space-between; gap:2rem; }
@@ -503,6 +522,7 @@ footer { padding:3rem 48px; border-top:none; background:#2D4A1E; }
   <div class="pw-title" data-i18n="pw.title">Private Event</div>
   <div class="pw-sub" data-i18n="pw.sub">Please enter the password to continue</div>
   <input type="password" class="pw-input" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()" autofocus>
+  <button class="pw-btn" onclick="checkPw()">Enter</button>
   <div class="pw-error" id="pwError" data-i18n="pw.error">Incorrect password. Try again.</div>
 </div>
 
